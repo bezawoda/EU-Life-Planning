@@ -327,7 +327,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 
   <!-- QUARTERLY REVIEW (last) -->
   <div id="review" class="section">
-    <h2>Quarterly review</h2>
+    <h2>Quarterly Review</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Ratings pre-filled from your current status cards. Add observations, then save.</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
       <div class="field" style="max-width:240px">
@@ -1060,7 +1060,7 @@ function renderChecklist(){
   });
 }
 
-// ── Quarterly review ──────────────────────────────────────────────────
+// ── Quarterly Review ──────────────────────────────────────────────────
 function prefillReviewFromCards(){
   const d=getData();
   CATS.forEach(c=>{
@@ -1162,7 +1162,7 @@ function resetData(){if(confirm('Clear all saved data? This cannot be undone.'))
 function showTab(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const tabs=['dashboard','categories','thresholds','checklist','quarterly reivew','export'];
+  const tabs=['dashboard','categories','thresholds','checklist','quarterly review','export'];
   document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',tabs[i]===id));
   if(id==='dashboard')  renderOverview();
   if(id==='categories') renderCatCards();
