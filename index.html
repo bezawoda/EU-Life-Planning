@@ -325,9 +325,9 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
 
-  <!-- Quarterly Review (last) -->
+  <!-- QUARTERLY REVIEW (last) -->
   <div id="review" class="section">
-    <h2>Quarterly Review</h2>
+    <h2>Quarterly review</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Ratings pre-filled from your current status cards. Add observations, then save.</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
       <div class="field" style="max-width:240px">
@@ -718,7 +718,7 @@ function renderBanner(){
   } else if(state==='sealed'&&!sealedDismissed){
     banner.classList.add('show','b-sealed');
     document.getElementById('banner-title').textContent=m.fullName+' review window sealed';
-    document.getElementById('banner-sub').textContent='That window has closed. Use your PIN to view history, or start a new Quarterly Review.';
+    document.getElementById('banner-sub').textContent='That window has closed. Use your PIN to view history, or start a new quarterly review.';
     document.getElementById('banner-cta').style.display='none';
   } else {
     banner.classList.remove('show');
@@ -1060,7 +1060,7 @@ function renderChecklist(){
   });
 }
 
-// ── Quarterly Review ──────────────────────────────────────────────────
+// ── Quarterly review ──────────────────────────────────────────────────
 function prefillReviewFromCards(){
   const d=getData();
   CATS.forEach(c=>{
