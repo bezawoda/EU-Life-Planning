@@ -832,7 +832,7 @@ function renderTimeline(){
     const sw=next?2.5:1.5;
     const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
     const fw=next?'700':'400';
-    const fs=next?10:9;
+    const fs=next?10:8;
     const ly=CY+r+(next?15:13);
     h+=`<circle class="tl-dot" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done?'pointer':'default'}"/>`;
     if(next)h+=`<circle cx="${x}" cy="${CY}" r="14" fill="none" stroke="${NEXT_C}" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"/>`;
