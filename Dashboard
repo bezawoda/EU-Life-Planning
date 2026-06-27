@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU experiment dashboard</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 13px; color: #1a1a1a; background: #fff; line-height: 1.5; }
+  a { color: inherit; }
+
+  /* Layout */
+  .app { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e5e5; }
+  .header h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .header p { font-size: 13px; color: #666; }
+  h2 { font-size: 15px; font-weight: 600; margin-bottom: 12px; margin-top: 2rem; color: #1a1a1a; }
+  h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #888; margin-bottom: 8px; }
+  .divider { border: none; border-top: 1px solid #e5e5e5; margin: 1.5rem 0; }
+
+  /* Nav */
+  .nav { display: flex; gap: 2px; border-bottom: 1px solid #e5e5e5; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .nav button { background: none; border: none; padding: 8px 14px; font-size: 13px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; }
+  .nav button.active { color: #1d4ed8; border-bottom-color: #1d4ed8; font-weight: 600; }
+  .nav button:hover:not(.active) { color: #1a1a1a; background: #f5f5f5; }
+
+  /* Sections */
+  .section { display: none; } .section.active { display: block; }
+
+  /* Grids */
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+
+  /* Cards */
+  .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 14px 16px; }
+  .card-sm { background: #f9f9f9; border-radius: 7px; padding: 10px 14px; }
+
+  /* Status pills */
+  .pill { display: inline-block; padding: 2px 9px; border-radius: 5px; font-size: 11px; font-weight: 600; }
+  .s-green { background: #d1fae5; color: #065f46; }
+  .s-yellow { background: #fef9c3; color: #854d0e; }
+  .s-orange { background: #ffedd5; color: #9a3412; }
+  .s-red { background: #fee2e2; color: #991b1b; }
+  .s-gray { background: #f3f4f6; color: #6b7280; }
+
+  /* Category cards */
+  .cat-name { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+  .cat-note { font-size: 12px; color: #666; line-height: 1.4; margin-top: 4px; }
+  .threshold-box { font-size: 12px; padding: 7px 10px; border-radius: 6px; margin: 8px 0; line-height: 1.6; }
+
+  /* Form elements */
+  select, input[type="text"], textarea { font-family: inherit; font-size: 13px; color: #1a1a1a; background: #f9f9f9; border: 1px solid #d1d5db; border-radius: 6px; padding: 6px 10px; width: 100%; outline: none; }
+  select:focus, input:focus, textarea:focus { border-color: #1d4ed8; background: #fff; }
+  textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+  label { font-size: 12px; color: #555; display: block; margin-bottom: 4px; }
+  .field { flex: 1; }
+  .row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; }
+  select { cursor: pointer; }
+
+  /* Buttons */
+  .btn { background: #fff; border: 1px solid #d1d5db; border-radius: 6px; padding: 7px 16px; font-size: 13px; font-family: inherit; cursor: pointer; color: #1a1a1a; }
+  .btn:hover { background: #f5f5f5; }
+  .btn-primary { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+  .btn-primary:hover { background: #1e40af; }
+  .btn-danger { border-color: #fca5a5; color: #991b1b; }
+  .btn-danger:hover { background: #fee2e2; }
+  .btn-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; align-items: center; }
+
+  /* Checklist */
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; cursor: pointer; accent-color: #1d4ed8; }
+  .checklist-item .text { font-size: 13px; color: #1a1a1a; line-height: 1.5; }
+  .checklist-item .sub { font-size: 12px; color: #888; margin-top: 2px; }
+  .checklist-item label { cursor: pointer; margin: 0; color: inherit; font-size: inherit; }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1.5rem; }
+  .data-table th { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .05em; padding: 6px 10px; text-align: left; border-bottom: 1px solid #e5e5e5; }
+  .data-table td { padding: 8px 10px; border-bottom: 1px solid #f3f4f6; vertical-align: top; line-height: 1.5; }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  /* Milestone chips */
+  .milestone-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 6px; background: #f9f9f9; border: 1px solid #e5e5e5; font-size: 12px; margin: 3px; cursor: pointer; }
+  .milestone-chip input[type="checkbox"] { width: 14px; height: 14px; accent-color: #1d4ed8; }
+
+  /* Summary box */
+  .summary-box { background: #eff6ff; border-left: 3px solid #1d4ed8; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 12px; }
+
+  /* Score */
+  .score-total { font-size: 26px; font-weight: 600; color: #1a1a1a; }
+  .score-sub { font-size: 12px; color: #888; margin-top: 2px; }
+
+  /* Guardrail bar */
+  .progress-bar { height: 6px; border-radius: 3px; background: #e5e5e5; margin-top: 6px; }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width .3s; }
+
+  /* Inline note */
+  .export-note { font-size: 12px; color: #888; margin-top: 6px; }
+
+  /* Print styles */
+  @media print {
+    .nav, .btn, .btn-row, #export { display: none !important; }
+    .section { display: block !important; }
+    .app { padding: 0; max-width: 100%; }
+    h2 { page-break-after: avoid; }
+    .card { break-inside: avoid; }
+    body { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <h1>EU experiment dashboard</h1>
+    <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
+  </div>
+
+  <div class="nav" id="nav">
+    <button class="active" onclick="showTab('dashboard')">Overview</button>
+    <button onclick="showTab('categories')">Status cards</button>
+    <button onclick="showTab('thresholds')">Thresholds</button>
+    <button onclick="showTab('checklist')">Checklist</button>
+    <button onclick="showTab('review')">Quarterly review</button>
+    <button onclick="showTab('decision')">Decision matrix</button>
+    <button onclick="showTab('export')">Export</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="dashboard" class="section active">
+    <h2>Category overview</h2>
+    <div id="overview-grid" class="grid3"></div>
+    <hr class="divider">
+    <h2>Guardrail status</h2>
+    <div id="guardrails" class="grid2"></div>
+    <hr class="divider">
+    <h2>Decision milestones</h2>
+    <div id="milestones-container" style="margin-bottom:1.5rem"></div>
+    <hr class="divider">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="score-total" id="dash-score">—</div>
+        <div class="score-sub">overall score (avg of rated categories)</div>
+      </div>
+      <div class="btn-row" style="margin-top:0">
+        <button class="btn" onclick="loadData()">↺ Refresh</button>
+        <button class="btn btn-primary" onclick="showTab('review')">Start quarterly review</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS CARDS -->
+  <div id="categories" class="section">
+    <h2>Status cards</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:1rem">Rate each category. Saves automatically to browser storage.</p>
+    <div id="cat-cards"></div>
+  </div>
+
+  <!-- THRESHOLDS -->
+  <div id="thresholds" class="section">
+    <h2>Threshold reference</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:1rem">Green / yellow / orange / red definitions for all 12 categories.</p>
+    <div id="threshold-content"></div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div id="checklist" class="section">
+    <h2>Decision checklist</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:1rem">Core questions to answer honestly at each review point.</p>
+    <div id="checklist-content"></div>
+    <hr class="divider">
+    <h2>Financial tracking prompts</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:.75rem">Manage these in your own tracker. Not stored here.</p>
+    <div class="card" style="font-size:13px;line-height:2;color:#555">
+      <div>1. Total cash runway in months — target ≥12 at all times</div>
+      <div>2. Roth contribution withdrawals used vs. $45,000 ceiling</div>
+      <div>3. Monthly burn rate vs. projected budget</div>
+      <div>4. Emergency buffer — target 3 months minimum in liquid savings</div>
+      <div>5. EU vs. U.S. cost-of-living delta (monthly and annualised)</div>
+      <div>6. Opportunity cost estimate: income foregone while in school</div>
+      <div>7. Post-graduation income target to break even on experiment cost</div>
+      <div>8. Total experiment cost vs. $75k hard ceiling ($30k savings + $45k Roth)</div>
+    </div>
+  </div>
+
+  <!-- REVIEW -->
+  <div id="review" class="section">
+    <h2>Quarterly review</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
+      <div class="field" style="max-width:220px">
+        <label>Review period</label>
+        <select id="review-period">
+          <option>Before departure</option>
+          <option>End of semester 1</option>
+          <option>End of year 1</option>
+          <option>Before committing to year 2 expenses</option>
+          <option>Six months before graduation</option>
+          <option>Three months after graduation</option>
+          <option>After first EU job search cycle</option>
+          <option>Before major visa / citizenship milestone</option>
+        </select>
+      </div>
+      <div class="field" style="max-width:160px">
+        <label>Date</label>
+        <input type="text" id="review-date" placeholder="e.g. Q1 2026">
+      </div>
+    </div>
+    <div id="review-form"></div>
+    <hr class="divider">
+    <h2>Auto-summary</h2>
+    <div id="review-summary"><p style="font-size:13px;color:#888">Rate categories above, then click Generate summary.</p></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generateSummary()">Generate summary</button>
+      <button class="btn" onclick="saveReview()">Save review</button>
+    </div>
+  </div>
+
+  <!-- DECISION -->
+  <div id="decision" class="section">
+    <h2>Stay / pivot / exit matrix</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:1rem">Based on your current status card ratings.</p>
+    <div id="decision-matrix"></div>
+    <hr class="divider">
+    <h2>Sunk-cost guard</h2>
+    <div class="card" style="font-size:13px;color:#555;line-height:1.7">
+      <p style="margin-bottom:.75rem;color:#1a1a1a;font-weight:600">Before making a final decision, answer these honestly:</p>
+      <div id="sunk-cost-checks"></div>
+    </div>
+    <hr class="divider">
+    <h2>Alternative pathways</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Return to U.S.</h3>
+        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: career capital weakening in both markets, chronic distress, no clear residency path, family health emergency, or financial guardrail breach. Action: controlled 3-month exit plan, U.S. job search, skill reframe.</div>
+      </div>
+      <div class="card">
+        <h3>EU citizenship path</h3>
+        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: strong social belonging, healthcare meets expectations, career growing, residency path clear, family viable. Action: assess 5-year residency clock, consult immigration attorney.</div>
+      </div>
+      <div class="card">
+        <h3>Family support abroad</h3>
+        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: financial guardrail breach with no income path, health crisis, or acute family need. Action: activate proactively — not reactively under panic. Pre-discuss logistics before departure.</div>
+      </div>
+      <div class="card">
+        <h3>Extend the experiment</h3>
+        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: evidence promising but inconclusive, runway intact, mental health stable. Condition: must have a clear hypothesis being tested in the extension — not drift.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORT -->
+  <div id="export" class="section">
+    <h2>Export and save</h2>
+    <div class="card" style="margin-bottom:1rem">
+      <h3 style="margin-bottom:.5rem">Save a copy</h3>
+      <p style="font-size:13px;color:#555;margin-bottom:.75rem">All data auto-saves in your browser. Export JSON to back up or transfer across devices. Use your browser's <strong>File → Print → Save as PDF</strong> to create a PDF snapshot.</p>
+      <div class="btn-row" style="margin-top:0">
+        <button class="btn btn-primary" onclick="exportJSON()">Export as JSON</button>
+        <button class="btn" onclick="importTrigger()">Import JSON</button>
+        <button class="btn" onclick="window.print()">Print / save as PDF</button>
+      </div>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)">
+      <p class="export-note">JSON includes all ratings, notes, checklists, and saved reviews.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:.5rem">Reset</h3>
+      <p style="font-size:13px;color:#555;margin-bottom:.75rem">Clear all saved data. Cannot be undone.</p>
+      <button class="btn btn-danger" onclick="resetData()">Clear all data</button>
+    </div>
+  </div>
+
+</div><!-- end .app -->
+
+<script>
+const CATS = [
+  {id:'financial',label:'Financial runway',thresholds:[
+    {status:'green',label:'18+ months runway',action:'Continue plan'},
+    {status:'yellow',label:'12–18 months runway',action:'Reduce discretionary spend, increase job/funding search'},
+    {status:'orange',label:'6–12 months runway',action:'Activate income or timeline adjustment plan'},
+    {status:'red',label:'Under 6 months runway',action:'Controlled exit or emergency support plan'}
+  ]},
+  {id:'residency',label:'Residency / legal',thresholds:[
+    {status:'green',label:'Status clear, next milestone visible',action:'Continue plan'},
+    {status:'yellow',label:'Pending but in process',action:'Track deadlines, consult immigration support'},
+    {status:'orange',label:'Delays affecting work, housing, or healthcare',action:'Engage immigration attorney, escalate'},
+    {status:'red',label:'No clear resolution path; bureaucracy controlling major life choices',action:'Evaluate whether path forward is viable'}
+  ]},
+  {id:'career',label:'Career capital',thresholds:[
+    {status:'green',label:'Gaining skills, network, language, credentials',action:'Continue plan'},
+    {status:'yellow',label:'Stable but not growing',action:'Identify one growth area, activate it'},
+    {status:'orange',label:'Disconnected from market / network',action:'Reactivate networking, seek internships or projects'},
+    {status:'red',label:'Employability weakening in both EU and U.S.',action:'Emergency career reassessment; consider return timeline'}
+  ]},
+  {id:'mental',label:'Mental health',thresholds:[
+    {status:'green',label:'Thriving or coping well',action:'Continue plan'},
+    {status:'yellow',label:'Persistent low-grade difficulty',action:'Add structure, community, or professional support'},
+    {status:'orange',label:'Affecting sleep, decision quality, or enjoyment',action:'Seek professional support; reduce stressors'},
+    {status:'red',label:'Chronic distress, isolation, panic, or burnout',action:'Prioritise recovery; consider timeline adjustment'}
+  ]},
+  {id:'stress',label:'Stress levels',thresholds:[
+    {status:'green',label:'Normal challenge, recovering well',action:'Continue plan'},
+    {status:'yellow',label:'Persistent but functional',action:'Monitor; add recovery practices'},
+    {status:'orange',label:'Regularly affecting sleep, health, or decisions',action:'Audit stressors; reduce load'},
+    {status:'red',label:'Chronic, identity-shaping distress',action:'Immediate intervention; pause or exit'}
+  ]},
+  {id:'physical',label:'Physical health',thresholds:[
+    {status:'green',label:'Healthy, healthcare access secure',action:'Continue plan'},
+    {status:'yellow',label:'Minor issues, healthcare navigable',action:'Stay on top of coverage and access'},
+    {status:'orange',label:'Ongoing issue with unclear care path',action:'Escalate healthcare access; consult doctor'},
+    {status:'red',label:'Health deteriorating or care inaccessible',action:'Return home if care cannot be secured'}
+  ]},
+  {id:'bureaucracy',label:'Bureaucratic friction',thresholds:[
+    {status:'green',label:'Annoying but manageable',action:'Continue plan'},
+    {status:'yellow',label:'Recurring delays but solvable',action:'Build buffer time into planning'},
+    {status:'orange',label:'Delays affecting work, housing, or income',action:'Seek professional help; escalate'},
+    {status:'red',label:'No clear resolution; bureaucracy controlling major choices',action:'Seriously reassess viability of path'}
+  ]},
+  {id:'social',label:'Social belonging',thresholds:[
+    {status:'green',label:'Building meaningful relationships',action:'Continue plan'},
+    {status:'yellow',label:'Connections present but surface-level',action:'Invest more intentionally in community'},
+    {status:'orange',label:'Isolated; relationships not forming',action:'Join structured communities; evaluate city fit'},
+    {status:'red',label:'Prolonged isolation with no improvement',action:'Reassess city/program; seek support resources'}
+  ]},
+  {id:'family',label:'Family relationships',thresholds:[
+    {status:'green',label:'Strong, supported by the experiment',action:'Continue plan'},
+    {status:'yellow',label:'Strain present but manageable',action:'Increase contact; plan visits'},
+    {status:'orange',label:'Significant strain or family concern',action:'Prioritise; assess whether timeline adjustment helps'},
+    {status:'red',label:'Crisis or irrecoverable distance forming',action:'Return home or activate family support pathway'}
+  ]},
+  {id:'mission',label:'Mission alignment',thresholds:[
+    {status:'green',label:'Evidence supports the EU hypothesis',action:'Continue plan'},
+    {status:'yellow',label:'Mixed evidence; unclear verdict',action:'Articulate what data would shift the assessment'},
+    {status:'orange',label:'Benefits unclear relative to cost / stress',action:'Reassess hypothesis; define exit conditions'},
+    {status:'red',label:'Evidence contradicts the reason for being there',action:'Honest pivot conversation; avoid sunk-cost trap'}
+  ]},
+  {id:'reentry',label:'Re-entry optionality',thresholds:[
+    {status:'green',label:'U.S. path clearly preserved',action:'Continue plan'},
+    {status:'yellow',label:'Gap growing but manageable',action:'Maintain U.S. connections; update resume/network'},
+    {status:'orange',label:'U.S. market drift noticeable',action:'Active U.S. networking; assess credential equivalency'},
+    {status:'red',label:'U.S. re-entry would be very difficult',action:'Investigate bridging strategies before it worsens'}
+  ]},
+  {id:'support',label:'Alternative support',thresholds:[
+    {status:'green',label:'Clear fallback options available',action:'Document the plan proactively'},
+    {status:'yellow',label:'Options exist but not formalised',action:'Have the conversation; make it concrete'},
+    {status:'orange',label:'Fallback unclear or logistically complex',action:'Explore now — not during a crisis'},
+    {status:'red',label:'No viable fallback available',action:'Build one before continuing; this is a guardrail'}
+  ]}
+];
+
+const CHECKLIST = [
+  {q:'Do I feel safer about my long-term future than I did in the U.S.?',sub:'Be honest — not aspirationally, based on current evidence.'},
+  {q:'Could I imagine raising children here?',sub:'Healthcare, childcare, schools, community, pace of life.'},
+  {q:'Is bureaucracy manageable rather than defining daily life?',sub:'Occasional frustration is normal; paralysis is not.'},
+  {q:'Does work support the life I want, or does life revolve around work?',sub:'This was the core hypothesis. Check it directly.'},
+  {q:'Am I building meaningful relationships?',sub:'At least a few real connections, not just acquaintances.'},
+  {q:'Are stress levels temporary and manageable?',sub:'Or persistent and starting to shape my identity?'},
+  {q:'Am I preserving the ability to leave, stay, or pivot?',sub:'All three options should still feel open.'},
+  {q:'Am I avoiding sunk-cost reasoning?',sub:'Would I start this experiment again today, knowing what I know?'},
+  {q:'If I knew then what I know now, would I still choose this path?',sub:'The clearest signal. Answer it honestly.'},
+  {q:'Is the financial experiment within guardrails?',sub:'Roth ceiling intact, no consumer debt, runway >12 months.'},
+  {q:'Is my physical health stable or improving?',sub:'Healthcare access secured, no untreated conditions.'},
+  {q:'Are my nuclear family relationships intact?',sub:'No irreversible distance forming; any strain is acknowledged.'}
+];
+
+const MILESTONES = [
+  'Before departure','End of semester 1','End of year 1',
+  'Before committing to year 2 expenses','Six months before graduation',
+  'Three months after graduation','After first EU job search cycle',
+  'Before any major visa / citizenship milestone'
+];
+
+const SC_COLOR = {green:'#065f46',yellow:'#854d0e',orange:'#9a3412',red:'#991b1b',gray:'#6b7280'};
+const SC_BG = {green:'#d1fae5',yellow:'#fef9c3',orange:'#ffedd5',red:'#fee2e2',gray:'#f3f4f6'};
+
+function getData(){ try{return JSON.parse(localStorage.getItem('eu_dash')||'{}')}catch{return{}} }
+function setData(d){ localStorage.setItem('eu_dash',JSON.stringify(d)) }
+function saveField(k,v){ const d=getData(); d[k]=v; setData(d); }
+
+function statusClass(s){ return {green:'s-green',yellow:'s-yellow',orange:'s-orange',red:'s-red',gray:'s-gray'}[s]||'s-gray'; }
+function statusLabel(s){ return {green:'Green',yellow:'Yellow',orange:'Orange',red:'Red',gray:'Unrated'}[s]||'Unrated'; }
+const scoreMap = {green:4,yellow:3,orange:2,red:1};
+
+function loadData(){
+  renderOverview();
+  renderCatCards();
+  renderThresholds();
+  renderChecklist();
+  renderReviewForm();
+  generateSummary();
+  renderDecisionMatrix();
+}
+
+function renderOverview(){
+  const d = getData();
+  const grid = document.getElementById('overview-grid');
+  grid.innerHTML = '';
+  CATS.forEach(c => {
+    const status = d['cat_'+c.id]||'unrated';
+    const note = d['note_'+c.id]||'';
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.style.cursor = 'pointer';
+    div.onclick = () => showTab('categories');
+    div.innerHTML = `<span class="pill ${statusClass(status)}" style="margin-bottom:6px;display:inline-block">${statusLabel(status)}</span><div class="cat-name">${c.label}</div>${note?`<div class="cat-note">${note.substring(0,55)}${note.length>55?'…':''}</div>`:''}`;
+    grid.appendChild(div);
+  });
+
+  const guard = document.getElementById('guardrails');
+  guard.innerHTML = '';
+  const rothUsed = parseFloat(d.roth_used||0);
+  const cashUsed = parseFloat(d.cash_used||0);
+  const gItems = [
+    {label:'Retirement principal',ok:true,val:'Not touched',max:null,used:null},
+    {label:'Roth withdrawals',ok:rothUsed<=45000,val:`$${rothUsed.toLocaleString()} / $45,000`,max:45000,used:rothUsed},
+    {label:'Consumer debt',ok:d.consumer_debt!=='yes',val:d.consumer_debt==='yes'?'Present':'None',max:null,used:null},
+    {label:'Cash savings used',ok:cashUsed<=30000,val:`$${cashUsed.toLocaleString()} / $30,000`,max:30000,used:cashUsed}
+  ];
+  gItems.forEach(g => {
+    const div = document.createElement('div');
+    div.className = 'card-sm';
+    const pct = g.max ? Math.min(100,Math.round((g.used/g.max)*100)) : null;
+    div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:${pct!==null?'6px':'0'}">
+      <span style="font-size:13px;color:#555">${g.label}</span>
+      <span class="pill ${g.ok?'s-green':'s-red'}">${g.val}</span>
+    </div>${pct!==null?`<div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${g.ok?'#10b981':'#ef4444'}"></div></div>`:''}`;
+    guard.appendChild(div);
+  });
+
+  const mc = document.getElementById('milestones-container');
+  mc.innerHTML = '';
+  const wrap = document.createElement('div');
+  MILESTONES.forEach((m,i) => {
+    const checked = d['milestone_'+i]===true;
+    const lbl = document.createElement('label');
+    lbl.className = 'milestone-chip';
+    lbl.innerHTML = `<input type="checkbox" ${checked?'checked':''} onchange="saveField('milestone_${i}',this.checked);renderOverview()"> ${m}`;
+    wrap.appendChild(lbl);
+  });
+  mc.appendChild(wrap);
+
+  const rated = CATS.map(c=>d['cat_'+c.id]).filter(s=>s&&s!=='unrated');
+  const avg = rated.length ? rated.reduce((a,s)=>a+(scoreMap[s]||0),0)/rated.length : null;
+  const scoreEl = document.getElementById('dash-score');
+  if(avg){
+    const label = avg>=3.5?'Strong':avg>=2.5?'Moderate':avg>=1.5?'Concerning':'Critical';
+    scoreEl.textContent = label+' ('+avg.toFixed(1)+' / 4.0)';
+    scoreEl.style.color = avg>=3.5?'#065f46':avg>=2.5?'#854d0e':'#991b1b';
+  } else {
+    scoreEl.textContent = '—';
+    scoreEl.style.color = '#888';
+  }
+}
+
+function renderCatCards(){
+  const d = getData();
+  const container = document.getElementById('cat-cards');
+  container.innerHTML = '';
+  CATS.forEach(c => {
+    const status = d['cat_'+c.id]||'unrated';
+    const note = d['note_'+c.id]||'';
+    const t = c.thresholds.find(t=>t.status===status);
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.style.marginBottom = '12px';
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div class="cat-name">${c.label}</div>
+        <select style="width:auto;min-width:110px" onchange="saveField('cat_${c.id}',this.value);loadData()">
+          <option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option>
+          <option value="green" ${status==='green'?'selected':''}>Green</option>
+          <option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option>
+          <option value="orange" ${status==='orange'?'selected':''}>Orange</option>
+          <option value="red" ${status==='red'?'selected':''}>Red</option>
+        </select>
+      </div>
+      ${t?`<div class="threshold-box ${statusClass(status)}" style="margin-bottom:10px"><strong>Definition:</strong> ${t.label}<br><strong>Recommended action:</strong> ${t.action}</div>`:''}
+      <label>Notes</label>
+      <textarea placeholder="What's driving this rating? Any specific data points?" onchange="saveField('note_${c.id}',this.value)">${note}</textarea>`;
+    container.appendChild(div);
+  });
+
+  const gDiv = document.createElement('div');
+  gDiv.className = 'card';
+  gDiv.style.marginBottom = '12px';
+  const d2 = getData();
+  gDiv.innerHTML = `
+    <div class="cat-name" style="margin-bottom:10px">Guardrail inputs</div>
+    <div class="row">
+      <div class="field"><label>Roth withdrawals used ($)</label><input type="text" placeholder="0" value="${d2.roth_used||''}" onchange="saveField('roth_used',this.value);renderOverview()"></div>
+      <div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="${d2.cash_used||''}" onchange="saveField('cash_used',this.value);renderOverview()"></div>
+    </div>
+    <div style="max-width:200px;margin-top:8px"><label>Consumer debt present?</label>
+      <select onchange="saveField('consumer_debt',this.value);renderOverview()">
+        <option value="no" ${(d2.consumer_debt||'no')==='no'?'selected':''}>No</option>
+        <option value="yes" ${d2.consumer_debt==='yes'?'selected':''}>Yes</option>
+      </select>
+    </div>`;
+  container.appendChild(gDiv);
+}
+
+function renderThresholds(){
+  const container = document.getElementById('threshold-content');
+  container.innerHTML = '';
+  CATS.forEach(c => {
+    const wrap = document.createElement('div');
+    wrap.style.marginBottom = '1.5rem';
+    let rows = '';
+    c.thresholds.forEach(t => {
+      rows += `<tr><td style="width:80px"><span class="pill ${statusClass(t.status)}">${t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span></td><td>${t.label}</td><td style="color:#555">${t.action}</td></tr>`;
+    });
+    wrap.innerHTML = `<h3>${c.label}</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody>${rows}</tbody></table>`;
+    container.appendChild(wrap);
+  });
+}
+
+function renderChecklist(){
+  const d = getData();
+  const container = document.getElementById('checklist-content');
+  container.innerHTML = '';
+  CHECKLIST.forEach((item,i) => {
+    const checked = d['check_'+i]===true;
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    div.innerHTML = `<input type="checkbox" id="chk${i}" ${checked?'checked':''} onchange="saveField('check_${i}',this.checked)"><label for="chk${i}"><div class="text">${item.q}</div><div class="sub">${item.sub}</div></label>`;
+    container.appendChild(div);
+  });
+}
+
+function renderReviewForm(){
+  const d = getData();
+  const container = document.getElementById('review-form');
+  container.innerHTML = '';
+  CATS.forEach(c => {
+    const row = document.createElement('div');
+    row.style.marginBottom = '12px';
+    row.innerHTML = `
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1">
+          <label style="font-weight:600;color:#1a1a1a">${c.label}</label>
+          <select style="margin-top:4px" onchange="saveField('rev_cat_${c.id}',this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" ${d['rev_cat_'+c.id]==='green'?'selected':''}>Green</option>
+            <option value="yellow" ${d['rev_cat_'+c.id]==='yellow'?'selected':''}>Yellow</option>
+            <option value="orange" ${d['rev_cat_'+c.id]==='orange'?'selected':''}>Orange</option>
+            <option value="red" ${d['rev_cat_'+c.id]==='red'?'selected':''}>Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px">
+          <label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${c.id}',this.value)">${d['rev_note_'+c.id]||''}</textarea>
+        </div>
+      </div>`;
+    container.appendChild(row);
+  });
+  const extra = document.createElement('div');
+  extra.innerHTML = `
+    <hr class="divider">
+    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a1a1a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${d.rev_win||''}</textarea></div>
+    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a1a1a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${d.rev_concern||''}</textarea></div>
+    <div><label style="font-weight:600;color:#1a1a1a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${d.rev_change||''}</textarea></div>`;
+  container.appendChild(extra);
+}
+
+function generateSummary(){
+  const d = getData();
+  const container = document.getElementById('review-summary');
+  if(!container) return;
+  const reds = CATS.filter(c=>d['rev_cat_'+c.id]==='red').map(c=>c.label);
+  const oranges = CATS.filter(c=>d['rev_cat_'+c.id]==='orange').map(c=>c.label);
+  const greens = CATS.filter(c=>d['rev_cat_'+c.id]==='green').map(c=>c.label);
+  const rated = CATS.filter(c=>d['rev_cat_'+c.id]);
+  const avg = rated.length ? rated.reduce((a,c)=>a+(scoreMap[d['rev_cat_'+c.id]]||0),0)/rated.length : null;
+
+  let verdict = '', vcolor = '#1d4ed8';
+  if(!avg){ verdict = 'Rate all categories above to see verdict.'; }
+  else if(reds.length>=3||avg<1.8){ verdict='Exit signal. Multiple red flags active. Review exit or pivot plan immediately.'; vcolor='#991b1b'; }
+  else if(reds.length>=1||avg<2.5){ verdict='Caution. Active red flags require immediate attention before continuing.'; vcolor='#9a3412'; }
+  else if(oranges.length>=3){ verdict='Watch closely. Several categories in orange — trajectory matters.'; vcolor='#854d0e'; }
+  else if(avg>=3.5){ verdict='Continue. Evidence supports the mission. Maintain momentum.'; vcolor='#065f46'; }
+  else { verdict='Proceed with intention. More mixed than ideal — track trends carefully.'; vcolor='#1d4ed8'; }
+
+  container.innerHTML = `
+    <div class="summary-box">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;margin-bottom:4px">Overall verdict</div>
+      <div style="font-size:15px;font-weight:600;color:${vcolor}">${verdict}</div>
+      ${avg?`<div style="font-size:12px;color:#888;margin-top:4px">Score: ${avg.toFixed(1)} / 4.0 · ${rated.length} of ${CATS.length} categories rated</div>`:''}
+    </div>
+    ${greens.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#065f46;font-weight:600">Strengths: </span>${greens.join(', ')}</div>`:''}
+    ${oranges.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#9a3412;font-weight:600">Watch: </span>${oranges.join(', ')}</div>`:''}
+    ${reds.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#991b1b;font-weight:600">Action required: </span>${reds.join(', ')}</div>`:''}
+    ${d.rev_win?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:600">Win: </span>${d.rev_win}</div>`:''}
+    ${d.rev_concern?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:600">Concern: </span>${d.rev_concern}</div>`:''}
+    ${d.rev_change?`<div style="font-size:13px;color:#555"><span style="font-weight:600">Next action: </span>${d.rev_change}</div>`:''}`;
+}
+
+function saveReview(){
+  const d = getData();
+  const reviews = d.saved_reviews||[];
+  const period = document.getElementById('review-period').value;
+  const date = document.getElementById('review-date').value;
+  const snap = {period,date,saved:new Date().toISOString(),cats:{}};
+  CATS.forEach(c=>{snap.cats[c.id]={status:d['rev_cat_'+c.id]||'',note:d['rev_note_'+c.id]||''}});
+  snap.win=d.rev_win||''; snap.concern=d.rev_concern||''; snap.change=d.rev_change||'';
+  reviews.unshift(snap);
+  d.saved_reviews = reviews.slice(0,12);
+  setData(d);
+  alert('Review saved.');
+}
+
+function renderDecisionMatrix(){
+  const d = getData();
+  const container = document.getElementById('decision-matrix');
+  const reds = CATS.filter(c=>d['cat_'+c.id]==='red');
+  const oranges = CATS.filter(c=>d['cat_'+c.id]==='orange');
+  const greens = CATS.filter(c=>d['cat_'+c.id]==='green');
+  const rated = CATS.filter(c=>d['cat_'+c.id]&&d['cat_'+c.id]!=='unrated');
+  const avg = rated.length ? rated.reduce((a,c)=>a+(scoreMap[d['cat_'+c.id]]||0),0)/rated.length : null;
+
+  const outcomes = [
+    {name:'Stay and continue',ok:()=>reds.length===0&&oranges.length<=2&&(!avg||avg>=3.0),color:'s-green',desc:'No red flags. Trajectory positive. Maintain plan and next milestone review.'},
+    {name:'Stay and intervene',ok:()=>reds.length===0&&oranges.length>=3,color:'s-yellow',desc:'No reds but multiple oranges. Active intervention needed; don\'t drift into red.'},
+    {name:'Pivot the approach',ok:()=>reds.length===1||(oranges.length>=2&&avg&&avg<2.5),color:'s-orange',desc:'One red flag or significant orange cluster. Adapt strategy; set 60-day improvement target.'},
+    {name:'Exit or activate fallback',ok:()=>reds.length>=2||d['cat_financial']==='red'||d['cat_mental']==='red',color:'s-red',desc:'Multiple red flags or financial/mental health at red. Activate controlled exit or fallback within 90 days.'}
+  ];
+
+  let rows = '';
+  outcomes.forEach(o=>{
+    const active = o.ok();
+    rows += `<tr ${active?'style="background:#f0fdf4"':''}><td><span class="pill ${o.color}">${o.name}</span></td><td style="font-size:12px;color:#555">${o.desc}</td><td style="text-align:center;font-size:16px">${active?'✓':''}</td></tr>`;
+  });
+
+  const scc = document.getElementById('sunk-cost-checks');
+  const scq = [
+    'Would I start this experiment again today with current knowledge?',
+    'Is my reason for staying evidence-based rather than inertia?',
+    'Am I preserving all three options: stay, pivot, exit?',
+    'Has the cost so far influenced my assessment of the evidence?'
+  ];
+  scc.innerHTML = scq.map((q,i)=>`<div class="checklist-item"><input type="checkbox" id="sc${i}" ${d['sc_'+i]?'checked':''} onchange="saveField('sc_${i}',this.checked)"><label for="sc${i}" style="font-size:13px;cursor:pointer;margin:0;color:#1a1a1a">${q}</label></div>`).join('');
+
+  container.innerHTML = `
+    ${avg?`<div style="margin-bottom:1rem;font-size:13px;color:#555">Current average: <strong>${avg.toFixed(1)} / 4.0</strong> · ${rated.length} of ${CATS.length} rated · ${reds.length} red · ${oranges.length} orange · ${greens.length} green</div>`:'<div style="margin-bottom:1rem;font-size:13px;color:#888">Rate categories in Status Cards to see your decision signal.</div>'}
+    <table class="data-table"><thead><tr><th style="width:160px">Outcome</th><th>Trigger conditions</th><th style="width:50px;text-align:center">Active</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function exportJSON(){
+  const d = getData();
+  const blob = new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'eu-dashboard-'+new Date().toISOString().split('T')[0]+'.json';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function importTrigger(){ document.getElementById('import-file').click(); }
+
+function importJSON(e){
+  const file = e.target.files[0]; if(!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try{ const d=JSON.parse(ev.target.result); setData(d); loadData(); alert('Data imported.'); }
+    catch{ alert('Invalid JSON file.'); }
+  };
+  r.readAsText(file);
+}
+
+function resetData(){
+  if(confirm('Clear all saved data? This cannot be undone.')){ localStorage.removeItem('eu_dash'); loadData(); }
+}
+
+function showTab(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = ['dashboard','categories','thresholds','checklist','review','decision','export'];
+  document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',tabs[i]===id));
+  if(id==='dashboard') renderOverview();
+  if(id==='categories') renderCatCards();
+  if(id==='thresholds') renderThresholds();
+  if(id==='checklist') renderChecklist();
+  if(id==='review'){ renderReviewForm(); generateSummary(); }
+  if(id==='decision') renderDecisionMatrix();
+}
+
+loadData();
+</script>
+</body>
+</html>
