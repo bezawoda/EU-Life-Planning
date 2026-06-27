@@ -5,114 +5,216 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EU experiment dashboard</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 13px; color: #1a1a1a; background: #fff; line-height: 1.5; }
-  a { color: inherit; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:14px;color:#1a0e0a;background:linear-gradient(145deg,#fdf4f1 0%,#f9ede8 30%,#f0f5fa 70%,#e8f2f9 100%);min-height:100vh}
 
-  /* Layout */
-  .app { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
-  .header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e5e5; }
-  .header h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
-  .header p { font-size: 13px; color: #666; }
-  h2 { font-size: 15px; font-weight: 600; margin-bottom: 12px; margin-top: 2rem; color: #1a1a1a; }
-  h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: #888; margin-bottom: 8px; }
-  .divider { border: none; border-top: 1px solid #e5e5e5; margin: 1.5rem 0; }
+/* ── Top banner ── */
+#top-banner{display:none;width:100%;padding:11px 24px;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#top-banner.show{display:flex}
+#top-banner.b-open{background:#f0fdf4;border-bottom:2px solid #6ee7b7}
+#top-banner.b-sealed{background:#fef2f2;border-bottom:1px solid #fca5a5}
+.banner-left{display:flex;align-items:center;gap:10px}
+.banner-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.b-open .banner-dot{background:#10b981;animation:pulse 2s infinite}
+.b-sealed .banner-dot{background:#ef4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.banner-title{font-size:13px;font-weight:700}
+.b-open .banner-title{color:#065f46}
+.b-sealed .banner-title{color:#991b1b}
+.banner-sub{font-size:12px;margin-top:1px}
+.b-open .banner-sub{color:#047857}
+.b-sealed .banner-sub{color:#991b1b}
+.banner-right{display:flex;align-items:center;gap:8px}
+.banner-cta{background:#10b981;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.banner-cta:hover{background:#059669}
+.banner-dismiss{background:none;border:none;font-size:20px;cursor:pointer;color:#999;line-height:1;padding:2px 6px}
+.banner-dismiss:hover{color:#555}
 
-  /* Nav */
-  .nav { display: flex; gap: 2px; border-bottom: 1px solid #e5e5e5; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .nav button { background: none; border: none; padding: 8px 14px; font-size: 13px; color: #666; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; }
-  .nav button.active { color: #1d4ed8; border-bottom-color: #1d4ed8; font-weight: 600; }
-  .nav button:hover:not(.active) { color: #1a1a1a; background: #f5f5f5; }
+.app{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+.header{margin-bottom:1.5rem}
+.header h1{font-size:22px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
+.header p{font-size:12px;color:#b05040}
 
-  /* Sections */
-  .section { display: none; } .section.active { display: block; }
+/* ── Nav ── */
+.nav{display:flex;gap:3px;border-bottom:1px solid rgba(226,114,91,0.2);margin-bottom:1.5rem;flex-wrap:wrap}
+.nav button{background:none;border:none;padding:8px 14px;font-size:13px;color:#c06050;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit}
+.nav button.active{color:#fff;background:#E2725B;border-radius:6px 6px 0 0;border-bottom-color:#E2725B;font-weight:600}
+.nav button:hover:not(.active){color:#1a0e0a;background:rgba(226,114,91,0.08);border-radius:6px 6px 0 0}
 
-  /* Grids */
-  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
-  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
-  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+.section{display:none}.section.active{display:block}
 
-  /* Cards */
-  .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 14px 16px; }
-  .card-sm { background: #f9f9f9; border-radius: 7px; padding: 10px 14px; }
+/* ── Cards ── */
+.card{background:rgba(255,255,255,0.78);border:1px solid rgba(226,114,91,0.15);border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+.card-sm{background:rgba(255,255,255,0.6);border:1px solid rgba(226,114,91,0.14);border-radius:8px;padding:8px 12px}
 
-  /* Status pills */
-  .pill { display: inline-block; padding: 2px 9px; border-radius: 5px; font-size: 11px; font-weight: 600; }
-  .s-green { background: #d1fae5; color: #065f46; }
-  .s-yellow { background: #fef9c3; color: #854d0e; }
-  .s-orange { background: #ffedd5; color: #9a3412; }
-  .s-red { background: #fee2e2; color: #991b1b; }
-  .s-gray { background: #f3f4f6; color: #6b7280; }
+/* ── Grids ── */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1rem}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:1rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
 
-  /* Category cards */
-  .cat-name { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
-  .cat-note { font-size: 12px; color: #666; line-height: 1.4; margin-top: 4px; }
-  .threshold-box { font-size: 12px; padding: 7px 10px; border-radius: 6px; margin: 8px 0; line-height: 1.6; }
+/* ── Pills ── */
+.pill{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:700}
+.s-green{background:#d1fae5;color:#065f46}
+.s-yellow{background:#fef9c3;color:#854d0e}
+.s-orange{background:#ffedd5;color:#9a3412}
+.s-red{background:#fee2e2;color:#991b1b}
+.s-gray{background:#f3f4f6;color:#6b7280}
 
-  /* Form elements */
-  select, input[type="text"], textarea { font-family: inherit; font-size: 13px; color: #1a1a1a; background: #f9f9f9; border: 1px solid #d1d5db; border-radius: 6px; padding: 6px 10px; width: 100%; outline: none; }
-  select:focus, input:focus, textarea:focus { border-color: #1d4ed8; background: #fff; }
-  textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
-  label { font-size: 12px; color: #555; display: block; margin-bottom: 4px; }
-  .field { flex: 1; }
-  .row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; }
-  select { cursor: pointer; }
+/* ── Forms ── */
+select,input[type=text],textarea{font-family:inherit;font-size:13px;color:#1a0e0a;background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.25);border-radius:7px;padding:7px 10px;width:100%;outline:none}
+select:focus,input:focus,textarea:focus{border-color:#1B6E9F;background:#fff}
+select:disabled,input:disabled,textarea:disabled{opacity:.5;cursor:not-allowed;background:rgba(240,240,240,0.5)}
+textarea{resize:vertical;min-height:64px;line-height:1.5}
+label{font-size:12px;color:#7a4030;display:block;margin-bottom:4px;font-weight:500}
+.field{flex:1}
+.row{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap}
 
-  /* Buttons */
-  .btn { background: #fff; border: 1px solid #d1d5db; border-radius: 6px; padding: 7px 16px; font-size: 13px; font-family: inherit; cursor: pointer; color: #1a1a1a; }
-  .btn:hover { background: #f5f5f5; }
-  .btn-primary { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
-  .btn-primary:hover { background: #1e40af; }
-  .btn-danger { border-color: #fca5a5; color: #991b1b; }
-  .btn-danger:hover { background: #fee2e2; }
-  .btn-row { display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap; align-items: center; }
+/* ── Buttons ── */
+.btn{background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.3);border-radius:7px;padding:7px 16px;font-size:13px;font-family:inherit;cursor:pointer;color:#1a0e0a}
+.btn:hover{background:rgba(226,114,91,0.08)}
+.btn-primary{background:#E2725B;color:#fff;border-color:#E2725B}
+.btn-primary:hover{background:#c85a44}
+.btn-blue{background:#1B6E9F;color:#fff;border-color:#1B6E9F}
+.btn-blue:hover{background:#155a82}
+.btn-danger{border-color:#fca5a5;color:#991b1b}
+.btn-danger:hover{background:#fee2e2}
+.btn-row{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap;align-items:center}
 
-  /* Checklist */
-  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
-  .checklist-item:last-child { border-bottom: none; }
-  .checklist-item input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; cursor: pointer; accent-color: #1d4ed8; }
-  .checklist-item .text { font-size: 13px; color: #1a1a1a; line-height: 1.5; }
-  .checklist-item .sub { font-size: 12px; color: #888; margin-top: 2px; }
-  .checklist-item label { cursor: pointer; margin: 0; color: inherit; font-size: inherit; }
+/* ── Layout ── */
+.divider{border:none;border-top:1px solid rgba(226,114,91,0.2);margin:1.5rem 0}
+.sec-rule{border-top:2px solid #E2725B;padding-top:14px;margin-top:4px}
+h2{font-size:15px;font-weight:700;color:#1a0e0a;margin-bottom:10px}
+h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:8px}
 
-  /* Tables */
-  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 1.5rem; }
-  .data-table th { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: .05em; padding: 6px 10px; text-align: left; border-bottom: 1px solid #e5e5e5; }
-  .data-table td { padding: 8px 10px; border-bottom: 1px solid #f3f4f6; vertical-align: top; line-height: 1.5; }
-  .data-table tr:last-child td { border-bottom: none; }
+/* ── Guardrails ── */
+.gr-card{background:rgba(255,255,255,0.78);border:1px solid rgba(226,114,91,0.15);border-radius:10px;padding:13px 16px}
+.gr-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#7a4030;margin-bottom:7px}
+.gr-value{font-size:15px;font-weight:700}
 
-  /* Milestone chips */
-  .milestone-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 6px; background: #f9f9f9; border: 1px solid #e5e5e5; font-size: 12px; margin: 3px; cursor: pointer; }
-  .milestone-chip input[type="checkbox"] { width: 14px; height: 14px; accent-color: #1d4ed8; }
+/* ── Checklist ── */
+.checklist-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(226,114,91,0.1)}
+.checklist-item:last-child{border-bottom:none}
+.checklist-item input[type=checkbox]{margin-top:2px;flex-shrink:0;width:15px;height:15px;cursor:pointer;accent-color:#E2725B}
+.checklist-item .qtext{font-size:13px;color:#1a0e0a;line-height:1.5}
+.checklist-item .qsub{font-size:11px;color:#9a7060;margin-top:2px}
+.checklist-item label{cursor:pointer;margin:0;color:inherit;font-size:inherit;font-weight:400}
 
-  /* Summary box */
-  .summary-box { background: #eff6ff; border-left: 3px solid #1d4ed8; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 12px; }
+/* ── Timeline ── */
+.tl-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.tl-title{font-size:11px;font-weight:700;color:#1a0e0a;text-transform:uppercase;letter-spacing:.05em}
+.legend{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#555}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tl-wrap{position:relative;margin-bottom:4px}
+.tl-tooltip{display:none;position:absolute;border-radius:10px;padding:12px 15px;font-size:12px;line-height:1.55;width:210px;pointer-events:none;z-index:10;border:1.5px solid transparent}
+.tl-tooltip.show{display:block}
+.tt-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:4px}
+.tt-name{font-weight:700;margin-bottom:5px;font-size:13px}
+.tt-score{font-size:22px;font-weight:700;margin-bottom:1px}
+.tt-signal{font-size:11px;font-weight:600;margin-bottom:4px}
+.tt-date{font-size:10px;opacity:.5}
+.tt-arrow{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent}
 
-  /* Score */
-  .score-total { font-size: 26px; font-weight: 600; color: #1a1a1a; }
-  .score-sub { font-size: 12px; color: #888; margin-top: 2px; }
+/* ── Quip ── */
+.quip-free{padding:12px 0 16px}
+.quip-next-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1B6E9F;margin-bottom:4px}
+.quip-next-date{font-size:14px;font-weight:700;color:#1a0e0a;margin-bottom:8px}
+.quip-text{font-size:14px;font-style:italic;color:#3a1a10;line-height:1.7}
 
-  /* Guardrail bar */
-  .progress-bar { height: 6px; border-radius: 3px; background: #e5e5e5; margin-top: 6px; }
-  .progress-fill { height: 100%; border-radius: 3px; transition: width .3s; }
+/* ── Verdict ── */
+.verdict-card{background:rgba(255,255,255,0.72);border-radius:10px;padding:12px 16px}
+.verdict-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:3px}
+.verdict-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;flex-wrap:wrap;gap:6px}
+.verdict-name{font-size:15px;font-weight:700;color:#1a0e0a}
+.verdict-sub{font-size:12px;color:#555;line-height:1.5;margin-bottom:10px}
+.signal-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:5px;white-space:nowrap}
+.vdivider{border:none;border-top:1px solid rgba(0,0,0,0.08);margin:8px 0}
+.flags-label{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:6px}
+.flag-chips{display:flex;flex-wrap:wrap;gap:5px}
+.flag-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px}
 
-  /* Inline note */
-  .export-note { font-size: 12px; color: #888; margin-top: 6px; }
+/* ── Status card lock ── */
+.cat-locked{opacity:.55;pointer-events:none;user-select:none}
+.lock-note{font-size:11px;color:#1B6E9F;font-style:italic;margin-top:6px}
+.window-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px}
+.wb-open{background:#d1fae5;color:#065f46}
+.wb-sealed{background:#fee2e2;color:#991b1b}
+.wb-pre{background:#f3f4f6;color:#6b7280}
 
-  /* Print styles */
-  @media print {
-    .nav, .btn, .btn-row, #export { display: none !important; }
-    .section { display: block !important; }
-    .app { padding: 0; max-width: 100%; }
-    h2 { page-break-after: avoid; }
-    .card { break-inside: avoid; }
-    body { font-size: 12px; }
-  }
+/* ── Tables ── */
+.data-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:1.5rem}
+.data-table th{font-size:11px;font-weight:700;color:#9a5040;text-transform:uppercase;letter-spacing:.05em;padding:6px 10px;text-align:left;border-bottom:1px solid rgba(226,114,91,0.2)}
+.data-table td{padding:8px 10px;border-bottom:1px solid rgba(226,114,91,0.08);vertical-align:top;line-height:1.5}
+.data-table tr:last-child td{border-bottom:none}
+
+/* ── Summary ── */
+.summary-box{background:rgba(27,110,159,0.07);border-left:3px solid #1B6E9F;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px}
+
+/* ── Progress bar ── */
+.progress-bar{height:5px;border-radius:3px;background:rgba(226,114,91,0.15);margin-top:5px}
+.progress-fill{height:100%;border-radius:3px}
+
+/* ── PIN modal ── */
+.pin-overlay{display:none;position:fixed;inset:0;background:rgba(26,14,10,0.45);z-index:200;align-items:center;justify-content:center}
+.pin-overlay.show{display:flex}
+.pin-box{background:#fff;border-radius:16px;padding:2rem;width:320px;text-align:center}
+.pin-box h2{font-size:17px;font-weight:700;color:#1a0e0a;margin-bottom:6px}
+.pin-box p{font-size:13px;color:#7a4030;margin-bottom:1.25rem;line-height:1.5}
+.pin-input{font-size:28px;font-weight:700;letter-spacing:.4em;text-align:center;border:2px solid rgba(226,114,91,0.3);border-radius:10px;padding:10px;width:100%;margin-bottom:1rem;background:#fdf4f1;color:#1a0e0a}
+.pin-input:focus{border-color:#E2725B;outline:none}
+.pin-error{font-size:12px;color:#991b1b;margin-bottom:.75rem;min-height:18px}
+.pin-btn-row{display:flex;gap:8px;justify-content:center}
+
+.export-note{font-size:12px;color:#9a7060;margin-top:6px}
+
+/* ── Milestone chip ── */
+.milestone-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,0.6);border:1px solid rgba(226,114,91,0.2);font-size:12px;margin:3px;cursor:pointer}
+.milestone-chip input{width:14px;height:14px;accent-color:#E2725B}
+
+@media print{
+  #top-banner,.nav,.btn,.btn-row,.pin-overlay{display:none!important}
+  .section{display:block!important}
+  body{background:#fff}
+  .app{padding:0;max-width:100%}
+}
 </style>
 </head>
 <body>
-<div class="app">
 
+<!-- ═══════════════════════════════════════════════════════════
+     TOP BANNER — auto-shows based on window state, no editing needed
+     ═══════════════════════════════════════════════════════════ -->
+<div id="top-banner">
+  <div class="banner-left">
+    <div class="banner-dot"></div>
+    <div>
+      <div class="banner-title" id="banner-title"></div>
+      <div class="banner-sub" id="banner-sub"></div>
+    </div>
+  </div>
+  <div class="banner-right">
+    <button class="banner-cta" id="banner-cta" style="display:none" onclick="showTab('categories')">Update status cards</button>
+    <button class="banner-dismiss" onclick="dismissBanner()" title="Dismiss">×</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PIN MODAL
+     ═══════════════════════════════════════════════════════════ -->
+<div class="pin-overlay" id="pin-overlay">
+  <div class="pin-box">
+    <h2>Editor access</h2>
+    <p>Enter your PIN to unlock status card editing for this session.</p>
+    <input class="pin-input" type="password" id="pin-input" maxlength="4" placeholder="••••" autocomplete="off">
+    <div class="pin-error" id="pin-error"></div>
+    <div class="pin-btn-row">
+      <button class="btn btn-primary" onclick="submitPin()">Unlock</button>
+      <button class="btn" onclick="closePinModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
   <div class="header">
     <h1>EU experiment dashboard</h1>
     <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
@@ -124,7 +226,6 @@
     <button onclick="showTab('thresholds')">Thresholds</button>
     <button onclick="showTab('checklist')">Checklist</button>
     <button onclick="showTab('review')">Quarterly review</button>
-    <button onclick="showTab('decision')">Decision matrix</button>
     <button onclick="showTab('export')">Export</button>
   </div>
 
@@ -133,120 +234,73 @@
     <h2>Category overview</h2>
     <div id="overview-grid" class="grid3"></div>
     <hr class="divider">
-    <h2>Guardrail status</h2>
-    <div id="guardrails" class="grid2"></div>
+    <h2>Financial guardrails</h2>
+    <div class="grid4" id="guardrails"></div>
     <hr class="divider">
-    <h2>Decision milestones</h2>
-    <div id="milestones-container" style="margin-bottom:1.5rem"></div>
-    <hr class="divider">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-      <div>
-        <div class="score-total" id="dash-score">—</div>
-        <div class="score-sub">overall score (avg of rated categories)</div>
+    <div class="sec-rule">
+      <div class="tl-header">
+        <div class="tl-title">Relocation progress</div>
+        <div class="legend">
+          <div style="font-size:10px;color:#9a7060;margin-right:2px">Hover a milestone:</div>
+          <div class="leg-item"><div class="leg-dot" style="background:#10b981"></div>Strong</div>
+          <div class="leg-item"><div class="leg-dot" style="background:#f59e0b"></div>Moderate</div>
+          <div class="leg-item"><div class="leg-dot" style="background:#f97316"></div>Caution</div>
+          <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Critical</div>
+        </div>
       </div>
-      <div class="btn-row" style="margin-top:0">
-        <button class="btn" onclick="loadData()">↺ Refresh</button>
-        <button class="btn btn-primary" onclick="showTab('review')">Start quarterly review</button>
+      <div class="tl-wrap">
+        <div id="tl-tooltip" class="tl-tooltip">
+          <div class="tt-eyebrow" id="tt-eyebrow"></div>
+          <div class="tt-name" id="tt-name"></div>
+          <div class="tt-score" id="tt-score"></div>
+          <div class="tt-signal" id="tt-signal"></div>
+          <div class="tt-date" id="tt-date"></div>
+          <div class="tt-arrow" id="tt-arrow"></div>
+        </div>
+        <svg id="timeline" viewBox="0 0 620 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"></svg>
       </div>
+      <div class="quip-free">
+        <div class="quip-next-label">Next milestone</div>
+        <div class="quip-next-date" id="quip-next-date"></div>
+        <div class="quip-text" id="quip-text"></div>
+      </div>
+      <div id="verdict-container"></div>
     </div>
   </div>
 
   <!-- STATUS CARDS -->
   <div id="categories" class="section">
-    <h2>Status cards</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:1rem">Rate each category. Saves automatically to browser storage.</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:1rem">
+      <h2 style="margin-bottom:0">Status cards</h2>
+      <div id="edit-status-row"></div>
+    </div>
     <div id="cat-cards"></div>
   </div>
 
   <!-- THRESHOLDS -->
   <div id="thresholds" class="section">
     <h2>Threshold reference</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:1rem">Green / yellow / orange / red definitions for all 12 categories.</p>
+    <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Read-only reference for all 12 categories.</p>
     <div id="threshold-content"></div>
   </div>
 
   <!-- CHECKLIST -->
   <div id="checklist" class="section">
     <h2>Decision checklist</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:1rem">Core questions to answer honestly at each review point.</p>
+    <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Core questions to answer honestly at each review point.</p>
     <div id="checklist-content"></div>
     <hr class="divider">
     <h2>Financial tracking prompts</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:.75rem">Manage these in your own tracker. Not stored here.</p>
-    <div class="card" style="font-size:13px;line-height:2;color:#555">
-      <div>1. Total cash runway in months — target ≥12 at all times</div>
-      <div>2. Roth contribution withdrawals used vs. $45,000 ceiling</div>
-      <div>3. Monthly burn rate vs. projected budget</div>
+    <p style="font-size:13px;color:#9a7060;margin-bottom:.75rem">Track these in your own spreadsheet. Not stored here.</p>
+    <div class="card" style="font-size:13px;line-height:2;color:#5a3020">
+      <div>1. Total cash runway in months — target 12 or more at all times</div>
+      <div>2. Roth contribution withdrawals used vs. $10,000 planned ceiling</div>
+      <div>3. Monthly burn rate vs. projected budget for that period</div>
       <div>4. Emergency buffer — target 3 months minimum in liquid savings</div>
       <div>5. EU vs. U.S. cost-of-living delta (monthly and annualised)</div>
       <div>6. Opportunity cost estimate: income foregone while in school</div>
       <div>7. Post-graduation income target to break even on experiment cost</div>
-      <div>8. Total experiment cost vs. $75k hard ceiling ($30k savings + $45k Roth)</div>
-    </div>
-  </div>
-
-  <!-- REVIEW -->
-  <div id="review" class="section">
-    <h2>Quarterly review</h2>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
-      <div class="field" style="max-width:220px">
-        <label>Review period</label>
-        <select id="review-period">
-          <option>Before departure</option>
-          <option>End of semester 1</option>
-          <option>End of year 1</option>
-          <option>Before committing to year 2 expenses</option>
-          <option>Six months before graduation</option>
-          <option>Three months after graduation</option>
-          <option>After first EU job search cycle</option>
-          <option>Before major visa / citizenship milestone</option>
-        </select>
-      </div>
-      <div class="field" style="max-width:160px">
-        <label>Date</label>
-        <input type="text" id="review-date" placeholder="e.g. Q1 2026">
-      </div>
-    </div>
-    <div id="review-form"></div>
-    <hr class="divider">
-    <h2>Auto-summary</h2>
-    <div id="review-summary"><p style="font-size:13px;color:#888">Rate categories above, then click Generate summary.</p></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="generateSummary()">Generate summary</button>
-      <button class="btn" onclick="saveReview()">Save review</button>
-    </div>
-  </div>
-
-  <!-- DECISION -->
-  <div id="decision" class="section">
-    <h2>Stay / pivot / exit matrix</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:1rem">Based on your current status card ratings.</p>
-    <div id="decision-matrix"></div>
-    <hr class="divider">
-    <h2>Sunk-cost guard</h2>
-    <div class="card" style="font-size:13px;color:#555;line-height:1.7">
-      <p style="margin-bottom:.75rem;color:#1a1a1a;font-weight:600">Before making a final decision, answer these honestly:</p>
-      <div id="sunk-cost-checks"></div>
-    </div>
-    <hr class="divider">
-    <h2>Alternative pathways</h2>
-    <div class="grid2">
-      <div class="card">
-        <h3>Return to U.S.</h3>
-        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: career capital weakening in both markets, chronic distress, no clear residency path, family health emergency, or financial guardrail breach. Action: controlled 3-month exit plan, U.S. job search, skill reframe.</div>
-      </div>
-      <div class="card">
-        <h3>EU citizenship path</h3>
-        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: strong social belonging, healthcare meets expectations, career growing, residency path clear, family viable. Action: assess 5-year residency clock, consult immigration attorney.</div>
-      </div>
-      <div class="card">
-        <h3>Family support abroad</h3>
-        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: financial guardrail breach with no income path, health crisis, or acute family need. Action: activate proactively — not reactively under panic. Pre-discuss logistics before departure.</div>
-      </div>
-      <div class="card">
-        <h3>Extend the experiment</h3>
-        <div style="font-size:12px;color:#555;line-height:1.7">Triggers: evidence promising but inconclusive, runway intact, mental health stable. Condition: must have a clear hypothesis being tested in the extension — not drift.</div>
-      </div>
+      <div>8. Total experiment cost vs. $39,000 ceiling ($29k savings + $10k Roth)</div>
     </div>
   </div>
 
@@ -255,7 +309,7 @@
     <h2>Export and save</h2>
     <div class="card" style="margin-bottom:1rem">
       <h3 style="margin-bottom:.5rem">Save a copy</h3>
-      <p style="font-size:13px;color:#555;margin-bottom:.75rem">All data auto-saves in your browser. Export JSON to back up or transfer across devices. Use your browser's <strong>File → Print → Save as PDF</strong> to create a PDF snapshot.</p>
+      <p style="font-size:13px;color:#5a3020;margin-bottom:.75rem">All data auto-saves in your browser. Export JSON to back up or transfer. Use <strong>File → Print → Save as PDF</strong> for a PDF snapshot.</p>
       <div class="btn-row" style="margin-top:0">
         <button class="btn btn-primary" onclick="exportJSON()">Export as JSON</button>
         <button class="btn" onclick="importTrigger()">Import JSON</button>
@@ -266,421 +320,863 @@
     </div>
     <div class="card">
       <h3 style="margin-bottom:.5rem">Reset</h3>
-      <p style="font-size:13px;color:#555;margin-bottom:.75rem">Clear all saved data. Cannot be undone.</p>
+      <p style="font-size:13px;color:#5a3020;margin-bottom:.75rem">Clear all saved data. Cannot be undone.</p>
       <button class="btn btn-danger" onclick="resetData()">Clear all data</button>
+    </div>
+  </div>
+
+  <!-- QUARTERLY REVIEW (last) -->
+  <div id="review" class="section">
+    <h2>Quarterly review</h2>
+    <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Ratings pre-filled from your current status cards. Add observations, then save.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
+      <div class="field" style="max-width:240px">
+        <label>Review period</label>
+        <select id="review-period">
+          <option>Before departure</option>
+          <option>End of semester 1</option>
+          <option>End of semester 2</option>
+          <option>End of semester 3</option>
+          <option>Program graduation</option>
+          <option>Employment midpoint check-in</option>
+          <option>Long-term path decision</option>
+        </select>
+      </div>
+      <div class="field" style="max-width:160px">
+        <label>Date</label>
+        <input type="text" id="review-date" placeholder="e.g. Dec 2026">
+      </div>
+      <button class="btn btn-blue" style="align-self:flex-end" onclick="prefillReviewFromCards()">Pull current ratings</button>
+    </div>
+    <div id="review-form"></div>
+    <hr class="divider">
+    <h2>Auto-summary</h2>
+    <div id="review-summary"><p style="font-size:13px;color:#9a7060">Pull ratings or select statuses above to see your summary.</p></div>
+    <div class="btn-row">
+      <button class="btn btn-blue" onclick="generateSummary()">Generate summary</button>
+      <button class="btn btn-primary" onclick="saveReview()">Save review</button>
     </div>
   </div>
 
 </div><!-- end .app -->
 
 <script>
+// ═══════════════════════════════════════════════════════════════════════
+//
+//  CONFIGURATION — all editable settings are in this section.
+//  You do not need to touch anything outside this block.
+//
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── PIN ──────────────────────────────────────────────────────────────
+// Change the four digits between the quotes to set your PIN.
+// Example: change "1234" to "9876"
+const EDITOR_PIN = "1234";
+
+// ── BURN RATE — show or hide ─────────────────────────────────────────
+// Set to true to hide the burn rate card from the dashboard.
+// Set to false (default) to show it.
+const HIDE_BURN_RATE = false;
+
+// ── BURN RATE — withdrawal schedule ─────────────────────────────────
+// Each line is one payment stream. Edit the numbers to update the burn rate.
+// Format: { start: 'YYYY-MM', end: 'YYYY-MM', monthly: amount }
+// start = first month of payments (YYYY-MM)
+// end   = last month of payments  (YYYY-MM)
+// monthly = amount paid each month in dollars
+//
+// Example: to change living expenses from $1150 to $1200,
+// find the line with monthly: 1150 and change it to monthly: 1200
+const WITHDRAWAL_SCHEDULE = [
+  { label:'Tuition phase 1',   start:'2026-12', end:'2027-06', monthly: 480  },
+  { label:'Tuition phase 2',   start:'2027-08', end:'2027-10', monthly: 690  },
+  { label:'Living expenses 1', start:'2026-08', end:'2027-09', monthly: 1150 },
+  { label:'Living expenses 2', start:'2027-10', end:'2028-09', monthly: 800  }
+];
+
+// ── BURN RATE — savings and baseline ────────────────────────────────
+// TOTAL_SAVINGS: your starting cash savings amount in dollars
+// BURN_BASELINE: the target month savings should last until (YYYY-MM)
+//   On track = reaches or exceeds this month
+//   Watch    = 1-2 months early
+//   At risk  = 3-4 months early
+//   Critical = 5+ months early
+const TOTAL_SAVINGS   = 29000;
+const BURN_BASELINE   = '2028-07';
+
+// ── ROTH WITHDRAWALS ─────────────────────────────────────────────────
+// ROTH_PLANNED_AMOUNT: total planned withdrawal by the planned date
+// ROTH_PLANNED_BY: the month by which that full amount should be withdrawn
+// ROTH_ACTUAL_WITHDRAWN: update this number as you make withdrawals.
+//   Example: after withdrawing $2,000 change 0 to 2000
+// Status logic:
+//   Before 2027: On track if $0 withdrawn, At risk if any withdrawn early
+//   After planned date: On track if at or under planned amount, At risk if over
+const ROTH_PLANNED_AMOUNT    = 7000;
+const ROTH_PLANNED_BY        = '2027-05';
+const ROTH_ACTUAL_WITHDRAWN  = 0;
+
+// ── MILESTONES ───────────────────────────────────────────────────────
+// date:       when this milestone is reached (YYYY-MM-DD)
+// unlockDay:  scoring opens this many days after the date (default 7)
+// lockDay:    scoring window closes after this many days  (default 11)
+// quips:      rotating messages shown on the dashboard.
+//             To edit: find the milestone, change the text inside quotes.
+//             Each quip ends with a comma except the last one in the list.
+//             Avoid em dashes (--). Use a period or comma instead.
+const MILESTONES = [
+  {
+    name:'Departure', fullName:'Departure',
+    date:'2026-08-09', unlockDay:7, lockDay:11,
+    quips:[
+      "Pack an extra phone charger. You'll thank yourself in October.",
+      "The apartment will be smaller than you think. The city won't be.",
+      "Nervous is just excited with worse PR.",
+      "You've done harder things. Name one. Good.",
+      "The checklist will never be finished. Leave anyway."
+    ]
+  },
+  {
+    name:'Semester 1', fullName:'End of Semester 1',
+    date:'2026-12-22', unlockDay:7, lockDay:11,
+    quips:[
+      "You have a grocery store now. That's basically citizenship.",
+      "Cold weather hits different when it's not your cold weather yet.",
+      "Nobody here knows your old reputation. Useful information.",
+      "The homesickness and the excitement are the same feeling, roughly.",
+      "Find the cafe. You'll know it when you sit down and don't want to leave."
+    ]
+  },
+  {
+    name:'Semester 2', fullName:'End of Semester 2',
+    date:'2027-06-01', unlockDay:7, lockDay:11,
+    quips:[
+      "Normal crept up on you. That was the whole point.",
+      "Call home. They want the boring update, not just the highlight reel.",
+      "You probably know something now that you didn't think you'd know.",
+      "Take a photo of something ordinary. You won't think it's ordinary later.",
+      "The stories are accumulating. Good ones, mostly."
+    ]
+  },
+  {
+    name:'Semester 3', fullName:'End of Semester 3',
+    date:'2027-12-23', unlockDay:7, lockDay:11,
+    quips:[
+      "Coffee with a stranger beats another application tab.",
+      "The degree is almost a credential. Start treating it like one.",
+      "Send the thing. Worst case is a no, and you've had those before.",
+      "Networking is just being curious about people, with follow-up.",
+      "You're closer to working than you think."
+    ]
+  },
+  {
+    name:'Graduation', fullName:'Program Graduation',
+    date:'2028-06-01', unlockDay:7, lockDay:11,
+    quips:[
+      "Take the photo. Seriously, take the photo.",
+      "You did a hard thing on purpose. That's rarer than it sounds.",
+      "Celebrate before you optimize. The optimizing will wait.",
+      "One meal with no agenda. You've earned it."
+    ]
+  },
+  {
+    name:'Employment', fullName:'Employment Midpoint Check-in',
+    date:'2028-12-25', unlockDay:7, lockDay:11,
+    quips:[
+      "A no is a data point, not a verdict.",
+      "Keep the conversations going. Jobs come from people, not portals.",
+      "Every application is practice for the one that lands.",
+      "Remember the original question. You came here to find out something.",
+      "Not every seed blooms on schedule."
+    ]
+  },
+  {
+    name:'Path Decision', fullName:'Long-Term Path Decision',
+    date:'2029-06-01', unlockDay:7, lockDay:11,
+    quips:[
+      "Ask what happened, not what you hoped would happen.",
+      "You're choosing between two real lives now, not two ideas.",
+      "The answer is already in the last two years, mostly.",
+      "Pick the place where Tuesday feels sustainable.",
+      "Either way, you'll know you chose from experience."
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+//  END OF CONFIGURATION — do not edit below this line
+// ═══════════════════════════════════════════════════════════════════════
+
 const CATS = [
   {id:'financial',label:'Financial runway',thresholds:[
-    {status:'green',label:'18+ months runway',action:'Continue plan'},
-    {status:'yellow',label:'12–18 months runway',action:'Reduce discretionary spend, increase job/funding search'},
-    {status:'orange',label:'6–12 months runway',action:'Activate income or timeline adjustment plan'},
-    {status:'red',label:'Under 6 months runway',action:'Controlled exit or emergency support plan'}
+    {s:'green',label:'18+ months runway',action:'Continue plan'},
+    {s:'yellow',label:'12-18 months runway',action:'Reduce discretionary spend, increase job/funding search'},
+    {s:'orange',label:'6-12 months runway',action:'Activate income or timeline adjustment plan'},
+    {s:'red',label:'Under 6 months runway',action:'Controlled exit or emergency support plan'}
   ]},
   {id:'residency',label:'Residency / legal',thresholds:[
-    {status:'green',label:'Status clear, next milestone visible',action:'Continue plan'},
-    {status:'yellow',label:'Pending but in process',action:'Track deadlines, consult immigration support'},
-    {status:'orange',label:'Delays affecting work, housing, or healthcare',action:'Engage immigration attorney, escalate'},
-    {status:'red',label:'No clear resolution path; bureaucracy controlling major life choices',action:'Evaluate whether path forward is viable'}
+    {s:'green',label:'Status clear, next milestone visible',action:'Continue plan'},
+    {s:'yellow',label:'Pending but in process',action:'Track deadlines, consult immigration support'},
+    {s:'orange',label:'Delays affecting work, housing, or healthcare',action:'Engage immigration attorney, escalate'},
+    {s:'red',label:'No clear resolution path',action:'Evaluate whether path forward is viable'}
   ]},
   {id:'career',label:'Career capital',thresholds:[
-    {status:'green',label:'Gaining skills, network, language, credentials',action:'Continue plan'},
-    {status:'yellow',label:'Stable but not growing',action:'Identify one growth area, activate it'},
-    {status:'orange',label:'Disconnected from market / network',action:'Reactivate networking, seek internships or projects'},
-    {status:'red',label:'Employability weakening in both EU and U.S.',action:'Emergency career reassessment; consider return timeline'}
+    {s:'green',label:'Gaining skills, network, language, credentials',action:'Continue plan'},
+    {s:'yellow',label:'Stable but not growing',action:'Identify one growth area, activate it'},
+    {s:'orange',label:'Disconnected from market or network',action:'Reactivate networking, seek internships or projects'},
+    {s:'red',label:'Employability weakening in both EU and U.S.',action:'Emergency career reassessment; consider return timeline'}
   ]},
   {id:'mental',label:'Mental health',thresholds:[
-    {status:'green',label:'Thriving or coping well',action:'Continue plan'},
-    {status:'yellow',label:'Persistent low-grade difficulty',action:'Add structure, community, or professional support'},
-    {status:'orange',label:'Affecting sleep, decision quality, or enjoyment',action:'Seek professional support; reduce stressors'},
-    {status:'red',label:'Chronic distress, isolation, panic, or burnout',action:'Prioritise recovery; consider timeline adjustment'}
+    {s:'green',label:'Thriving or coping well',action:'Continue plan'},
+    {s:'yellow',label:'Persistent low-grade difficulty',action:'Add structure, community, or professional support'},
+    {s:'orange',label:'Affecting sleep, decision quality, or enjoyment',action:'Seek professional support; reduce stressors'},
+    {s:'red',label:'Chronic distress, isolation, panic, or burnout',action:'Prioritise recovery; consider timeline adjustment'}
   ]},
   {id:'stress',label:'Stress levels',thresholds:[
-    {status:'green',label:'Normal challenge, recovering well',action:'Continue plan'},
-    {status:'yellow',label:'Persistent but functional',action:'Monitor; add recovery practices'},
-    {status:'orange',label:'Regularly affecting sleep, health, or decisions',action:'Audit stressors; reduce load'},
-    {status:'red',label:'Chronic, identity-shaping distress',action:'Immediate intervention; pause or exit'}
+    {s:'green',label:'Normal challenge, recovering well',action:'Continue plan'},
+    {s:'yellow',label:'Persistent but functional',action:'Monitor; add recovery practices'},
+    {s:'orange',label:'Regularly affecting sleep, health, or decisions',action:'Audit stressors; reduce load'},
+    {s:'red',label:'Chronic, identity-shaping distress',action:'Immediate intervention; pause or exit'}
   ]},
   {id:'physical',label:'Physical health',thresholds:[
-    {status:'green',label:'Healthy, healthcare access secure',action:'Continue plan'},
-    {status:'yellow',label:'Minor issues, healthcare navigable',action:'Stay on top of coverage and access'},
-    {status:'orange',label:'Ongoing issue with unclear care path',action:'Escalate healthcare access; consult doctor'},
-    {status:'red',label:'Health deteriorating or care inaccessible',action:'Return home if care cannot be secured'}
+    {s:'green',label:'Healthy, healthcare access secure',action:'Continue plan'},
+    {s:'yellow',label:'Minor issues, healthcare navigable',action:'Stay on top of coverage and access'},
+    {s:'orange',label:'Ongoing issue with unclear care path',action:'Escalate healthcare access; consult doctor'},
+    {s:'red',label:'Health deteriorating or care inaccessible',action:'Return home if care cannot be secured'}
   ]},
   {id:'bureaucracy',label:'Bureaucratic friction',thresholds:[
-    {status:'green',label:'Annoying but manageable',action:'Continue plan'},
-    {status:'yellow',label:'Recurring delays but solvable',action:'Build buffer time into planning'},
-    {status:'orange',label:'Delays affecting work, housing, or income',action:'Seek professional help; escalate'},
-    {status:'red',label:'No clear resolution; bureaucracy controlling major choices',action:'Seriously reassess viability of path'}
+    {s:'green',label:'Annoying but manageable',action:'Continue plan'},
+    {s:'yellow',label:'Recurring delays but solvable',action:'Build buffer time into planning'},
+    {s:'orange',label:'Delays affecting work, housing, or income',action:'Seek professional help; escalate'},
+    {s:'red',label:'No clear resolution; bureaucracy controlling major choices',action:'Seriously reassess viability of path'}
   ]},
   {id:'social',label:'Social belonging',thresholds:[
-    {status:'green',label:'Building meaningful relationships',action:'Continue plan'},
-    {status:'yellow',label:'Connections present but surface-level',action:'Invest more intentionally in community'},
-    {status:'orange',label:'Isolated; relationships not forming',action:'Join structured communities; evaluate city fit'},
-    {status:'red',label:'Prolonged isolation with no improvement',action:'Reassess city/program; seek support resources'}
+    {s:'green',label:'Building meaningful relationships',action:'Continue plan'},
+    {s:'yellow',label:'Connections present but surface-level',action:'Invest more intentionally in community'},
+    {s:'orange',label:'Isolated; relationships not forming',action:'Join structured communities; evaluate city fit'},
+    {s:'red',label:'Prolonged isolation with no improvement',action:'Reassess city/program; seek support resources'}
   ]},
   {id:'family',label:'Family relationships',thresholds:[
-    {status:'green',label:'Strong, supported by the experiment',action:'Continue plan'},
-    {status:'yellow',label:'Strain present but manageable',action:'Increase contact; plan visits'},
-    {status:'orange',label:'Significant strain or family concern',action:'Prioritise; assess whether timeline adjustment helps'},
-    {status:'red',label:'Crisis or irrecoverable distance forming',action:'Return home or activate family support pathway'}
+    {s:'green',label:'Strong, supported by the experiment',action:'Continue plan'},
+    {s:'yellow',label:'Strain present but manageable',action:'Increase contact; plan visits'},
+    {s:'orange',label:'Significant strain or family concern',action:'Prioritise; assess whether timeline adjustment helps'},
+    {s:'red',label:'Crisis or irrecoverable distance forming',action:'Return home or activate family support pathway'}
   ]},
   {id:'mission',label:'Mission alignment',thresholds:[
-    {status:'green',label:'Evidence supports the EU hypothesis',action:'Continue plan'},
-    {status:'yellow',label:'Mixed evidence; unclear verdict',action:'Articulate what data would shift the assessment'},
-    {status:'orange',label:'Benefits unclear relative to cost / stress',action:'Reassess hypothesis; define exit conditions'},
-    {status:'red',label:'Evidence contradicts the reason for being there',action:'Honest pivot conversation; avoid sunk-cost trap'}
+    {s:'green',label:'Evidence supports the EU hypothesis',action:'Continue plan'},
+    {s:'yellow',label:'Mixed evidence; unclear verdict',action:'Articulate what data would shift the assessment'},
+    {s:'orange',label:'Benefits unclear relative to cost or stress',action:'Reassess hypothesis; define exit conditions'},
+    {s:'red',label:'Evidence contradicts the reason for being there',action:'Honest pivot conversation; avoid sunk-cost trap'}
   ]},
   {id:'reentry',label:'Re-entry optionality',thresholds:[
-    {status:'green',label:'U.S. path clearly preserved',action:'Continue plan'},
-    {status:'yellow',label:'Gap growing but manageable',action:'Maintain U.S. connections; update resume/network'},
-    {status:'orange',label:'U.S. market drift noticeable',action:'Active U.S. networking; assess credential equivalency'},
-    {status:'red',label:'U.S. re-entry would be very difficult',action:'Investigate bridging strategies before it worsens'}
+    {s:'green',label:'U.S. path clearly preserved',action:'Continue plan'},
+    {s:'yellow',label:'Gap growing but manageable',action:'Maintain U.S. connections; update resume/network'},
+    {s:'orange',label:'U.S. market drift noticeable',action:'Active U.S. networking; assess credential equivalency'},
+    {s:'red',label:'U.S. re-entry would be very difficult',action:'Investigate bridging strategies before it worsens'}
   ]},
   {id:'support',label:'Alternative support',thresholds:[
-    {status:'green',label:'Clear fallback options available',action:'Document the plan proactively'},
-    {status:'yellow',label:'Options exist but not formalised',action:'Have the conversation; make it concrete'},
-    {status:'orange',label:'Fallback unclear or logistically complex',action:'Explore now — not during a crisis'},
-    {status:'red',label:'No viable fallback available',action:'Build one before continuing; this is a guardrail'}
+    {s:'green',label:'Clear fallback options available',action:'Document the plan proactively'},
+    {s:'yellow',label:'Options exist but not formalised',action:'Have the conversation; make it concrete'},
+    {s:'orange',label:'Fallback unclear or logistically complex',action:'Explore now, not during a crisis'},
+    {s:'red',label:'No viable fallback available',action:'Build one before continuing; this is a guardrail'}
   ]}
 ];
 
 const CHECKLIST = [
-  {q:'Do I feel safer about my long-term future than I did in the U.S.?',sub:'Be honest — not aspirationally, based on current evidence.'},
+  {q:'Do I feel safer about my long-term future than I did in the U.S.?',sub:'Be honest. Not aspirationally. Based on current evidence.'},
   {q:'Could I imagine raising children here?',sub:'Healthcare, childcare, schools, community, pace of life.'},
-  {q:'Is bureaucracy manageable rather than defining daily life?',sub:'Occasional frustration is normal; paralysis is not.'},
+  {q:'Is bureaucracy manageable rather than defining daily life?',sub:'Occasional frustration is normal. Paralysis is not.'},
   {q:'Does work support the life I want, or does life revolve around work?',sub:'This was the core hypothesis. Check it directly.'},
   {q:'Am I building meaningful relationships?',sub:'At least a few real connections, not just acquaintances.'},
   {q:'Are stress levels temporary and manageable?',sub:'Or persistent and starting to shape my identity?'},
   {q:'Am I preserving the ability to leave, stay, or pivot?',sub:'All three options should still feel open.'},
   {q:'Am I avoiding sunk-cost reasoning?',sub:'Would I start this experiment again today, knowing what I know?'},
   {q:'If I knew then what I know now, would I still choose this path?',sub:'The clearest signal. Answer it honestly.'},
-  {q:'Is the financial experiment within guardrails?',sub:'Roth ceiling intact, no consumer debt, runway >12 months.'},
+  {q:'Is the financial experiment within guardrails?',sub:'Roth ceiling intact, no consumer debt, runway above 12 months.'},
   {q:'Is my physical health stable or improving?',sub:'Healthcare access secured, no untreated conditions.'},
-  {q:'Are my nuclear family relationships intact?',sub:'No irreversible distance forming; any strain is acknowledged.'}
+  {q:'Are my nuclear family relationships intact?',sub:'No irreversible distance forming. Any strain is acknowledged.'}
 ];
 
-const MILESTONES = [
-  'Before departure','End of semester 1','End of year 1',
-  'Before committing to year 2 expenses','Six months before graduation',
-  'Three months after graduation','After first EU job search cycle',
-  'Before any major visa / citizenship milestone'
-];
+const SCORE_MAP = {green:4,yellow:3,orange:2,red:1};
+const SIGNAL_STYLES = {
+  strong:   {bg:'#f0fdf4',border:'#6ee7b7',eyebrow:'#065f46',scoreColor:'#059669'},
+  moderate: {bg:'#fffbeb',border:'#fcd34d',eyebrow:'#92400e',scoreColor:'#d97706'},
+  caution:  {bg:'#fff7ed',border:'#fdba74',eyebrow:'#9a3412',scoreColor:'#ea580c'},
+  critical: {bg:'#fef2f2',border:'#fca5a5',eyebrow:'#991b1b',scoreColor:'#dc2626'}
+};
 
-const SC_COLOR = {green:'#065f46',yellow:'#854d0e',orange:'#9a3412',red:'#991b1b',gray:'#6b7280'};
-const SC_BG = {green:'#d1fae5',yellow:'#fef9c3',orange:'#ffedd5',red:'#fee2e2',gray:'#f3f4f6'};
+const TODAY = new Date();
+let sessionUnlocked = false;
 
-function getData(){ try{return JSON.parse(localStorage.getItem('eu_dash')||'{}')}catch{return{}} }
-function setData(d){ localStorage.setItem('eu_dash',JSON.stringify(d)) }
-function saveField(k,v){ const d=getData(); d[k]=v; setData(d); }
-
-function statusClass(s){ return {green:'s-green',yellow:'s-yellow',orange:'s-orange',red:'s-red',gray:'s-gray'}[s]||'s-gray'; }
-function statusLabel(s){ return {green:'Green',yellow:'Yellow',orange:'Orange',red:'Red',gray:'Unrated'}[s]||'Unrated'; }
-const scoreMap = {green:4,yellow:3,orange:2,red:1};
-
-function loadData(){
-  renderOverview();
-  renderCatCards();
-  renderThresholds();
-  renderChecklist();
-  renderReviewForm();
-  generateSummary();
-  renderDecisionMatrix();
+function getData(){try{return JSON.parse(localStorage.getItem('eu_dash')||'{}')}catch{return{}}}
+function setData(d){localStorage.setItem('eu_dash',JSON.stringify(d))}
+function saveField(k,v){const d=getData();d[k]=v;setData(d)}
+function pillClass(s){return{green:'s-green',yellow:'s-yellow',orange:'s-orange',red:'s-red',unrated:'s-gray'}[s]||'s-gray'}
+function pillLabel(s){return{green:'Green',yellow:'Yellow',orange:'Orange',red:'Red',unrated:'Unrated'}[s]||'Unrated'}
+function fmtDate(ym){
+  const[y,m]=ym.split('-');
+  return new Date(parseInt(y),parseInt(m)-1,1).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+function fmtShort(ym){
+  const[y,m]=ym.split('-');
+  return new Date(parseInt(y),parseInt(m)-1,1).toLocaleDateString('en-US',{month:'short',year:'2-digit'}).replace(' ',"'");
+}
+function mDiff(a,b){
+  const[ay,am]=a.split('-').map(Number),[by,bm]=b.split('-').map(Number);
+  return(by-ay)*12+(bm-am);
 }
 
-function renderOverview(){
-  const d = getData();
-  const grid = document.getElementById('overview-grid');
-  grid.innerHTML = '';
-  CATS.forEach(c => {
-    const status = d['cat_'+c.id]||'unrated';
-    const note = d['note_'+c.id]||'';
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.style.cursor = 'pointer';
-    div.onclick = () => showTab('categories');
-    div.innerHTML = `<span class="pill ${statusClass(status)}" style="margin-bottom:6px;display:inline-block">${statusLabel(status)}</span><div class="cat-name">${c.label}</div>${note?`<div class="cat-note">${note.substring(0,55)}${note.length>55?'…':''}</div>`:''}`;
-    grid.appendChild(div);
-  });
+// ── Window logic ──────────────────────────────────────────────────────
+function getWindowState(idx){
+  const m=MILESTONES[idx];
+  if(!m) return 'pre';
+  const days=Math.floor((TODAY-new Date(m.date))/86400000);
+  if(days<0) return 'pre';
+  if(days<m.unlockDay) return 'locked';
+  if(days<=m.lockDay) return 'open';
+  return 'sealed';
+}
 
-  const guard = document.getElementById('guardrails');
-  guard.innerHTML = '';
-  const rothUsed = parseFloat(d.roth_used||0);
-  const cashUsed = parseFloat(d.cash_used||0);
-  const gItems = [
-    {label:'Retirement principal',ok:true,val:'Not touched',max:null,used:null},
-    {label:'Roth withdrawals',ok:rothUsed<=45000,val:`$${rothUsed.toLocaleString()} / $45,000`,max:45000,used:rothUsed},
-    {label:'Consumer debt',ok:d.consumer_debt!=='yes',val:d.consumer_debt==='yes'?'Present':'None',max:null,used:null},
-    {label:'Cash savings used',ok:cashUsed<=30000,val:`$${cashUsed.toLocaleString()} / $30,000`,max:30000,used:cashUsed}
-  ];
-  gItems.forEach(g => {
-    const div = document.createElement('div');
-    div.className = 'card-sm';
-    const pct = g.max ? Math.min(100,Math.round((g.used/g.max)*100)) : null;
-    div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:${pct!==null?'6px':'0'}">
-      <span style="font-size:13px;color:#555">${g.label}</span>
-      <span class="pill ${g.ok?'s-green':'s-red'}">${g.val}</span>
-    </div>${pct!==null?`<div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${g.ok?'#10b981':'#ef4444'}"></div></div>`:''}`;
-    guard.appendChild(div);
-  });
+function getActiveIdx(){
+  let idx=-1;
+  for(let i=0;i<MILESTONES.length;i++){
+    if(TODAY>=new Date(MILESTONES[i].date)) idx=i; else break;
+  }
+  return idx;
+}
 
-  const mc = document.getElementById('milestones-container');
-  mc.innerHTML = '';
-  const wrap = document.createElement('div');
-  MILESTONES.forEach((m,i) => {
-    const checked = d['milestone_'+i]===true;
-    const lbl = document.createElement('label');
-    lbl.className = 'milestone-chip';
-    lbl.innerHTML = `<input type="checkbox" ${checked?'checked':''} onchange="saveField('milestone_${i}',this.checked);renderOverview()"> ${m}`;
-    wrap.appendChild(lbl);
-  });
-  mc.appendChild(wrap);
+function canEdit(){
+  const idx=getActiveIdx();
+  if(idx<0) return false;
+  const s=getWindowState(idx);
+  if(s==='open') return true;
+  if(sessionUnlocked&&s!=='pre') return true;
+  return false;
+}
 
-  const rated = CATS.map(c=>d['cat_'+c.id]).filter(s=>s&&s!=='unrated');
-  const avg = rated.length ? rated.reduce((a,s)=>a+(scoreMap[s]||0),0)/rated.length : null;
-  const scoreEl = document.getElementById('dash-score');
-  if(avg){
-    const label = avg>=3.5?'Strong':avg>=2.5?'Moderate':avg>=1.5?'Concerning':'Critical';
-    scoreEl.textContent = label+' ('+avg.toFixed(1)+' / 4.0)';
-    scoreEl.style.color = avg>=3.5?'#065f46':avg>=2.5?'#854d0e':'#991b1b';
+// ── Burn rate ─────────────────────────────────────────────────────────
+function buildMonthlyMap(){
+  const map={};
+  WITHDRAWAL_SCHEDULE.forEach(s=>{
+    let[sy,sm]=s.start.split('-').map(Number);
+    const[ey,em]=s.end.split('-').map(Number);
+    while(sy<ey||(sy===ey&&sm<=em)){
+      const k=`${sy}-${String(sm).padStart(2,'0')}`;
+      map[k]=(map[k]||0)+s.monthly;
+      sm++;if(sm>12){sm=1;sy++;}
+    }
+  });
+  return map;
+}
+
+function projectZero(){
+  const map=buildMonthlyMap(),months=Object.keys(map).sort();
+  let rem=TOTAL_SAVINGS;
+  for(const mo of months){rem-=map[mo];if(rem<=0)return mo;}
+  return months[months.length-1];
+}
+
+function getBurnStatus(){
+  const zero=projectZero();
+  const diff=mDiff(BURN_BASELINE,zero);
+  const month=fmtShort(zero);
+  if(diff>=0)  return{label:'On track',  month, color:'#059669'};
+  if(diff>=-2) return{label:'Watch',     month, color:'#d97706'};
+  if(diff>=-4) return{label:'At risk',   month, color:'#ea580c'};
+  return             {label:'Critical',  month, color:'#dc2626'};
+}
+
+function getRothStatus(){
+  const before2027=TODAY<new Date('2027-01-01');
+  if(before2027){
+    return ROTH_ACTUAL_WITHDRAWN===0
+      ?{label:'On track',color:'#059669'}
+      :{label:'At risk', color:'#ea580c'};
+  }
+  return ROTH_ACTUAL_WITHDRAWN>ROTH_PLANNED_AMOUNT
+    ?{label:'At risk', color:'#ea580c'}
+    :{label:'On track',color:'#059669'};
+}
+
+// ── Banner ────────────────────────────────────────────────────────────
+function renderBanner(){
+  const d=getData();
+  const banner=document.getElementById('top-banner');
+  const activeIdx=getActiveIdx();
+  if(activeIdx<0){banner.classList.remove('show');return;}
+  const m=MILESTONES[activeIdx];
+  const state=getWindowState(activeIdx);
+  const sealedDismissed=d['banner_sealed_dismissed_'+activeIdx]===true;
+  banner.className='';
+  if(state==='open'){
+    const sealDate=new Date(new Date(m.date).getTime()+(m.lockDay+1)*86400000);
+    const daysLeft=Math.ceil((sealDate-TODAY)/86400000);
+    banner.classList.add('show','b-open');
+    document.getElementById('banner-title').textContent=m.fullName+' review window is open';
+    document.getElementById('banner-sub').textContent='Closes '+sealDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' · '+daysLeft+' day'+(daysLeft===1?'':'s')+' remaining';
+    document.getElementById('banner-cta').style.display='inline-block';
+  } else if(state==='sealed'&&!sealedDismissed){
+    banner.classList.add('show','b-sealed');
+    document.getElementById('banner-title').textContent=m.fullName+' review window sealed';
+    document.getElementById('banner-sub').textContent='That window has closed. Use your PIN to view history, or start a new quarterly review.';
+    document.getElementById('banner-cta').style.display='none';
   } else {
-    scoreEl.textContent = '—';
-    scoreEl.style.color = '#888';
+    banner.classList.remove('show');
   }
 }
 
-function renderCatCards(){
-  const d = getData();
-  const container = document.getElementById('cat-cards');
-  container.innerHTML = '';
-  CATS.forEach(c => {
-    const status = d['cat_'+c.id]||'unrated';
-    const note = d['note_'+c.id]||'';
-    const t = c.thresholds.find(t=>t.status===status);
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.style.marginBottom = '12px';
-    div.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-        <div class="cat-name">${c.label}</div>
-        <select style="width:auto;min-width:110px" onchange="saveField('cat_${c.id}',this.value);loadData()">
-          <option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option>
-          <option value="green" ${status==='green'?'selected':''}>Green</option>
-          <option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option>
-          <option value="orange" ${status==='orange'?'selected':''}>Orange</option>
-          <option value="red" ${status==='red'?'selected':''}>Red</option>
-        </select>
-      </div>
-      ${t?`<div class="threshold-box ${statusClass(status)}" style="margin-bottom:10px"><strong>Definition:</strong> ${t.label}<br><strong>Recommended action:</strong> ${t.action}</div>`:''}
-      <label>Notes</label>
-      <textarea placeholder="What's driving this rating? Any specific data points?" onchange="saveField('note_${c.id}',this.value)">${note}</textarea>`;
-    container.appendChild(div);
+function dismissBanner(){
+  const d=getData();
+  const activeIdx=getActiveIdx();
+  if(activeIdx>=0&&getWindowState(activeIdx)==='sealed'){
+    d['banner_sealed_dismissed_'+activeIdx]=true;
+    setData(d);
+  }
+  document.getElementById('top-banner').classList.remove('show');
+}
+
+// ── PIN ───────────────────────────────────────────────────────────────
+function requestPin(cb){
+  document.getElementById('pin-overlay').classList.add('show');
+  document.getElementById('pin-input').value='';
+  document.getElementById('pin-error').textContent='';
+  setTimeout(()=>document.getElementById('pin-input').focus(),50);
+  window._pinCb=cb;
+}
+function submitPin(){
+  const v=document.getElementById('pin-input').value;
+  if(v===EDITOR_PIN){
+    sessionUnlocked=true;
+    document.getElementById('pin-overlay').classList.remove('show');
+    if(window._pinCb)window._pinCb();
+  } else {
+    document.getElementById('pin-error').textContent='Incorrect PIN. Try again.';
+    document.getElementById('pin-input').value='';
+    document.getElementById('pin-input').focus();
+  }
+}
+function closePinModal(){document.getElementById('pin-overlay').classList.remove('show')}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('pin-overlay').classList.contains('show'))submitPin();
+});
+
+// ── Overview ──────────────────────────────────────────────────────────
+function renderOverview(){
+  const d=getData();
+  const grid=document.getElementById('overview-grid');
+  grid.innerHTML='';
+  CATS.forEach(c=>{
+    const status=d['cat_'+c.id]||'unrated';
+    const note=d['note_'+c.id]||'';
+    const div=document.createElement('div');
+    div.className='card';div.style.cursor='pointer';
+    div.onclick=()=>showTab('categories');
+    div.innerHTML=`<span class="pill ${pillClass(status)}" style="margin-bottom:6px;display:inline-block">${pillLabel(status)}</span><div style="font-size:13px;font-weight:600;color:#4a1a10">${c.label}</div>${note?`<div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">${note.substring(0,55)}${note.length>55?'...':''}</div>`:''}`;
+    grid.appendChild(div);
+  });
+  renderGuardrails();
+  renderTimeline();
+  renderVerdict();
+}
+
+// ── Guardrails ────────────────────────────────────────────────────────
+function renderGuardrails(){
+  const guard=document.getElementById('guardrails');
+  guard.innerHTML='';
+  const burn=getBurnStatus();
+  const roth=getRothStatus();
+  const items=[
+    {label:'Retirement principal', value:'Not touched', color:'#059669'},
+    {label:'Burn rate',
+      value: HIDE_BURN_RATE ? 'Hidden' : burn.label+' · '+burn.month,
+      color: HIDE_BURN_RATE ? '#b0a090' : burn.color},
+    {label:'Roth withdrawals', value:roth.label, color:roth.color},
+    {label:'Consumer debt',
+      value: getData().consumer_debt==='yes'?'Present':'None',
+      color: getData().consumer_debt==='yes'?'#dc2626':'#059669'}
+  ];
+  items.forEach(g=>{
+    const div=document.createElement('div');
+    div.className='gr-card';
+    div.innerHTML=`<div class="gr-label">${g.label}</div><div class="gr-value" style="color:${g.color}">${g.value}</div>`;
+    guard.appendChild(div);
+  });
+}
+
+// ── Timeline ──────────────────────────────────────────────────────────
+function renderTimeline(){
+  const d=getData();
+  const activeIdx=getActiveIdx();
+  const nextIdx=activeIdx+1;
+  const N=MILESTONES.length,W=620,PAD=26,SGAP=46,CY=26;
+  const CX=(W-PAD-SGAP-PAD)/(N-1);
+  const mX=i=>PAD+SGAP+i*CX;
+  const DONE='#4a8fad',NEXT_C='#1B6E9F',FUT='#c5d8e8';
+
+  let h='';
+  h+=`<circle cx="${PAD}" cy="${CY}" r="5" fill="${DONE}" stroke="${DONE}" stroke-width="1.5"/>`;
+  h+=`<text x="${PAD}" y="${CY+17}" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500">Start</text>`;
+  h+=`<line x1="${PAD+5}" y1="${CY}" x2="${mX(0)-7}" y2="${CY}" stroke="${DONE}" stroke-width="2"/>`;
+
+  MILESTONES.forEach((_,i)=>{
+    if(i>=N-1)return;
+    h+=`<line x1="${mX(i)+7}" y1="${CY}" x2="${mX(i+1)-7}" y2="${CY}" stroke="${i<activeIdx?DONE:FUT}" stroke-width="2"/>`;
   });
 
-  const gDiv = document.createElement('div');
-  gDiv.className = 'card';
-  gDiv.style.marginBottom = '12px';
-  const d2 = getData();
-  gDiv.innerHTML = `
-    <div class="cat-name" style="margin-bottom:10px">Guardrail inputs</div>
+  MILESTONES.forEach((m,i)=>{
+    const x=mX(i);
+    const done=i<=activeIdx,next=i===nextIdx;
+    const r=next?9:6;
+    const fill=done?DONE:'#fff';
+    const stroke=done?DONE:next?NEXT_C:FUT;
+    const sw=next?2.5:1.5;
+    const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
+    const fw=next?'700':'400';
+    const fs=next?10:9;
+    const ly=CY+r+(next?15:13);
+    h+=`<circle class="tl-dot" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done?'pointer':'default'}"/>`;
+    if(next)h+=`<circle cx="${x}" cy="${CY}" r="14" fill="none" stroke="${NEXT_C}" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"/>`;
+    const words=m.name.split(' ');
+    if(words.length===1){
+      h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${m.name}</text>`;
+    } else {
+      h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words[0]}</text>`;
+      h+=`<text x="${x}" y="${ly+11}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words.slice(1).join(' ')}</text>`;
+    }
+  });
+
+  document.getElementById('timeline').innerHTML=h;
+
+  // Quip — from current phase (pre-departure uses Departure quips)
+  const quipSrc=activeIdx<0?MILESTONES[0]:MILESTONES[Math.min(activeIdx,MILESTONES.length-1)];
+  const nextM=nextIdx<N?MILESTONES[nextIdx]:MILESTONES[N-1];
+  document.getElementById('quip-next-date').textContent=nextM.fullName+' · '+new Date(nextM.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('quip-text').textContent=quipSrc.quips[Math.floor(Math.random()*quipSrc.quips.length)];
+
+  // Tooltip events
+  const svg=document.getElementById('timeline');
+  const tt=document.getElementById('tl-tooltip');
+  const twrap=document.querySelector('.tl-wrap');
+  svg.querySelectorAll('.tl-dot').forEach(dot=>{
+    const idx=parseInt(dot.getAttribute('data-idx'));
+    const m=MILESTONES[idx];
+    if(idx>activeIdx)return;
+    dot.addEventListener('mouseenter',()=>{
+      const sr=svg.getBoundingClientRect(),wr=twrap.getBoundingClientRect();
+      const xPx=(mX(idx)/W)*sr.width+(sr.left-wr.left);
+      const yPx=sr.top-wr.top;
+      const savedScore=d['milestone_score_'+idx];
+      const savedBand=d['milestone_band_'+idx];
+      const savedSignal=d['milestone_signal_'+idx];
+      const st=savedBand?SIGNAL_STYLES[savedBand]:null;
+      if(st&&savedScore){
+        tt.style.background=st.bg;tt.style.borderColor=st.border;
+        document.getElementById('tt-eyebrow').textContent='Decision signal';
+        document.getElementById('tt-eyebrow').style.color=st.eyebrow;
+        document.getElementById('tt-name').textContent=m.fullName;
+        document.getElementById('tt-name').style.color='#1a0e0a';
+        const sc=document.getElementById('tt-score');
+        sc.textContent=savedScore+' / 4.0';sc.style.color=st.scoreColor;sc.style.fontSize='22px';
+        const sig=document.getElementById('tt-signal');
+        sig.textContent=savedSignal||'';sig.style.color=st.scoreColor;
+        document.getElementById('tt-date').textContent=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        document.getElementById('tt-arrow').style.borderTopColor=st.border;
+      } else {
+        tt.style.background='#f0f7fc';tt.style.borderColor='#c5d8e8';
+        document.getElementById('tt-eyebrow').textContent='Completed';
+        document.getElementById('tt-eyebrow').style.color='#1B6E9F';
+        document.getElementById('tt-name').textContent=m.fullName;
+        document.getElementById('tt-name').style.color='#1a0e0a';
+        const sc=document.getElementById('tt-score');
+        sc.textContent=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        sc.style.color='#1B6E9F';sc.style.fontSize='14px';
+        document.getElementById('tt-signal').textContent='Review not yet scored';
+        document.getElementById('tt-signal').style.color='#9a7060';
+        document.getElementById('tt-date').textContent='';
+        document.getElementById('tt-arrow').style.borderTopColor='#c5d8e8';
+      }
+      const ttW=210;
+      let left=xPx-ttW/2;
+      left=Math.max(0,Math.min(left,wr.width-ttW));
+      tt.style.left=left+'px';tt.style.top=(yPx-112)+'px';
+      tt.classList.add('show');
+    });
+    dot.addEventListener('mouseleave',()=>tt.classList.remove('show'));
+  });
+}
+
+// ── Verdict ───────────────────────────────────────────────────────────
+function renderVerdict(){
+  const d=getData();
+  const vc=document.getElementById('verdict-container');
+  const rated=CATS.filter(c=>d['cat_'+c.id]&&d['cat_'+c.id]!=='unrated');
+  const reds=CATS.filter(c=>d['cat_'+c.id]==='red');
+  const oranges=CATS.filter(c=>d['cat_'+c.id]==='orange');
+  const avg=rated.length?rated.reduce((a,c)=>a+(SCORE_MAP[d['cat_'+c.id]]||0),0)/rated.length:null;
+  if(!avg){
+    vc.innerHTML=`<div class="verdict-card" style="border:1px solid rgba(27,110,159,0.2);margin-top:12px"><div class="verdict-label" style="color:#1B6E9F">Decision signal</div><div class="verdict-name" style="font-size:15px;font-weight:700;color:#1a0e0a;margin-top:3px">No ratings yet</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.5">Rate categories in Status Cards to generate your decision signal.</div></div>`;
+    return;
+  }
+  const band=avg>=3.5?'strong':avg>=2.5?'moderate':avg>=1.5?'caution':'critical';
+  const activeIdx=getActiveIdx();
+  let verdict,vsub,cardBorder,badgeBg,badgeColor,badgeBorder,labelColor;
+  if(reds.length>=2||d['cat_financial']==='red'||d['cat_mental']==='red'){
+    verdict='Exit or activate fallback';vsub='Multiple red flags or financial/mental health at red. Activate a controlled exit or fallback plan within 90 days.';
+    cardBorder='rgba(239,68,68,0.3)';badgeBg='#fee2e2';badgeColor='#991b1b';badgeBorder='rgba(239,68,68,0.25)';labelColor='#991b1b';
+  } else if(reds.length===1||avg<2.5){
+    verdict='Pivot the approach';vsub='One red flag or significant orange cluster. Adapt strategy and set a 60-day improvement target.';
+    cardBorder='rgba(249,115,22,0.3)';badgeBg='#ffedd5';badgeColor='#9a3412';badgeBorder='rgba(249,115,22,0.25)';labelColor='#9a3412';
+  } else if(oranges.length>=3){
+    verdict='Stay and intervene';vsub='No red flags, but multiple orange flags active. Set a 60-day improvement target before committing further.';
+    cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';
+  } else if(avg>=3.0&&reds.length===0&&oranges.length<=2){
+    verdict='Stay and continue';vsub='No red flags. Trajectory is positive. Maintain plan and next milestone review.';
+    cardBorder='rgba(16,185,129,0.3)';badgeBg='#d1fae5';badgeColor='#065f46';badgeBorder='rgba(16,185,129,0.25)';labelColor='#065f46';
+  } else {
+    verdict='Stay and intervene';vsub='Mixed signals present. Monitor closely and address orange flags before next milestone.';
+    cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';
+  }
+  if(activeIdx>=0){
+    const dd=getData();
+    dd['milestone_score_'+activeIdx]=avg.toFixed(1);
+    dd['milestone_band_'+activeIdx]=band;
+    dd['milestone_signal_'+activeIdx]=verdict;
+    setData(dd);
+  }
+  const activeFlags=[...reds,...oranges.filter(c=>!reds.includes(c))];
+  const flagsHTML=activeFlags.length
+    ?activeFlags.map(c=>`<div class="flag-chip" style="background:${SCORE_MAP[d['cat_'+c.id]]===1?'#fee2e2':'#ffedd5'};color:${SCORE_MAP[d['cat_'+c.id]]===1?'#991b1b':'#9a3412'};border:1px solid ${SCORE_MAP[d['cat_'+c.id]]===1?'rgba(239,68,68,0.2)':'rgba(249,115,22,0.2)'}">${c.label}</div>`).join('')
+    :`<div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div>`;
+  const activeName=activeIdx>=0?MILESTONES[activeIdx].fullName:'Pre-departure';
+  const bandLabel=avg>=3.5?'Strong':avg>=2.5?'Moderate':avg>=1.5?'Caution':'Critical';
+  vc.innerHTML=`
+    <div class="verdict-card" style="border:1px solid ${cardBorder};margin-top:12px">
+      <div class="verdict-top">
+        <div>
+          <div class="verdict-label" style="color:${labelColor}">Current decision signal · ${activeName}</div>
+          <div class="verdict-name">${verdict}</div>
+        </div>
+        <span class="signal-badge" style="background:${badgeBg};color:${badgeColor};border:1px solid ${badgeBorder}">${bandLabel} · ${avg.toFixed(1)} / 4.0</span>
+      </div>
+      <div class="verdict-sub">${vsub}</div>
+      <div class="vdivider"></div>
+      <div class="flags-label" style="color:${labelColor}">Active orange and red flags</div>
+      <div class="flag-chips">${flagsHTML}</div>
+    </div>`;
+}
+
+// ── Status cards ──────────────────────────────────────────────────────
+function renderCatCards(){
+  const d=getData();
+  const activeIdx=getActiveIdx();
+  const windowState=activeIdx>=0?getWindowState(activeIdx):'pre';
+  const editable=canEdit();
+  const esr=document.getElementById('edit-status-row');
+  if(activeIdx<0){
+    esr.innerHTML=`<span class="window-badge wb-pre">Scoring opens after departure</span>`;
+  } else if(windowState==='open'){
+    const sealDate=new Date(new Date(MILESTONES[activeIdx].date).getTime()+(MILESTONES[activeIdx].lockDay+1)*86400000);
+    if(!sessionUnlocked){
+      esr.innerHTML=`<span class="window-badge wb-open">Window open</span> <button class="btn btn-blue" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">Unlock editing</button>`;
+    } else {
+      esr.innerHTML=`<span class="window-badge wb-open">Editing unlocked · closes ${sealDate.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;
+    }
+  } else if(windowState==='sealed'){
+    if(!sessionUnlocked){
+      esr.innerHTML=`<span class="window-badge wb-sealed">Review sealed</span> <button class="btn" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">PIN override</button>`;
+    } else {
+      esr.innerHTML=`<span class="window-badge wb-open">PIN override active</span>`;
+    }
+  } else {
+    esr.innerHTML=`<span class="window-badge wb-pre">Breathing room · window opens in ${MILESTONES[activeIdx].unlockDay-(Math.floor((TODAY-new Date(MILESTONES[activeIdx].date))/86400000))} days</span>`;
+  }
+  const container=document.getElementById('cat-cards');
+  container.innerHTML='';
+  CATS.forEach(c=>{
+    const status=d['cat_'+c.id]||'unrated';
+    const note=d['note_'+c.id]||'';
+    const t=c.thresholds.find(t=>t.s===status);
+    const div=document.createElement('div');
+    div.className='card'+(editable?'':' cat-locked');
+    div.style.marginBottom='10px';
+    div.innerHTML=`
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:14px;font-weight:600;color:#4a1a10">${c.label}</div>
+        <select style="width:auto;min-width:110px" ${editable?'':'disabled'} onchange="saveField('cat_${c.id}',this.value);renderOverview();renderVerdict()">
+          <option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option>
+          <option value="green"   ${status==='green'  ?'selected':''}>Green</option>
+          <option value="yellow"  ${status==='yellow' ?'selected':''}>Yellow</option>
+          <option value="orange"  ${status==='orange' ?'selected':''}>Orange</option>
+          <option value="red"     ${status==='red'    ?'selected':''}>Red</option>
+        </select>
+      </div>
+      ${t?`<div class="pill ${pillClass(t.s)}" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>${pillLabel(t.s)}</strong> · ${t.label}</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: ${t.action}</div>`:''}
+      <label>Notes</label>
+      <textarea placeholder="What's driving this rating?" ${editable?'':'disabled'} onchange="saveField('note_${c.id}',this.value)">${note}</textarea>
+      ${!editable?'<div class="lock-note">Read only · unlock editing to update this category.</div>':''}`;
+    container.appendChild(div);
+  });
+  const gDiv=document.createElement('div');
+  gDiv.className='card';gDiv.style.marginBottom='10px';
+  const d2=getData();
+  gDiv.innerHTML=`
+    <div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div>
     <div class="row">
-      <div class="field"><label>Roth withdrawals used ($)</label><input type="text" placeholder="0" value="${d2.roth_used||''}" onchange="saveField('roth_used',this.value);renderOverview()"></div>
+      <div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="${d2.roth_used||''}" onchange="saveField('roth_used',this.value);renderOverview()"></div>
       <div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="${d2.cash_used||''}" onchange="saveField('cash_used',this.value);renderOverview()"></div>
     </div>
-    <div style="max-width:200px;margin-top:8px"><label>Consumer debt present?</label>
+    <div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label>
       <select onchange="saveField('consumer_debt',this.value);renderOverview()">
-        <option value="no" ${(d2.consumer_debt||'no')==='no'?'selected':''}>No</option>
+        <option value="no"  ${(d2.consumer_debt||'no')==='no'?'selected':''}>No</option>
         <option value="yes" ${d2.consumer_debt==='yes'?'selected':''}>Yes</option>
       </select>
     </div>`;
   container.appendChild(gDiv);
 }
 
+// ── Thresholds ────────────────────────────────────────────────────────
 function renderThresholds(){
-  const container = document.getElementById('threshold-content');
-  container.innerHTML = '';
-  CATS.forEach(c => {
-    const wrap = document.createElement('div');
-    wrap.style.marginBottom = '1.5rem';
-    let rows = '';
-    c.thresholds.forEach(t => {
-      rows += `<tr><td style="width:80px"><span class="pill ${statusClass(t.status)}">${t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span></td><td>${t.label}</td><td style="color:#555">${t.action}</td></tr>`;
-    });
-    wrap.innerHTML = `<h3>${c.label}</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody>${rows}</tbody></table>`;
+  const container=document.getElementById('threshold-content');
+  container.innerHTML='';
+  CATS.forEach(c=>{
+    const wrap=document.createElement('div');wrap.style.marginBottom='1.5rem';
+    let rows='';
+    c.thresholds.forEach(t=>{rows+=`<tr><td style="width:80px"><span class="pill ${pillClass(t.s)}">${pillLabel(t.s)}</span></td><td>${t.label}</td><td style="color:#7a4030">${t.action}</td></tr>`;});
+    wrap.innerHTML=`<h3>${c.label}</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody>${rows}</tbody></table>`;
     container.appendChild(wrap);
   });
 }
 
+// ── Checklist ─────────────────────────────────────────────────────────
 function renderChecklist(){
-  const d = getData();
-  const container = document.getElementById('checklist-content');
-  container.innerHTML = '';
-  CHECKLIST.forEach((item,i) => {
-    const checked = d['check_'+i]===true;
-    const div = document.createElement('div');
-    div.className = 'checklist-item';
-    div.innerHTML = `<input type="checkbox" id="chk${i}" ${checked?'checked':''} onchange="saveField('check_${i}',this.checked)"><label for="chk${i}"><div class="text">${item.q}</div><div class="sub">${item.sub}</div></label>`;
+  const d=getData();
+  const container=document.getElementById('checklist-content');
+  container.innerHTML='';
+  CHECKLIST.forEach((item,i)=>{
+    const checked=d['check_'+i]===true;
+    const div=document.createElement('div');div.className='checklist-item';
+    div.innerHTML=`<input type="checkbox" id="chk${i}" ${checked?'checked':''} onchange="saveField('check_${i}',this.checked)"><label for="chk${i}"><div class="qtext">${item.q}</div><div class="qsub">${item.sub}</div></label>`;
     container.appendChild(div);
   });
 }
 
+// ── Quarterly review ──────────────────────────────────────────────────
+function prefillReviewFromCards(){
+  const d=getData();
+  CATS.forEach(c=>{
+    const cur=d['cat_'+c.id];
+    if(cur&&cur!=='unrated')saveField('rev_cat_'+c.id,cur);
+  });
+  renderReviewForm();
+  generateSummary();
+}
+
 function renderReviewForm(){
-  const d = getData();
-  const container = document.getElementById('review-form');
-  container.innerHTML = '';
-  CATS.forEach(c => {
-    const row = document.createElement('div');
-    row.style.marginBottom = '12px';
-    row.innerHTML = `
+  const d=getData();
+  const container=document.getElementById('review-form');
+  container.innerHTML='';
+  CATS.forEach(c=>{
+    const row=document.createElement('div');row.style.marginBottom='12px';
+    row.innerHTML=`
       <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1">
-          <label style="font-weight:600;color:#1a1a1a">${c.label}</label>
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">${c.label}</label>
           <select style="margin-top:4px" onchange="saveField('rev_cat_${c.id}',this.value);generateSummary()">
             <option value="">Select status</option>
-            <option value="green" ${d['rev_cat_'+c.id]==='green'?'selected':''}>Green</option>
+            <option value="green"  ${d['rev_cat_'+c.id]==='green' ?'selected':''}>Green</option>
             <option value="yellow" ${d['rev_cat_'+c.id]==='yellow'?'selected':''}>Yellow</option>
             <option value="orange" ${d['rev_cat_'+c.id]==='orange'?'selected':''}>Orange</option>
-            <option value="red" ${d['rev_cat_'+c.id]==='red'?'selected':''}>Red</option>
+            <option value="red"    ${d['rev_cat_'+c.id]==='red'   ?'selected':''}>Red</option>
           </select>
         </div>
-        <div style="flex:2;min-width:200px">
-          <label>Key observation</label>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
           <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${c.id}',this.value)">${d['rev_note_'+c.id]||''}</textarea>
         </div>
       </div>`;
     container.appendChild(row);
   });
-  const extra = document.createElement('div');
-  extra.innerHTML = `
+  const extra=document.createElement('div');
+  extra.innerHTML=`
     <hr class="divider">
-    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a1a1a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${d.rev_win||''}</textarea></div>
-    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a1a1a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${d.rev_concern||''}</textarea></div>
-    <div><label style="font-weight:600;color:#1a1a1a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${d.rev_change||''}</textarea></div>`;
+    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${getData().rev_win||''}</textarea></div>
+    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${getData().rev_concern||''}</textarea></div>
+    <div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${getData().rev_change||''}</textarea></div>`;
   container.appendChild(extra);
 }
 
 function generateSummary(){
-  const d = getData();
-  const container = document.getElementById('review-summary');
-  if(!container) return;
-  const reds = CATS.filter(c=>d['rev_cat_'+c.id]==='red').map(c=>c.label);
-  const oranges = CATS.filter(c=>d['rev_cat_'+c.id]==='orange').map(c=>c.label);
-  const greens = CATS.filter(c=>d['rev_cat_'+c.id]==='green').map(c=>c.label);
-  const rated = CATS.filter(c=>d['rev_cat_'+c.id]);
-  const avg = rated.length ? rated.reduce((a,c)=>a+(scoreMap[d['rev_cat_'+c.id]]||0),0)/rated.length : null;
-
-  let verdict = '', vcolor = '#1d4ed8';
-  if(!avg){ verdict = 'Rate all categories above to see verdict.'; }
-  else if(reds.length>=3||avg<1.8){ verdict='Exit signal. Multiple red flags active. Review exit or pivot plan immediately.'; vcolor='#991b1b'; }
-  else if(reds.length>=1||avg<2.5){ verdict='Caution. Active red flags require immediate attention before continuing.'; vcolor='#9a3412'; }
-  else if(oranges.length>=3){ verdict='Watch closely. Several categories in orange — trajectory matters.'; vcolor='#854d0e'; }
-  else if(avg>=3.5){ verdict='Continue. Evidence supports the mission. Maintain momentum.'; vcolor='#065f46'; }
-  else { verdict='Proceed with intention. More mixed than ideal — track trends carefully.'; vcolor='#1d4ed8'; }
-
-  container.innerHTML = `
+  const d=getData();
+  const el=document.getElementById('review-summary');
+  if(!el)return;
+  const reds=CATS.filter(c=>d['rev_cat_'+c.id]==='red').map(c=>c.label);
+  const oranges=CATS.filter(c=>d['rev_cat_'+c.id]==='orange').map(c=>c.label);
+  const greens=CATS.filter(c=>d['rev_cat_'+c.id]==='green').map(c=>c.label);
+  const rated=CATS.filter(c=>d['rev_cat_'+c.id]);
+  const avg=rated.length?rated.reduce((a,c)=>a+(SCORE_MAP[d['rev_cat_'+c.id]]||0),0)/rated.length:null;
+  let verdict='',vcolor='#1B6E9F';
+  if(!avg){verdict='Pull ratings or select statuses above to see your summary.';}
+  else if(reds.length>=2||avg<1.8){verdict='Exit signal. Multiple red flags active. Review exit or pivot plan immediately.';vcolor='#991b1b';}
+  else if(reds.length>=1||avg<2.5){verdict='Caution. Active red flags require immediate attention.';vcolor='#9a3412';}
+  else if(oranges.length>=3){verdict='Watch closely. Several orange flags. Trajectory matters.';vcolor='#854d0e';}
+  else if(avg>=3.5){verdict='Continue. Evidence supports the mission. Maintain momentum.';vcolor='#059669';}
+  else{verdict='Proceed with intention. More mixed than ideal. Track trends carefully.';vcolor='#1B6E9F';}
+  el.innerHTML=`
     <div class="summary-box">
-      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#888;margin-bottom:4px">Overall verdict</div>
-      <div style="font-size:15px;font-weight:600;color:${vcolor}">${verdict}</div>
-      ${avg?`<div style="font-size:12px;color:#888;margin-top:4px">Score: ${avg.toFixed(1)} / 4.0 · ${rated.length} of ${CATS.length} categories rated</div>`:''}
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a7060;margin-bottom:4px">Overall verdict</div>
+      <div style="font-size:15px;font-weight:700;color:${vcolor}">${verdict}</div>
+      ${avg?`<div style="font-size:12px;color:#9a7060;margin-top:4px">Score: ${avg.toFixed(1)} / 4.0 · ${rated.length} of ${CATS.length} categories rated</div>`:''}
     </div>
-    ${greens.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#065f46;font-weight:600">Strengths: </span>${greens.join(', ')}</div>`:''}
-    ${oranges.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#9a3412;font-weight:600">Watch: </span>${oranges.join(', ')}</div>`:''}
-    ${reds.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#991b1b;font-weight:600">Action required: </span>${reds.join(', ')}</div>`:''}
-    ${d.rev_win?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:600">Win: </span>${d.rev_win}</div>`:''}
-    ${d.rev_concern?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:600">Concern: </span>${d.rev_concern}</div>`:''}
-    ${d.rev_change?`<div style="font-size:13px;color:#555"><span style="font-weight:600">Next action: </span>${d.rev_change}</div>`:''}`;
+    ${greens.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#059669;font-weight:700">Strengths: </span>${greens.join(', ')}</div>`:''}
+    ${oranges.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#9a3412;font-weight:700">Watch: </span>${oranges.join(', ')}</div>`:''}
+    ${reds.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#991b1b;font-weight:700">Action required: </span>${reds.join(', ')}</div>`:''}
+    ${d.rev_win?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:700">Win: </span>${d.rev_win}</div>`:''}
+    ${d.rev_concern?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:700">Concern: </span>${d.rev_concern}</div>`:''}
+    ${d.rev_change?`<div style="font-size:13px;color:#555"><span style="font-weight:700">Next action: </span>${d.rev_change}</div>`:''}`;
 }
 
 function saveReview(){
-  const d = getData();
-  const reviews = d.saved_reviews||[];
-  const period = document.getElementById('review-period').value;
-  const date = document.getElementById('review-date').value;
-  const snap = {period,date,saved:new Date().toISOString(),cats:{}};
+  const d=getData();
+  const reviews=d.saved_reviews||[];
+  const snap={period:document.getElementById('review-period').value,date:document.getElementById('review-date').value,saved:new Date().toISOString(),cats:{}};
   CATS.forEach(c=>{snap.cats[c.id]={status:d['rev_cat_'+c.id]||'',note:d['rev_note_'+c.id]||''}});
-  snap.win=d.rev_win||''; snap.concern=d.rev_concern||''; snap.change=d.rev_change||'';
-  reviews.unshift(snap);
-  d.saved_reviews = reviews.slice(0,12);
-  setData(d);
+  snap.win=d.rev_win||'';snap.concern=d.rev_concern||'';snap.change=d.rev_change||'';
+  reviews.unshift(snap);d.saved_reviews=reviews.slice(0,12);setData(d);
   alert('Review saved.');
 }
 
-function renderDecisionMatrix(){
-  const d = getData();
-  const container = document.getElementById('decision-matrix');
-  const reds = CATS.filter(c=>d['cat_'+c.id]==='red');
-  const oranges = CATS.filter(c=>d['cat_'+c.id]==='orange');
-  const greens = CATS.filter(c=>d['cat_'+c.id]==='green');
-  const rated = CATS.filter(c=>d['cat_'+c.id]&&d['cat_'+c.id]!=='unrated');
-  const avg = rated.length ? rated.reduce((a,c)=>a+(scoreMap[d['cat_'+c.id]]||0),0)/rated.length : null;
-
-  const outcomes = [
-    {name:'Stay and continue',ok:()=>reds.length===0&&oranges.length<=2&&(!avg||avg>=3.0),color:'s-green',desc:'No red flags. Trajectory positive. Maintain plan and next milestone review.'},
-    {name:'Stay and intervene',ok:()=>reds.length===0&&oranges.length>=3,color:'s-yellow',desc:'No reds but multiple oranges. Active intervention needed; don\'t drift into red.'},
-    {name:'Pivot the approach',ok:()=>reds.length===1||(oranges.length>=2&&avg&&avg<2.5),color:'s-orange',desc:'One red flag or significant orange cluster. Adapt strategy; set 60-day improvement target.'},
-    {name:'Exit or activate fallback',ok:()=>reds.length>=2||d['cat_financial']==='red'||d['cat_mental']==='red',color:'s-red',desc:'Multiple red flags or financial/mental health at red. Activate controlled exit or fallback within 90 days.'}
-  ];
-
-  let rows = '';
-  outcomes.forEach(o=>{
-    const active = o.ok();
-    rows += `<tr ${active?'style="background:#f0fdf4"':''}><td><span class="pill ${o.color}">${o.name}</span></td><td style="font-size:12px;color:#555">${o.desc}</td><td style="text-align:center;font-size:16px">${active?'✓':''}</td></tr>`;
-  });
-
-  const scc = document.getElementById('sunk-cost-checks');
-  const scq = [
-    'Would I start this experiment again today with current knowledge?',
-    'Is my reason for staying evidence-based rather than inertia?',
-    'Am I preserving all three options: stay, pivot, exit?',
-    'Has the cost so far influenced my assessment of the evidence?'
-  ];
-  scc.innerHTML = scq.map((q,i)=>`<div class="checklist-item"><input type="checkbox" id="sc${i}" ${d['sc_'+i]?'checked':''} onchange="saveField('sc_${i}',this.checked)"><label for="sc${i}" style="font-size:13px;cursor:pointer;margin:0;color:#1a1a1a">${q}</label></div>`).join('');
-
-  container.innerHTML = `
-    ${avg?`<div style="margin-bottom:1rem;font-size:13px;color:#555">Current average: <strong>${avg.toFixed(1)} / 4.0</strong> · ${rated.length} of ${CATS.length} rated · ${reds.length} red · ${oranges.length} orange · ${greens.length} green</div>`:'<div style="margin-bottom:1rem;font-size:13px;color:#888">Rate categories in Status Cards to see your decision signal.</div>'}
-    <table class="data-table"><thead><tr><th style="width:160px">Outcome</th><th>Trigger conditions</th><th style="width:50px;text-align:center">Active</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
-
+// ── Export ────────────────────────────────────────────────────────────
 function exportJSON(){
-  const d = getData();
-  const blob = new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'eu-dashboard-'+new Date().toISOString().split('T')[0]+'.json';
-  a.click(); URL.revokeObjectURL(url);
+  const blob=new Blob([JSON.stringify(getData(),null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='eu-dashboard-'+new Date().toISOString().split('T')[0]+'.json';a.click();URL.revokeObjectURL(url);
 }
-
-function importTrigger(){ document.getElementById('import-file').click(); }
-
+function importTrigger(){document.getElementById('import-file').click()}
 function importJSON(e){
-  const file = e.target.files[0]; if(!file) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    try{ const d=JSON.parse(ev.target.result); setData(d); loadData(); alert('Data imported.'); }
-    catch{ alert('Invalid JSON file.'); }
-  };
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{setData(JSON.parse(ev.target.result));loadData();alert('Data imported.');}catch{alert('Invalid JSON file.');}};
   r.readAsText(file);
 }
+function resetData(){if(confirm('Clear all saved data? This cannot be undone.')){localStorage.removeItem('eu_dash');loadData();}}
 
-function resetData(){
-  if(confirm('Clear all saved data? This cannot be undone.')){ localStorage.removeItem('eu_dash'); loadData(); }
-}
-
+// ── Navigation ────────────────────────────────────────────────────────
 function showTab(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const tabs = ['dashboard','categories','thresholds','checklist','review','decision','export'];
+  const tabs=['dashboard','categories','thresholds','checklist','export','review'];
   document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',tabs[i]===id));
-  if(id==='dashboard') renderOverview();
+  if(id==='dashboard')  renderOverview();
   if(id==='categories') renderCatCards();
   if(id==='thresholds') renderThresholds();
-  if(id==='checklist') renderChecklist();
-  if(id==='review'){ renderReviewForm(); generateSummary(); }
-  if(id==='decision') renderDecisionMatrix();
+  if(id==='checklist')  renderChecklist();
+  if(id==='review')     {renderReviewForm();generateSummary();}
+}
+
+function loadData(){
+  renderBanner();
+  renderOverview();
+  renderThresholds();
+  renderChecklist();
+  renderReviewForm();
 }
 
 loadData();
