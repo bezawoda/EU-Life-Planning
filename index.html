@@ -1162,7 +1162,7 @@ function resetData(){if(confirm('Clear all saved data? This cannot be undone.'))
 function showTab(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const tabs=['dashboard','categories','thresholds','checklist','export','review'];
+  const tabs=['dashboard','categories','thresholds','checklist','reivew','export'];
   document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',tabs[i]===id));
   if(id==='dashboard')  renderOverview();
   if(id==='categories') renderCatCards();
