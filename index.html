@@ -30,7 +30,7 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .banner-dismiss{background:none;border:none;font-size:20px;cursor:pointer;color:#999;line-height:1;padding:2px 6px}
 .banner-dismiss:hover{color:#555}
 
-.app{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+.app{width:100%}
 .header{margin-bottom:1.5rem}
 .header h1{font-size:22px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
 .header p{font-size:12px;color:#b05040}
@@ -51,6 +51,12 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1rem}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:1rem}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.gr-carousel{display:flex;gap:10px;margin-bottom:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.gr-carousel::-webkit-scrollbar{height:4px}
+.gr-carousel::-webkit-scrollbar-track{background:rgba(226,114,91,0.08);border-radius:2px}
+.gr-carousel::-webkit-scrollbar-thumb{background:rgba(226,114,91,0.3);border-radius:2px}
+.gr-carousel .gr-card{flex:0 0 calc(50% - 5px);scroll-snap-align:start;min-width:160px}
+@media(min-width:600px){.gr-carousel .gr-card{flex:0 0 calc(25% - 8px)}}
 
 /* ── Pills ── */
 .pill{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:700}
@@ -177,6 +183,91 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   body{background:#fff}
   .app{padding:0;max-width:100%}
 }
+
+/* ── Comment panel ── */
+.app-shell{display:flex;align-items:flex-start;gap:0;max-width:1180px;margin:0 auto;padding:2rem 1.5rem}
+.app-main{flex:1;min-width:0;max-width:900px}
+.comment-panel{width:0;overflow:hidden;transition:width .25s ease;flex-shrink:0;border-left:0px solid rgba(226,114,91,0.15);background:rgba(255,255,255,0.38);border-radius:0 12px 12px 0;display:flex;flex-direction:column;position:sticky;top:0;max-height:100vh}
+.comment-panel.open{width:260px;border-left-width:1px}
+.panel-inner{padding:14px;display:flex;flex-direction:column;height:100%;min-width:260px;min-height:400px}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(226,114,91,0.12)}
+.panel-label{font-size:10px;color:#b0a090;letter-spacing:.04em;display:flex;align-items:center;gap:5px}
+.panel-label i{font-size:13px;color:#c8b0a8}
+.panel-count-badge{font-size:10px;color:#b0a090}
+.comment-list{flex:1;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column}
+.ci{padding:7px 0;border-bottom:1px solid rgba(226,114,91,0.07)}
+.ci:last-child{border-bottom:none}
+.ci-top{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.ci-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0}
+.ci-name{font-size:11px;font-style:italic;font-weight:600;color:#7a4030}
+.ci-date{font-size:10px;color:#c8b0a8;margin-left:auto}
+.ci-text{font-size:12px;color:#2a1a14;line-height:1.5;padding-left:27px}
+.panel-input{border-top:1px solid rgba(226,114,91,0.12);padding-top:8px}
+.panel-name-in{font-family:inherit;font-size:11px;color:#1a0e0a;background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.2);border-radius:5px;padding:5px 8px;width:100%;outline:none;margin-bottom:5px;font-style:italic}
+.panel-name-in:focus{border-color:#E2725B}
+.panel-text-row{display:flex;gap:5px;align-items:flex-end}
+.panel-text-in{font-family:inherit;font-size:12px;color:#1a0e0a;background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.2);border-radius:5px;padding:6px 8px;flex:1;outline:none;resize:none;line-height:1.4;min-height:32px}
+.panel-text-in:focus{border-color:#E2725B}
+.panel-post-btn{background:#E2725B;color:#fff;border:none;border-radius:5px;padding:0 10px;font-size:11px;font-family:inherit;cursor:pointer;height:32px;font-weight:600;white-space:nowrap}
+.panel-post-btn:hover{background:#c85a44}
+.panel-post-btn:disabled{background:#e0c4bc;cursor:not-allowed}
+@keyframes slideInComment{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.ci.new-ci{animation:slideInComment .25s ease forwards}
+
+/* ── Toggle button ── */
+.panel-toggle{background:rgba(255,255,255,0.78);border:1px solid rgba(226,114,91,0.2);border-radius:6px;padding:5px 12px;font-size:11px;font-family:inherit;cursor:pointer;color:#7a4030;display:inline-flex;align-items:center;gap:6px;font-weight:600;white-space:nowrap}
+.panel-toggle:hover{background:rgba(226,114,91,0.08)}
+.panel-toggle-count{background:#E2725B;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px}
+
+/* ── Milestone card overlay ── */
+.ms-card-overlay{display:none;position:fixed;inset:0;background:rgba(26,14,10,0.35);z-index:150;align-items:center;justify-content:center;padding:20px}
+.ms-card-overlay.show{display:flex}
+.ms-card{background:#fff;border-radius:14px;width:100%;max-width:440px;overflow:hidden}
+.ms-card-top{padding:16px 18px 14px;border-bottom:1px solid rgba(226,114,91,0.1)}
+.ms-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1B6E9F;margin-bottom:4px}
+.ms-name{font-size:18px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
+.ms-date{font-size:12px;color:#9a7060}
+.ms-score-block{padding:14px 18px;border-bottom:1px solid rgba(226,114,91,0.1);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ms-score-num{font-size:28px;font-weight:700}
+.ms-score-denom{font-size:13px;color:#b0a090;font-weight:400}
+.ms-score-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#9a5040;margin-bottom:4px}
+.ms-verdict-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;margin-bottom:4px}
+.ms-verdict-sub{font-size:11px;color:#9a7060;line-height:1.5}
+.ms-flags-block{padding:12px 18px;border-bottom:1px solid rgba(226,114,91,0.1)}
+.ms-flags-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:7px}
+.ms-flag-chips{display:flex;flex-wrap:wrap;gap:5px}
+.ms-flag-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px;background:#ffedd5;color:#9a3412;border:1px solid rgba(249,115,22,0.2)}
+.ms-reactions-block{padding:12px 18px;border-bottom:1px solid rgba(226,114,91,0.1)}
+.ms-reactions-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#b0a090;margin-bottom:8px}
+.ms-reaction-chips{display:flex;gap:6px;flex-wrap:wrap}
+.ms-r-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.75);border:1px solid rgba(226,114,91,0.18);border-radius:20px;padding:4px 10px;cursor:pointer;transition:all .15s;font-family:inherit}
+.ms-r-chip:hover{background:rgba(226,114,91,0.07);border-color:rgba(226,114,91,0.3);transform:scale(1.05)}
+.ms-r-chip.active{background:rgba(226,114,91,0.1);border-color:rgba(226,114,91,0.35)}
+.ms-r-emoji{font-size:15px;line-height:1}
+.ms-r-count{font-size:11px;font-weight:700;color:#7a4030;min-width:8px}
+.ms-card-footer{padding:11px 18px;display:flex;align-items:center;justify-content:space-between}
+.ms-footer-note{font-size:11px;color:#b0a090;font-style:italic}
+.ms-footer-link{font-size:11px;color:#1B6E9F;font-weight:600;cursor:pointer;background:none;border:none;font-family:inherit;padding:0}
+.ms-close-btn{background:none;border:none;cursor:pointer;color:#b0a090;font-size:20px;line-height:1;padding:0}
+.ms-close-btn:hover{color:#7a4030}
+@keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
+.bump{animation:bump .18s ease}
+
+/* ── Disco shimmer on dot ── */
+@keyframes disco{
+  0%  {filter:drop-shadow(0 0 0px rgba(226,114,91,0))}
+  20% {filter:drop-shadow(0 0 6px rgba(226,114,91,0.7))}
+  40% {filter:drop-shadow(0 0 6px rgba(27,110,159,0.7))}
+  60% {filter:drop-shadow(0 0 6px rgba(16,185,129,0.6))}
+  80% {filter:drop-shadow(0 0 6px rgba(245,158,11,0.6))}
+  100%{filter:drop-shadow(0 0 0px rgba(226,114,91,0))}
+}
+
+@media(max-width:700px){
+  .app-shell{flex-direction:column;padding:1rem}
+  .comment-panel.open{width:100%;border-left:none;border-top:1px solid rgba(226,114,91,0.15);border-radius:0 0 12px 12px}
+}
+
 </style>
 </head>
 <body>
@@ -214,10 +305,18 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   </div>
 </div>
 
-<div class="app">
-  <div class="header">
-    <h1>EU experiment dashboard</h1>
-    <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
+<div class="app-shell">
+<div class="app app-main">
+  <div class="header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+    <div>
+      <h1>EU experiment dashboard</h1>
+      <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
+    </div>
+    <button class="panel-toggle" onclick="toggleCommentPanel()">
+      <i class="ti ti-message-circle" aria-hidden="true"></i>
+      Send some love
+      <span class="panel-toggle-count" id="panel-toggle-count">0</span>
+    </button>
   </div>
 
   <div class="nav" id="nav">
@@ -235,7 +334,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     <div id="overview-grid" class="grid3"></div>
     <hr class="divider">
     <h2>Financial guardrails</h2>
-    <div class="grid4" id="guardrails"></div>
+    <div class="gr-carousel" id="guardrails"></div>
     <hr class="divider">
     <div class="sec-rule">
       <div class="tl-header">
@@ -358,7 +457,56 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
 
-</div><!-- end .app -->
+</div><!-- end .app-main -->
+
+<!-- ── Comment panel ── -->
+<div class="comment-panel" id="comment-panel">
+  <div class="panel-inner">
+    <div class="panel-header">
+      <div class="panel-label">
+        <i class="ti ti-message-circle" aria-hidden="true"></i>
+        notes
+      </div>
+      <span class="panel-count-badge" id="panel-count-badge">0</span>
+    </div>
+    <div class="comment-list" id="panel-comment-list"></div>
+    <div class="panel-input">
+      <input class="panel-name-in" id="panel-name-in" type="text" placeholder="Your name" maxlength="40">
+      <div class="panel-text-row">
+        <textarea class="panel-text-in" id="panel-text-in" placeholder="Leave a note... 👋" rows="1" maxlength="300"></textarea>
+        <button class="panel-post-btn" id="panel-post-btn" disabled onclick="panelPost()">Post</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .app-shell -->
+
+<!-- ── Milestone card overlay ── -->
+<div class="ms-card-overlay" id="ms-overlay" onclick="closeMsCard(event)">
+  <div class="ms-card" id="ms-card">
+    <div class="ms-card-top">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="ms-eyebrow">Milestone completed</div>
+          <div class="ms-name" id="ms-name"></div>
+          <div class="ms-date" id="ms-date"></div>
+        </div>
+        <button class="ms-close-btn" onclick="document.getElementById('ms-overlay').classList.remove('show')">×</button>
+      </div>
+    </div>
+    <div class="ms-score-block" id="ms-score-block"></div>
+    <div class="ms-flags-block" id="ms-flags-block"></div>
+    <div class="ms-reactions-block">
+      <div class="ms-reactions-label">Reactions</div>
+      <div class="ms-reaction-chips" id="ms-reaction-chips"></div>
+    </div>
+    <div class="ms-card-footer">
+      <div class="ms-footer-note">Comments go to the activity log</div>
+      <button class="ms-footer-link" onclick="document.getElementById('ms-overlay').classList.remove('show');showTab('dashboard');setTimeout(()=>document.getElementById('comment-panel').classList.add('open'),100)">Open activity log →</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════
@@ -372,6 +520,8 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 // Change the four digits between the quotes to set your PIN.
 // Example: change "1234" to "9876"
 const EDITOR_PIN = "1234";
+
+
 
 // ── BURN RATE — show or hide ─────────────────────────────────────────
 // Set to true to hide the burn rate card from the dashboard.
@@ -611,6 +761,8 @@ let sessionUnlocked = false;
 function getData(){try{return JSON.parse(localStorage.getItem('eu_dash')||'{}')}catch{return{}}}
 function setData(d){localStorage.setItem('eu_dash',JSON.stringify(d))}
 function saveField(k,v){const d=getData();d[k]=v;setData(d)}
+
+
 function pillClass(s){return{green:'s-green',yellow:'s-yellow',orange:'s-orange',red:'s-red',unrated:'s-gray'}[s]||'s-gray'}
 function pillLabel(s){return{green:'Green',yellow:'Yellow',orange:'Orange',red:'Red',unrated:'Unrated'}[s]||'Unrated'}
 function fmtDate(ym){
@@ -814,8 +966,8 @@ function renderTimeline(){
   const DONE='#4a8fad',NEXT_C='#1B6E9F',FUT='#c5d8e8';
 
   let h='';
-  h+=`<circle cx="${PAD}" cy="${CY}" r="5" fill="${DONE}" stroke="${DONE}" stroke-width="1.5"/>`;
-  h+=`<text x="${PAD}" y="${CY+17}" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500">Start</text>`;
+  h+=`<circle id="start-dot" cx="${PAD}" cy="${CY}" r="5" fill="${DONE}" stroke="${DONE}" stroke-width="1.5" style="cursor:pointer"/>`;
+  h+=`<text x="${PAD}" y="${CY+17}" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500" style="pointer-events:none">Start</text>`;
   h+=`<line x1="${PAD+5}" y1="${CY}" x2="${mX(0)-7}" y2="${CY}" stroke="${DONE}" stroke-width="2"/>`;
 
   MILESTONES.forEach((_,i)=>{
@@ -832,7 +984,7 @@ function renderTimeline(){
     const sw=next?2.5:1.5;
     const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
     const fw=next?'700':'400';
-    const fs=next?9:8;
+    const fs=next?10:9;
     const ly=CY+r+(next?15:13);
     h+=`<circle class="tl-dot" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done?'pointer':'default'}"/>`;
     if(next)h+=`<circle cx="${x}" cy="${CY}" r="14" fill="none" stroke="${NEXT_C}" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"/>`;
@@ -1171,12 +1323,197 @@ function showTab(id){
   if(id==='review')     {renderReviewForm();generateSummary();}
 }
 
+// ── Pre-load Start milestone — 4.0 reflecting pre-departure criteria ──
+// Edit the score, signal, or date here if needed.
+function seedStartMilestone(){
+  const d=getData();
+  if(!d['milestone_score_start']){
+    d['milestone_score_start']='4.0';
+    d['milestone_band_start']='strong';
+    d['milestone_signal_start']='Stay and continue';
+    d['milestone_date_start']='Jun 27, 2026';
+    setData(d);
+  }
+}
+
+// ── Avatar helpers ─────────────────────────────────────────────────────
+const AV_COLORS=[
+  {bg:'#fde8e4',color:'#9a3412'},{bg:'#e0f0fa',color:'#1B6E9F'},
+  {bg:'#f0fdf4',color:'#065f46'},{bg:'#fef9c3',color:'#854d0e'},
+  {bg:'#f3e8ff',color:'#6b21a8'}
+];
+function getAV(name){let h=0;for(let i=0;i<name.length;i++)h=name.charCodeAt(i)+((h<<5)-h);return AV_COLORS[Math.abs(h)%AV_COLORS.length]}
+function getInitials(n){return n.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+function fmtCT(d){const diff=Math.floor((Date.now()-new Date(d).getTime())/1000);if(diff<60)return'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric'})}
+
+// ── Comment panel ──────────────────────────────────────────────────────
+function toggleCommentPanel(){
+  const panel=document.getElementById('comment-panel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')) renderPanelComments();
+}
+function getComments(){try{return JSON.parse(localStorage.getItem('eu_comments')||'[]')}catch{return[]}}
+function saveComments(arr){localStorage.setItem('eu_comments',JSON.stringify(arr))}
+
+function renderPanelComments(animateLast=false){
+  const comments=getComments();
+  const list=document.getElementById('panel-comment-list');
+  if(!list) return;
+  list.innerHTML='';
+  const cb=document.getElementById('panel-count-badge');
+  const tc=document.getElementById('panel-toggle-count');
+  if(cb) cb.textContent=comments.length;
+  if(tc) tc.textContent=comments.length;
+  if(!comments.length){
+    list.innerHTML='<div style="font-size:11px;color:#b0a090;font-style:italic;text-align:center;padding:12px 0">No notes yet. Be first.</div>';
+    return;
+  }
+  comments.forEach((c,i)=>{
+    const ac=getAV(c.name);
+    const div=document.createElement('div');
+    div.className='ci'+(animateLast&&i===comments.length-1?' new-ci':'');
+    div.innerHTML=`<div class="ci-top"><div class="ci-av" style="background:${ac.bg};color:${ac.color}">${getInitials(c.name)}</div><span class="ci-name">${c.name}</span><span class="ci-date">${fmtCT(c.date)}</span></div><div class="ci-text">${c.text}</div>`;
+    list.appendChild(div);
+  });
+  list.scrollTop=list.scrollHeight;
+}
+
+function panelPost(){
+  const name=document.getElementById('panel-name-in').value.trim();
+  const text=document.getElementById('panel-text-in').value.trim();
+  if(!name||!text) return;
+  const comments=getComments();
+  comments.push({name,text,date:new Date().toISOString()});
+  saveComments(comments);
+  document.getElementById('panel-text-in').value='';
+  document.getElementById('panel-text-in').style.height='auto';
+  document.getElementById('panel-post-btn').disabled=true;
+  renderPanelComments(true);
+}
+
+function validatePanel(){
+  const n=document.getElementById('panel-name-in').value.trim();
+  const t=document.getElementById('panel-text-in').value.trim();
+  const btn=document.getElementById('panel-post-btn');
+  if(btn) btn.disabled=!(n&&t);
+}
+
+setTimeout(()=>{
+  const ni=document.getElementById('panel-name-in');
+  const ti=document.getElementById('panel-text-in');
+  if(ni) ni.addEventListener('input',validatePanel);
+  if(ti){
+    ti.addEventListener('input',e=>{
+      e.target.style.height='auto';
+      e.target.style.height=Math.min(e.target.scrollHeight,80)+'px';
+      validatePanel();
+    });
+    ti.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();panelPost();}});
+  }
+},400);
+
+// ── Milestone card ─────────────────────────────────────────────────────
+// To change reaction emojis: edit the array below (5 max)
+const MS_REACTIONS=['❤️','🎉','🫂','🌍','🎓'];
+
+function getMsReactions(key){try{return JSON.parse(localStorage.getItem('ms_react_'+key)||'{}')}catch{return{}}}
+function saveMsReactions(key,obj){localStorage.setItem('ms_react_'+key,JSON.stringify(obj))}
+
+function openMsCard(idx){
+  const d=getData();
+  let name,date,score,band,signal,flags=[],key;
+
+  if(idx==='start'){
+    name='Start'; date=d['milestone_date_start']||'Jun 27, 2026';
+    score=d['milestone_score_start']||'4.0';
+    band=d['milestone_band_start']||'strong';
+    signal=d['milestone_signal_start']||'Stay and continue';
+    key='start';
+  } else {
+    const m=MILESTONES[idx]; if(!m) return;
+    name=m.fullName;
+    date=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    score=d['milestone_score_'+idx];
+    band=d['milestone_band_'+idx];
+    signal=d['milestone_signal_'+idx];
+    key=String(idx);
+    CATS.forEach(c=>{const s=d['cat_'+c.id];if(s==='orange'||s==='red')flags.push({label:c.label,status:s});});
+  }
+
+  document.getElementById('ms-name').textContent=name;
+  document.getElementById('ms-date').textContent=date;
+
+  const st=score?(SIGNAL_STYLES[band]||SIGNAL_STYLES.moderate):null;
+  const scoreBlock=document.getElementById('ms-score-block');
+  if(score&&st){
+    const bBg=band==='strong'?'#d1fae5':band==='moderate'?'#fef9c3':band==='caution'?'#ffedd5':'#fee2e2';
+    const bColor=band==='strong'?'#065f46':band==='moderate'?'#854d0e':band==='caution'?'#9a3412':'#991b1b';
+    const bBdr=band==='strong'?'rgba(16,185,129,0.25)':band==='moderate'?'rgba(245,158,11,0.25)':band==='caution'?'rgba(249,115,22,0.25)':'rgba(239,68,68,0.25)';
+    scoreBlock.innerHTML=`<div><div class="ms-score-label">Overall score</div><div><span class="ms-score-num" style="color:${st.scoreColor}">${score}</span><span class="ms-score-denom"> / 4.0</span></div></div><div><div class="ms-verdict-badge" style="background:${bBg};color:${bColor};border:1px solid ${bBdr}">${signal||''}</div><div class="ms-verdict-sub">${flags.length?flags.length+' flag'+(flags.length>1?'s':'')+' active at review.':'No active flags at review.'}</div></div>`;
+  } else {
+    scoreBlock.innerHTML='<div style="font-size:12px;color:#9a7060;font-style:italic">Review not yet scored.</div>';
+  }
+
+  const flagsBlock=document.getElementById('ms-flags-block');
+  if(flags.length){
+    flagsBlock.style.display='';
+    flagsBlock.innerHTML=`<div class="ms-flags-label">Active flags at review</div><div class="ms-flag-chips">${flags.map(f=>`<div class="ms-flag-chip">${f.label}</div>`).join('')}</div>`;
+  } else {
+    flagsBlock.style.display='none';
+  }
+
+  const saved=getMsReactions(key);
+  const chipsEl=document.getElementById('ms-reaction-chips');
+  chipsEl.innerHTML='';
+  MS_REACTIONS.forEach(em=>{
+    const count=saved[em]||0;
+    const chip=document.createElement('button');
+    chip.className='ms-r-chip'+(saved['_my_'+em]?' active':'');
+    chip.innerHTML=`<span class="ms-r-emoji">${em}</span><span class="ms-r-count">${count}</span>`;
+    chip.onclick=()=>{
+      const s=getMsReactions(key);
+      const mk='_my_'+em;
+      if(s[mk]){s[em]=Math.max(0,(s[em]||0)-1);delete s[mk];chip.classList.remove('active');}
+      else{s[em]=(s[em]||0)+1;s[mk]=true;chip.classList.add('active');}
+      chip.querySelector('.ms-r-count').textContent=s[em]||0;
+      saveMsReactions(key,s);
+      chip.classList.remove('bump');void chip.offsetWidth;chip.classList.add('bump');
+    };
+    chipsEl.appendChild(chip);
+  });
+
+  document.getElementById('ms-overlay').classList.add('show');
+}
+
+function closeMsCard(e){
+  if(e.target===document.getElementById('ms-overlay'))
+    document.getElementById('ms-overlay').classList.remove('show');
+}
+
+// Patch timeline dots to open ms card
+const _origRT=renderTimeline;
+renderTimeline=function(){
+  _origRT();
+  const svg=document.getElementById('timeline');
+  if(!svg) return;
+  const startDot=svg.getElementById?svg.getElementById('start-dot'):svg.querySelector('#start-dot');
+  if(startDot) startDot.addEventListener('click',()=>openMsCard('start'));
+  svg.querySelectorAll('.tl-dot').forEach(dot=>{
+    dot.addEventListener('click',()=>{
+      const idx=parseInt(dot.getAttribute('data-idx'));
+      openMsCard(idx);
+    });
+  });
+};
+
 function loadData(){
+  seedStartMilestone();
   renderBanner();
   renderOverview();
   renderThresholds();
   renderChecklist();
   renderReviewForm();
+  renderPanelComments();
 }
 
 loadData();
