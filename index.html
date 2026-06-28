@@ -986,7 +986,7 @@ function renderTimeline(){
     const fw=next?'700':'400';
     const fs=next?10:9;
     const ly=CY+r+(next?15:13);
-    h+=`<circle class="tl-dot" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done?'pointer':'default'}"/>`;
+    h+=`<circle class="${done&&!next?'tl-dot':''}" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done&&!next?'pointer':'default'}"/>`;
     if(next)h+=`<circle cx="${x}" cy="${CY}" r="14" fill="none" stroke="${NEXT_C}" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"/>`;
     const words=m.name.split(' ');
     if(words.length===1){
