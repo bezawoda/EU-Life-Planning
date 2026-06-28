@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0044)https://bezawoda.github.io/EU-Life-Planning/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EU experiment dashboard</title>
 <style>
@@ -30,7 +30,7 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .banner-dismiss{background:none;border:none;font-size:20px;cursor:pointer;color:#999;line-height:1;padding:2px 6px}
 .banner-dismiss:hover{color:#555}
 
-.app{width:100%}
+.app{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
 .header{margin-bottom:1.5rem}
 .header h1{font-size:22px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
 .header p{font-size:12px;color:#b05040}
@@ -51,12 +51,6 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1rem}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:1rem}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
-.gr-carousel{display:flex;gap:10px;margin-bottom:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px}
-.gr-carousel::-webkit-scrollbar{height:4px}
-.gr-carousel::-webkit-scrollbar-track{background:rgba(226,114,91,0.08);border-radius:2px}
-.gr-carousel::-webkit-scrollbar-thumb{background:rgba(226,114,91,0.3);border-radius:2px}
-.gr-carousel .gr-card{flex:0 0 calc(50% - 5px);scroll-snap-align:start;min-width:160px}
-@media(min-width:600px){.gr-carousel .gr-card{flex:0 0 calc(25% - 8px)}}
 
 /* ── Pills ── */
 .pill{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:700}
@@ -183,91 +177,6 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   body{background:#fff}
   .app{padding:0;max-width:100%}
 }
-
-/* ── Comment panel ── */
-.app-shell{display:flex;align-items:flex-start;gap:0;max-width:1180px;margin:0 auto;padding:2rem 1.5rem}
-.app-main{flex:1;min-width:0;max-width:900px}
-.comment-panel{width:0;overflow:hidden;transition:width .25s ease;flex-shrink:0;border-left:0px solid rgba(226,114,91,0.15);background:rgba(255,255,255,0.38);border-radius:0 12px 12px 0;display:flex;flex-direction:column;position:sticky;top:0;max-height:100vh}
-.comment-panel.open{width:260px;border-left-width:1px}
-.panel-inner{padding:14px;display:flex;flex-direction:column;height:100%;min-width:260px;min-height:400px}
-.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(226,114,91,0.12)}
-.panel-label{font-size:10px;color:#b0a090;letter-spacing:.04em;display:flex;align-items:center;gap:5px}
-.panel-label i{font-size:13px;color:#c8b0a8}
-.panel-count-badge{font-size:10px;color:#b0a090}
-.comment-list{flex:1;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column}
-.ci{padding:7px 0;border-bottom:1px solid rgba(226,114,91,0.07)}
-.ci:last-child{border-bottom:none}
-.ci-top{display:flex;align-items:center;gap:5px;margin-bottom:3px}
-.ci-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0}
-.ci-name{font-size:11px;font-style:italic;font-weight:600;color:#7a4030}
-.ci-date{font-size:10px;color:#c8b0a8;margin-left:auto}
-.ci-text{font-size:12px;color:#2a1a14;line-height:1.5;padding-left:27px}
-.panel-input{border-top:1px solid rgba(226,114,91,0.12);padding-top:8px}
-.panel-name-in{font-family:inherit;font-size:11px;color:#1a0e0a;background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.2);border-radius:5px;padding:5px 8px;width:100%;outline:none;margin-bottom:5px;font-style:italic}
-.panel-name-in:focus{border-color:#E2725B}
-.panel-text-row{display:flex;gap:5px;align-items:flex-end}
-.panel-text-in{font-family:inherit;font-size:12px;color:#1a0e0a;background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.2);border-radius:5px;padding:6px 8px;flex:1;outline:none;resize:none;line-height:1.4;min-height:32px}
-.panel-text-in:focus{border-color:#E2725B}
-.panel-post-btn{background:#E2725B;color:#fff;border:none;border-radius:5px;padding:0 10px;font-size:11px;font-family:inherit;cursor:pointer;height:32px;font-weight:600;white-space:nowrap}
-.panel-post-btn:hover{background:#c85a44}
-.panel-post-btn:disabled{background:#e0c4bc;cursor:not-allowed}
-@keyframes slideInComment{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.ci.new-ci{animation:slideInComment .25s ease forwards}
-
-/* ── Toggle button ── */
-.panel-toggle{background:rgba(255,255,255,0.78);border:1px solid rgba(226,114,91,0.2);border-radius:6px;padding:5px 12px;font-size:11px;font-family:inherit;cursor:pointer;color:#7a4030;display:inline-flex;align-items:center;gap:6px;font-weight:600;white-space:nowrap}
-.panel-toggle:hover{background:rgba(226,114,91,0.08)}
-.panel-toggle-count{background:#E2725B;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px}
-
-/* ── Milestone card overlay ── */
-.ms-card-overlay{display:none;position:fixed;inset:0;background:rgba(26,14,10,0.35);z-index:150;align-items:center;justify-content:center;padding:20px}
-.ms-card-overlay.show{display:flex}
-.ms-card{background:#fff;border-radius:14px;width:100%;max-width:440px;overflow:hidden}
-.ms-card-top{padding:16px 18px 14px;border-bottom:1px solid rgba(226,114,91,0.1)}
-.ms-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1B6E9F;margin-bottom:4px}
-.ms-name{font-size:18px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
-.ms-date{font-size:12px;color:#9a7060}
-.ms-score-block{padding:14px 18px;border-bottom:1px solid rgba(226,114,91,0.1);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.ms-score-num{font-size:28px;font-weight:700}
-.ms-score-denom{font-size:13px;color:#b0a090;font-weight:400}
-.ms-score-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#9a5040;margin-bottom:4px}
-.ms-verdict-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;margin-bottom:4px}
-.ms-verdict-sub{font-size:11px;color:#9a7060;line-height:1.5}
-.ms-flags-block{padding:12px 18px;border-bottom:1px solid rgba(226,114,91,0.1)}
-.ms-flags-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:7px}
-.ms-flag-chips{display:flex;flex-wrap:wrap;gap:5px}
-.ms-flag-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px;background:#ffedd5;color:#9a3412;border:1px solid rgba(249,115,22,0.2)}
-.ms-reactions-block{padding:12px 18px;border-bottom:1px solid rgba(226,114,91,0.1)}
-.ms-reactions-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#b0a090;margin-bottom:8px}
-.ms-reaction-chips{display:flex;gap:6px;flex-wrap:wrap}
-.ms-r-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.75);border:1px solid rgba(226,114,91,0.18);border-radius:20px;padding:4px 10px;cursor:pointer;transition:all .15s;font-family:inherit}
-.ms-r-chip:hover{background:rgba(226,114,91,0.07);border-color:rgba(226,114,91,0.3);transform:scale(1.05)}
-.ms-r-chip.active{background:rgba(226,114,91,0.1);border-color:rgba(226,114,91,0.35)}
-.ms-r-emoji{font-size:15px;line-height:1}
-.ms-r-count{font-size:11px;font-weight:700;color:#7a4030;min-width:8px}
-.ms-card-footer{padding:11px 18px;display:flex;align-items:center;justify-content:space-between}
-.ms-footer-note{font-size:11px;color:#b0a090;font-style:italic}
-.ms-footer-link{font-size:11px;color:#1B6E9F;font-weight:600;cursor:pointer;background:none;border:none;font-family:inherit;padding:0}
-.ms-close-btn{background:none;border:none;cursor:pointer;color:#b0a090;font-size:20px;line-height:1;padding:0}
-.ms-close-btn:hover{color:#7a4030}
-@keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
-.bump{animation:bump .18s ease}
-
-/* ── Disco shimmer on dot ── */
-@keyframes disco{
-  0%  {filter:drop-shadow(0 0 0px rgba(226,114,91,0))}
-  20% {filter:drop-shadow(0 0 6px rgba(226,114,91,0.7))}
-  40% {filter:drop-shadow(0 0 6px rgba(27,110,159,0.7))}
-  60% {filter:drop-shadow(0 0 6px rgba(16,185,129,0.6))}
-  80% {filter:drop-shadow(0 0 6px rgba(245,158,11,0.6))}
-  100%{filter:drop-shadow(0 0 0px rgba(226,114,91,0))}
-}
-
-@media(max-width:700px){
-  .app-shell{flex-direction:column;padding:1rem}
-  .comment-panel.open{width:100%;border-left:none;border-top:1px solid rgba(226,114,91,0.15);border-radius:0 0 12px 12px}
-}
-
 </style>
 </head>
 <body>
@@ -284,7 +193,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
   <div class="banner-right">
-    <button class="banner-cta" id="banner-cta" style="display:none" onclick="showTab('categories')">Update status cards</button>
+    <button class="banner-cta" id="banner-cta" style="display:none" onclick="showTab(&#39;categories&#39;)">Update status cards</button>
     <button class="banner-dismiss" onclick="dismissBanner()" title="Dismiss">×</button>
   </div>
 </div>
@@ -305,36 +214,31 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   </div>
 </div>
 
-<div class="app-shell">
-<div class="app app-main">
-  <div class="header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
-    <div>
-      <h1>EU experiment dashboard</h1>
-      <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
-    </div>
-    <button class="panel-toggle" onclick="toggleCommentPanel()">
-      <i class="ti ti-message-circle" aria-hidden="true"></i>
-      Send some love
-      <span class="panel-toggle-count" id="panel-toggle-count">0</span>
-    </button>
+<div class="app">
+  <div class="header">
+    <h1>EU experiment dashboard</h1>
+    <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
   </div>
 
+  <!-- Sync status indicator — updated by the persistence layer below -->
+  <div id="sync-indicator" style="font-size:11px;color:#9a7060;margin-bottom:1rem;height:16px"></div>
+
   <div class="nav" id="nav">
-    <button class="active" onclick="showTab('dashboard')">Overview</button>
-    <button onclick="showTab('categories')">Status cards</button>
-    <button onclick="showTab('thresholds')">Thresholds</button>
-    <button onclick="showTab('checklist')">Checklist</button>
-    <button onclick="showTab('review')">Quarterly review</button>
-    <button onclick="showTab('export')">Export</button>
+    <button class="active" onclick="showTab(&#39;dashboard&#39;)">Overview</button>
+    <button onclick="showTab(&#39;categories&#39;)">Status cards</button>
+    <button onclick="showTab(&#39;thresholds&#39;)">Thresholds</button>
+    <button onclick="showTab(&#39;checklist&#39;)">Checklist</button>
+    <button onclick="showTab(&#39;review&#39;)">Quarterly review</button>
+    <button onclick="showTab(&#39;export&#39;)">Export</button>
   </div>
 
   <!-- OVERVIEW -->
   <div id="dashboard" class="section active">
     <h2>Category overview</h2>
-    <div id="overview-grid" class="grid3"></div>
+    <div id="overview-grid" class="grid3"><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Financial runway</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">As secure as I can be currently, working through known ...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Residency / legal</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Temporary visa secured. Pending AIMA April visit for Re...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Career capital</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A. Program has not started.</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Mental health</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Mostly excited, with some anxiety as move-time approach...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Stress levels</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Move related, not country specific (Buereacracy, etc.)</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Physical health</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">4 month healthcare through private vendor secured. Yell...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Bureaucratic friction</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Social belonging</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Family relationships</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Adios America party planning split from original (Mom's...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Mission alignment</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Re-entry optionality</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Alternative support</div></div></div>
     <hr class="divider">
     <h2>Financial guardrails</h2>
-    <div class="gr-carousel" id="guardrails"></div>
+    <div class="grid4" id="guardrails"><div class="gr-card"><div class="gr-label">Retirement principal</div><div class="gr-value" style="color:#059669">Not touched</div></div><div class="gr-card"><div class="gr-label">Burn rate</div><div class="gr-value" style="color:#059669">On track · Jul'28</div></div><div class="gr-card"><div class="gr-label">Roth withdrawals</div><div class="gr-value" style="color:#059669">On track</div></div><div class="gr-card"><div class="gr-label">Consumer debt</div><div class="gr-value" style="color:#059669">None</div></div></div>
     <hr class="divider">
     <div class="sec-rule">
       <div class="tl-header">
@@ -356,14 +260,27 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
           <div class="tt-date" id="tt-date"></div>
           <div class="tt-arrow" id="tt-arrow"></div>
         </div>
-        <svg id="timeline" viewBox="0 0 620 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"></svg>
+        <svg id="timeline" viewBox="0 0 620 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><circle cx="26" cy="26" r="5" fill="#4a8fad" stroke="#4a8fad" stroke-width="1.5"></circle><text x="26" y="43" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500">Start</text><line x1="31" y1="26" x2="65" y2="26" stroke="#4a8fad" stroke-width="2"></line><line x1="79" y1="26" x2="152" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="166" y1="26" x2="239" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="253" y1="26" x2="326" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="340" y1="26" x2="413" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="427" y1="26" x2="500" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="514" y1="26" x2="587" y2="26" stroke="#c5d8e8" stroke-width="2"></line><circle class="tl-dot" data-idx="0" cx="72" cy="26" r="9" fill="#fff" stroke="#1B6E9F" stroke-width="2.5" style="cursor:default"></circle><circle cx="72" cy="26" r="14" fill="none" stroke="#1B6E9F" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"></circle><text x="72" y="50" text-anchor="middle" font-size="9" fill="#1B6E9F" font-weight="700" style="pointer-events:none">Departure</text><circle class="tl-dot" data-idx="1" cx="159" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="159" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="159" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">1</text><circle class="tl-dot" data-idx="2" cx="246" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="246" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="246" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">2</text><circle class="tl-dot" data-idx="3" cx="333" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="333" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="333" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">3</text><circle class="tl-dot" data-idx="4" cx="420" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="420" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Graduation</text><circle class="tl-dot" data-idx="5" cx="507" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="507" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Employment</text><circle class="tl-dot" data-idx="6" cx="594" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="594" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Path</text><text x="594" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Decision</text></svg>
       </div>
       <div class="quip-free">
         <div class="quip-next-label">Next milestone</div>
-        <div class="quip-next-date" id="quip-next-date"></div>
-        <div class="quip-text" id="quip-text"></div>
+        <div class="quip-next-date" id="quip-next-date">Departure · Aug 8, 2026</div>
+        <div class="quip-text" id="quip-text">Nervous is just excited with worse PR.</div>
       </div>
-      <div id="verdict-container"></div>
+      <div id="verdict-container">
+    <div class="verdict-card" style="border:1px solid rgba(16,185,129,0.3);margin-top:12px">
+      <div class="verdict-top">
+        <div>
+          <div class="verdict-label" style="color:#065f46">Current decision signal · Pre-departure</div>
+          <div class="verdict-name">Stay and continue</div>
+        </div>
+        <span class="signal-badge" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.25)">Strong · 3.6 / 4.0</span>
+      </div>
+      <div class="verdict-sub">No red flags. Trajectory is positive. Maintain plan and next milestone review.</div>
+      <div class="vdivider"></div>
+      <div class="flags-label" style="color:#065f46">Active orange and red flags</div>
+      <div class="flag-chips"><div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div></div>
+    </div></div>
     </div>
   </div>
 
@@ -380,14 +297,14 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   <div id="thresholds" class="section">
     <h2>Threshold reference</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Read-only reference for all 12 categories.</p>
-    <div id="threshold-content"></div>
+    <div id="threshold-content"><div style="margin-bottom: 1.5rem;"><h3>Financial runway</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>18+ months runway</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>12-18 months runway</td><td style="color:#7a4030">Reduce discretionary spend, increase job/funding search</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>6-12 months runway</td><td style="color:#7a4030">Activate income or timeline adjustment plan</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Under 6 months runway</td><td style="color:#7a4030">Controlled exit or emergency support plan</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Residency / legal</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Status clear, next milestone visible</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Pending but in process</td><td style="color:#7a4030">Track deadlines, consult immigration support</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Delays affecting work, housing, or healthcare</td><td style="color:#7a4030">Engage immigration attorney, escalate</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No clear resolution path</td><td style="color:#7a4030">Evaluate whether path forward is viable</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Career capital</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Gaining skills, network, language, credentials</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Stable but not growing</td><td style="color:#7a4030">Identify one growth area, activate it</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Disconnected from market or network</td><td style="color:#7a4030">Reactivate networking, seek internships or projects</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Employability weakening in both EU and U.S.</td><td style="color:#7a4030">Emergency career reassessment; consider return timeline</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Mental health</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Thriving or coping well</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Persistent low-grade difficulty</td><td style="color:#7a4030">Add structure, community, or professional support</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Affecting sleep, decision quality, or enjoyment</td><td style="color:#7a4030">Seek professional support; reduce stressors</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Chronic distress, isolation, panic, or burnout</td><td style="color:#7a4030">Prioritise recovery; consider timeline adjustment</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Stress levels</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Normal challenge, recovering well</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Persistent but functional</td><td style="color:#7a4030">Monitor; add recovery practices</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Regularly affecting sleep, health, or decisions</td><td style="color:#7a4030">Audit stressors; reduce load</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Chronic, identity-shaping distress</td><td style="color:#7a4030">Immediate intervention; pause or exit</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Physical health</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Healthy, healthcare access secure</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Minor issues, healthcare navigable</td><td style="color:#7a4030">Stay on top of coverage and access</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Ongoing issue with unclear care path</td><td style="color:#7a4030">Escalate healthcare access; consult doctor</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Health deteriorating or care inaccessible</td><td style="color:#7a4030">Return home if care cannot be secured</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Bureaucratic friction</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Annoying but manageable</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Recurring delays but solvable</td><td style="color:#7a4030">Build buffer time into planning</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Delays affecting work, housing, or income</td><td style="color:#7a4030">Seek professional help; escalate</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No clear resolution; bureaucracy controlling major choices</td><td style="color:#7a4030">Seriously reassess viability of path</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Social belonging</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Building meaningful relationships</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Connections present but surface-level</td><td style="color:#7a4030">Invest more intentionally in community</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Isolated; relationships not forming</td><td style="color:#7a4030">Join structured communities; evaluate city fit</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Prolonged isolation with no improvement</td><td style="color:#7a4030">Reassess city/program; seek support resources</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Family relationships</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Strong, supported by the experiment</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Strain present but manageable</td><td style="color:#7a4030">Increase contact; plan visits</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Significant strain or family concern</td><td style="color:#7a4030">Prioritise; assess whether timeline adjustment helps</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Crisis or irrecoverable distance forming</td><td style="color:#7a4030">Return home or activate family support pathway</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Mission alignment</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Evidence supports the EU hypothesis</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Mixed evidence; unclear verdict</td><td style="color:#7a4030">Articulate what data would shift the assessment</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Benefits unclear relative to cost or stress</td><td style="color:#7a4030">Reassess hypothesis; define exit conditions</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Evidence contradicts the reason for being there</td><td style="color:#7a4030">Honest pivot conversation; avoid sunk-cost trap</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Re-entry optionality</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>U.S. path clearly preserved</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Gap growing but manageable</td><td style="color:#7a4030">Maintain U.S. connections; update resume/network</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>U.S. market drift noticeable</td><td style="color:#7a4030">Active U.S. networking; assess credential equivalency</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>U.S. re-entry would be very difficult</td><td style="color:#7a4030">Investigate bridging strategies before it worsens</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Alternative support</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Clear fallback options available</td><td style="color:#7a4030">Document the plan proactively</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Options exist but not formalised</td><td style="color:#7a4030">Have the conversation; make it concrete</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Fallback unclear or logistically complex</td><td style="color:#7a4030">Explore now, not during a crisis</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No viable fallback available</td><td style="color:#7a4030">Build one before continuing; this is a guardrail</td></tr></tbody></table></div></div>
   </div>
 
   <!-- CHECKLIST -->
   <div id="checklist" class="section">
     <h2>Decision checklist</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Core questions to answer honestly at each review point.</p>
-    <div id="checklist-content"></div>
+    <div id="checklist-content"><div class="checklist-item"><input type="checkbox" id="chk0" onchange="saveField(&#39;check_0&#39;,this.checked)"><label for="chk0"><div class="qtext">Do I feel safer about my long-term future than I did in the U.S.?</div><div class="qsub">Be honest. Not aspirationally. Based on current evidence.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk1" onchange="saveField(&#39;check_1&#39;,this.checked)"><label for="chk1"><div class="qtext">Could I imagine raising children here?</div><div class="qsub">Healthcare, childcare, schools, community, pace of life.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk2" onchange="saveField(&#39;check_2&#39;,this.checked)"><label for="chk2"><div class="qtext">Is bureaucracy manageable rather than defining daily life?</div><div class="qsub">Occasional frustration is normal. Paralysis is not.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk3" onchange="saveField(&#39;check_3&#39;,this.checked)"><label for="chk3"><div class="qtext">Does work support the life I want, or does life revolve around work?</div><div class="qsub">This was the core hypothesis. Check it directly.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk4" onchange="saveField(&#39;check_4&#39;,this.checked)"><label for="chk4"><div class="qtext">Am I building meaningful relationships?</div><div class="qsub">At least a few real connections, not just acquaintances.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk5" onchange="saveField(&#39;check_5&#39;,this.checked)"><label for="chk5"><div class="qtext">Are stress levels temporary and manageable?</div><div class="qsub">Or persistent and starting to shape my identity?</div></label></div><div class="checklist-item"><input type="checkbox" id="chk6" onchange="saveField(&#39;check_6&#39;,this.checked)"><label for="chk6"><div class="qtext">Am I preserving the ability to leave, stay, or pivot?</div><div class="qsub">All three options should still feel open.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk7" onchange="saveField(&#39;check_7&#39;,this.checked)"><label for="chk7"><div class="qtext">Am I avoiding sunk-cost reasoning?</div><div class="qsub">Would I start this experiment again today, knowing what I know?</div></label></div><div class="checklist-item"><input type="checkbox" id="chk8" onchange="saveField(&#39;check_8&#39;,this.checked)"><label for="chk8"><div class="qtext">If I knew then what I know now, would I still choose this path?</div><div class="qsub">The clearest signal. Answer it honestly.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk9" onchange="saveField(&#39;check_9&#39;,this.checked)"><label for="chk9"><div class="qtext">Is the financial experiment within guardrails?</div><div class="qsub">Roth ceiling intact, no consumer debt, runway above 12 months.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk10" onchange="saveField(&#39;check_10&#39;,this.checked)"><label for="chk10"><div class="qtext">Is my physical health stable or improving?</div><div class="qsub">Healthcare access secured, no untreated conditions.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk11" onchange="saveField(&#39;check_11&#39;,this.checked)"><label for="chk11"><div class="qtext">Are my nuclear family relationships intact?</div><div class="qsub">No irreversible distance forming. Any strain is acknowledged.</div></label></div></div>
     <hr class="divider">
     <h2>Financial tracking prompts</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:.75rem">Track these in your own spreadsheet. Not stored here.</p>
@@ -447,7 +364,179 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
       </div>
       <button class="btn btn-blue" style="align-self:flex-end" onclick="prefillReviewFromCards()">Pull current ratings</button>
     </div>
-    <div id="review-form"></div>
+    <div id="review-form"><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Financial runway</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_financial&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" selected="">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_financial&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Residency / legal</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_residency&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" selected="">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_residency&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Career capital</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_career&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" selected="">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_career&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Mental health</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_mental&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green">Green</option>
+            <option value="yellow" selected="">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_mental&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Stress levels</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_stress&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green">Green</option>
+            <option value="yellow" selected="">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_stress&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Physical health</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_physical&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green">Green</option>
+            <option value="yellow" selected="">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_physical&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Bureaucratic friction</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_bureaucracy&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" selected="">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_bureaucracy&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Social belonging</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_social&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green">Green</option>
+            <option value="yellow" selected="">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_social&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Family relationships</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_family&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green">Green</option>
+            <option value="yellow" selected="">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_family&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Mission alignment</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_mission&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" selected="">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_mission&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Re-entry optionality</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_reentry&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" selected="">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_reentry&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div style="margin-bottom: 12px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Alternative support</label>
+          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_support&#39;,this.value);generateSummary()">
+            <option value="">Select status</option>
+            <option value="green" selected="">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="orange">Orange</option>
+            <option value="red">Red</option>
+          </select>
+        </div>
+        <div style="flex:2;min-width:200px"><label>Key observation</label>
+          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_support&#39;,this.value)"></textarea>
+        </div>
+      </div></div><div>
+    <hr class="divider">
+    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField(&#39;rev_win&#39;,this.value)">Visa secured faster than expected.</textarea></div>
+    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What&#39;s worrying you most?" onchange="saveField(&#39;rev_concern&#39;,this.value)">Will I be able to leave for holidays. Will I be able to secure PT work in 2027?</textarea></div>
+    <div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField(&#39;rev_change&#39;,this.value)">Revamp this bad boy!</textarea></div></div></div>
     <hr class="divider">
     <h2>Auto-summary</h2>
     <div id="review-summary"><p style="font-size:13px;color:#9a7060">Pull ratings or select statuses above to see your summary.</p></div>
@@ -457,56 +546,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
 
-</div><!-- end .app-main -->
-
-<!-- ── Comment panel ── -->
-<div class="comment-panel" id="comment-panel">
-  <div class="panel-inner">
-    <div class="panel-header">
-      <div class="panel-label">
-        <i class="ti ti-message-circle" aria-hidden="true"></i>
-        notes
-      </div>
-      <span class="panel-count-badge" id="panel-count-badge">0</span>
-    </div>
-    <div class="comment-list" id="panel-comment-list"></div>
-    <div class="panel-input">
-      <input class="panel-name-in" id="panel-name-in" type="text" placeholder="Your name" maxlength="40">
-      <div class="panel-text-row">
-        <textarea class="panel-text-in" id="panel-text-in" placeholder="Leave a note... 👋" rows="1" maxlength="300"></textarea>
-        <button class="panel-post-btn" id="panel-post-btn" disabled onclick="panelPost()">Post</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-</div><!-- end .app-shell -->
-
-<!-- ── Milestone card overlay ── -->
-<div class="ms-card-overlay" id="ms-overlay" onclick="closeMsCard(event)">
-  <div class="ms-card" id="ms-card">
-    <div class="ms-card-top">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="ms-eyebrow">Milestone completed</div>
-          <div class="ms-name" id="ms-name"></div>
-          <div class="ms-date" id="ms-date"></div>
-        </div>
-        <button class="ms-close-btn" onclick="document.getElementById('ms-overlay').classList.remove('show')">×</button>
-      </div>
-    </div>
-    <div class="ms-score-block" id="ms-score-block"></div>
-    <div class="ms-flags-block" id="ms-flags-block"></div>
-    <div class="ms-reactions-block">
-      <div class="ms-reactions-label">Reactions</div>
-      <div class="ms-reaction-chips" id="ms-reaction-chips"></div>
-    </div>
-    <div class="ms-card-footer">
-      <div class="ms-footer-note">Comments go to the activity log</div>
-      <button class="ms-footer-link" onclick="document.getElementById('ms-overlay').classList.remove('show');showTab('dashboard');setTimeout(()=>document.getElementById('comment-panel').classList.add('open'),100)">Open activity log →</button>
-    </div>
-  </div>
-</div>
+</div><!-- end .app -->
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════
@@ -520,8 +560,6 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 // Change the four digits between the quotes to set your PIN.
 // Example: change "1234" to "9876"
 const EDITOR_PIN = "1234";
-
-
 
 // ── BURN RATE — show or hide ─────────────────────────────────────────
 // Set to true to hide the burn rate card from the dashboard.
@@ -758,10 +796,83 @@ const SIGNAL_STYLES = {
 const TODAY = new Date();
 let sessionUnlocked = false;
 
-function getData(){try{return JSON.parse(localStorage.getItem('eu_dash')||'{}')}catch{return{}}}
-function setData(d){localStorage.setItem('eu_dash',JSON.stringify(d))}
-function saveField(k,v){const d=getData();d[k]=v;setData(d)}
+// ═══════════════════════════════════════════════════════════════════════
+//  PERSISTENCE LAYER
+//  Reads from / writes to the Vercel API (backed by Supabase).
+//  Falls back to localStorage automatically when offline or on API error.
+//  Do not change the getData / setData / saveField signatures —
+//  the rest of the dashboard calls them exactly as before.
+// ═══════════════════════════════════════════════════════════════════════
 
+// In-memory cache — always reflects the latest known state.
+// Populated on startup from the API (or localStorage if API is down).
+let _cache = {};
+
+// Show the small sync indicator beneath the header
+function setSyncStatus(state) {
+  const el = document.getElementById('sync-indicator');
+  if (!el) return;
+  if (state === 'synced')  el.textContent = '🟢 Synced';
+  if (state === 'saving')  el.textContent = '🟡 Saving...';
+  if (state === 'offline') el.textContent = '🔴 Offline — changes saved locally';
+  if (state === 'hidden')  el.textContent = '';
+}
+
+// Read the current state (always instant — uses in-memory cache)
+function getData() {
+  return Object.assign({}, _cache);
+}
+
+// Write state: update cache, persist to localStorage, then sync to API.
+// The dashboard keeps working even if the API call fails.
+function setData(d) {
+  _cache = Object.assign({}, d);
+  localStorage.setItem('eu_dash', JSON.stringify(_cache));
+  syncToAPI(_cache);
+}
+
+// Convenience: update a single field and save (same API as before)
+function saveField(k, v) {
+  _cache[k] = v;
+  localStorage.setItem('eu_dash', JSON.stringify(_cache));
+  syncToAPI(_cache);
+}
+
+// Push the full state to /api/data in the background.
+// Shows 🟡 while in flight, 🟢 on success, 🔴 on failure.
+async function syncToAPI(state) {
+  setSyncStatus('saving');
+  try {
+    const res = await fetch('/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    setSyncStatus('synced');
+  } catch (err) {
+    console.warn('Sync failed, staying in localStorage mode:', err.message);
+    setSyncStatus('offline');
+  }
+}
+
+// On startup: try to load from the API, fall back to localStorage cache.
+async function loadFromAPI() {
+  try {
+    const res = await fetch('/api/data');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    _cache = data;
+    // Keep localStorage in sync so offline fallback is always fresh
+    localStorage.setItem('eu_dash', JSON.stringify(_cache));
+    setSyncStatus('synced');
+  } catch (err) {
+    console.warn('API unavailable, loading from localStorage:', err.message);
+    // Fall back to whatever was cached locally
+    try { _cache = JSON.parse(localStorage.getItem('eu_dash') || '{}'); } catch { _cache = {}; }
+    setSyncStatus('offline');
+  }
+}
 
 function pillClass(s){return{green:'s-green',yellow:'s-yellow',orange:'s-orange',red:'s-red',unrated:'s-gray'}[s]||'s-gray'}
 function pillLabel(s){return{green:'Green',yellow:'Yellow',orange:'Orange',red:'Red',unrated:'Unrated'}[s]||'Unrated'}
@@ -966,8 +1077,8 @@ function renderTimeline(){
   const DONE='#4a8fad',NEXT_C='#1B6E9F',FUT='#c5d8e8';
 
   let h='';
-  h+=`<circle id="start-dot" cx="${PAD}" cy="${CY}" r="5" fill="${DONE}" stroke="${DONE}" stroke-width="1.5" style="cursor:pointer"/>`;
-  h+=`<text x="${PAD}" y="${CY+17}" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500" style="pointer-events:none">Start</text>`;
+  h+=`<circle cx="${PAD}" cy="${CY}" r="5" fill="${DONE}" stroke="${DONE}" stroke-width="1.5"/>`;
+  h+=`<text x="${PAD}" y="${CY+17}" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500">Start</text>`;
   h+=`<line x1="${PAD+5}" y1="${CY}" x2="${mX(0)-7}" y2="${CY}" stroke="${DONE}" stroke-width="2"/>`;
 
   MILESTONES.forEach((_,i)=>{
@@ -984,9 +1095,9 @@ function renderTimeline(){
     const sw=next?2.5:1.5;
     const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
     const fw=next?'700':'400';
-    const fs=next?10:9;
+    const fs=next?9:8;
     const ly=CY+r+(next?15:13);
-    h+=`<circle class="${done&&!next?'tl-dot':''}" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done&&!next?'pointer':'default'}"/>`;
+    h+=`<circle class="tl-dot" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done?'pointer':'default'}"/>`;
     if(next)h+=`<circle cx="${x}" cy="${CY}" r="14" fill="none" stroke="${NEXT_C}" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"/>`;
     const words=m.name.split(' ');
     if(words.length===1){
@@ -1292,6 +1403,14 @@ function saveReview(){
   CATS.forEach(c=>{snap.cats[c.id]={status:d['rev_cat_'+c.id]||'',note:d['rev_note_'+c.id]||''}});
   snap.win=d.rev_win||'';snap.concern=d.rev_concern||'';snap.change=d.rev_change||'';
   reviews.unshift(snap);d.saved_reviews=reviews.slice(0,12);setData(d);
+
+  // Also append the review to its own Supabase table for a cleaner audit trail
+  fetch('/api/append', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({type:'review', data:snap})
+  }).catch(err => console.warn('Review append to API failed:', err.message));
+
   alert('Review saved.');
 }
 
@@ -1308,7 +1427,7 @@ function importJSON(e){
   r.onload=ev=>{try{setData(JSON.parse(ev.target.result));loadData();alert('Data imported.');}catch{alert('Invalid JSON file.');}};
   r.readAsText(file);
 }
-function resetData(){if(confirm('Clear all saved data? This cannot be undone.')){localStorage.removeItem('eu_dash');loadData();}}
+function resetData(){if(confirm('Clear all saved data? This cannot be undone.')){localStorage.removeItem('eu_dash');_cache={};loadData();setSyncStatus('hidden');}}
 
 // ── Navigation ────────────────────────────────────────────────────────
 function showTab(id){
@@ -1323,200 +1442,17 @@ function showTab(id){
   if(id==='review')     {renderReviewForm();generateSummary();}
 }
 
-// ── Pre-load Start milestone — 4.0 reflecting pre-departure criteria ──
-// Edit the score, signal, or date here if needed.
-function seedStartMilestone(){
-  const d=getData();
-  if(!d['milestone_score_start']){
-    d['milestone_score_start']='4.0';
-    d['milestone_band_start']='strong';
-    d['milestone_signal_start']='Stay and continue';
-    d['milestone_date_start']='Jun 27, 2026';
-    setData(d);
-  }
-}
-
-// ── Avatar helpers ─────────────────────────────────────────────────────
-const AV_COLORS=[
-  {bg:'#fde8e4',color:'#9a3412'},{bg:'#e0f0fa',color:'#1B6E9F'},
-  {bg:'#f0fdf4',color:'#065f46'},{bg:'#fef9c3',color:'#854d0e'},
-  {bg:'#f3e8ff',color:'#6b21a8'}
-];
-function getAV(name){let h=0;for(let i=0;i<name.length;i++)h=name.charCodeAt(i)+((h<<5)-h);return AV_COLORS[Math.abs(h)%AV_COLORS.length]}
-function getInitials(n){return n.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
-function fmtCT(d){const diff=Math.floor((Date.now()-new Date(d).getTime())/1000);if(diff<60)return'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric'})}
-
-// ── Comment panel ──────────────────────────────────────────────────────
-function toggleCommentPanel(){
-  const panel=document.getElementById('comment-panel');
-  panel.classList.toggle('open');
-  if(panel.classList.contains('open')) renderPanelComments();
-}
-function getComments(){try{return JSON.parse(localStorage.getItem('eu_comments')||'[]')}catch{return[]}}
-function saveComments(arr){localStorage.setItem('eu_comments',JSON.stringify(arr))}
-
-function renderPanelComments(animateLast=false){
-  const comments=getComments();
-  const list=document.getElementById('panel-comment-list');
-  if(!list) return;
-  list.innerHTML='';
-  const cb=document.getElementById('panel-count-badge');
-  const tc=document.getElementById('panel-toggle-count');
-  if(cb) cb.textContent=comments.length;
-  if(tc) tc.textContent=comments.length;
-  if(!comments.length){
-    list.innerHTML='<div style="font-size:11px;color:#b0a090;font-style:italic;text-align:center;padding:12px 0">No notes yet. Be first.</div>';
-    return;
-  }
-  comments.forEach((c,i)=>{
-    const ac=getAV(c.name);
-    const div=document.createElement('div');
-    div.className='ci'+(animateLast&&i===comments.length-1?' new-ci':'');
-    div.innerHTML=`<div class="ci-top"><div class="ci-av" style="background:${ac.bg};color:${ac.color}">${getInitials(c.name)}</div><span class="ci-name">${c.name}</span><span class="ci-date">${fmtCT(c.date)}</span></div><div class="ci-text">${c.text}</div>`;
-    list.appendChild(div);
-  });
-  list.scrollTop=list.scrollHeight;
-}
-
-function panelPost(){
-  const name=document.getElementById('panel-name-in').value.trim();
-  const text=document.getElementById('panel-text-in').value.trim();
-  if(!name||!text) return;
-  const comments=getComments();
-  comments.push({name,text,date:new Date().toISOString()});
-  saveComments(comments);
-  document.getElementById('panel-text-in').value='';
-  document.getElementById('panel-text-in').style.height='auto';
-  document.getElementById('panel-post-btn').disabled=true;
-  renderPanelComments(true);
-}
-
-function validatePanel(){
-  const n=document.getElementById('panel-name-in').value.trim();
-  const t=document.getElementById('panel-text-in').value.trim();
-  const btn=document.getElementById('panel-post-btn');
-  if(btn) btn.disabled=!(n&&t);
-}
-
-setTimeout(()=>{
-  const ni=document.getElementById('panel-name-in');
-  const ti=document.getElementById('panel-text-in');
-  if(ni) ni.addEventListener('input',validatePanel);
-  if(ti){
-    ti.addEventListener('input',e=>{
-      e.target.style.height='auto';
-      e.target.style.height=Math.min(e.target.scrollHeight,80)+'px';
-      validatePanel();
-    });
-    ti.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();panelPost();}});
-  }
-},400);
-
-// ── Milestone card ─────────────────────────────────────────────────────
-// To change reaction emojis: edit the array below (5 max)
-const MS_REACTIONS=['❤️','🎉','🫂','🌍','🎓'];
-
-function getMsReactions(key){try{return JSON.parse(localStorage.getItem('ms_react_'+key)||'{}')}catch{return{}}}
-function saveMsReactions(key,obj){localStorage.setItem('ms_react_'+key,JSON.stringify(obj))}
-
-function openMsCard(idx){
-  const d=getData();
-  let name,date,score,band,signal,flags=[],key;
-
-  if(idx==='start'){
-    name='Start'; date=d['milestone_date_start']||'Jun 27, 2026';
-    score=d['milestone_score_start']||'4.0';
-    band=d['milestone_band_start']||'strong';
-    signal=d['milestone_signal_start']||'Stay and continue';
-    key='start';
-  } else {
-    const m=MILESTONES[idx]; if(!m) return;
-    name=m.fullName;
-    date=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-    score=d['milestone_score_'+idx];
-    band=d['milestone_band_'+idx];
-    signal=d['milestone_signal_'+idx];
-    key=String(idx);
-    CATS.forEach(c=>{const s=d['cat_'+c.id];if(s==='orange'||s==='red')flags.push({label:c.label,status:s});});
-  }
-
-  document.getElementById('ms-name').textContent=name;
-  document.getElementById('ms-date').textContent=date;
-
-  const st=score?(SIGNAL_STYLES[band]||SIGNAL_STYLES.moderate):null;
-  const scoreBlock=document.getElementById('ms-score-block');
-  if(score&&st){
-    const bBg=band==='strong'?'#d1fae5':band==='moderate'?'#fef9c3':band==='caution'?'#ffedd5':'#fee2e2';
-    const bColor=band==='strong'?'#065f46':band==='moderate'?'#854d0e':band==='caution'?'#9a3412':'#991b1b';
-    const bBdr=band==='strong'?'rgba(16,185,129,0.25)':band==='moderate'?'rgba(245,158,11,0.25)':band==='caution'?'rgba(249,115,22,0.25)':'rgba(239,68,68,0.25)';
-    scoreBlock.innerHTML=`<div><div class="ms-score-label">Overall score</div><div><span class="ms-score-num" style="color:${st.scoreColor}">${score}</span><span class="ms-score-denom"> / 4.0</span></div></div><div><div class="ms-verdict-badge" style="background:${bBg};color:${bColor};border:1px solid ${bBdr}">${signal||''}</div><div class="ms-verdict-sub">${flags.length?flags.length+' flag'+(flags.length>1?'s':'')+' active at review.':'No active flags at review.'}</div></div>`;
-  } else {
-    scoreBlock.innerHTML='<div style="font-size:12px;color:#9a7060;font-style:italic">Review not yet scored.</div>';
-  }
-
-  const flagsBlock=document.getElementById('ms-flags-block');
-  if(flags.length){
-    flagsBlock.style.display='';
-    flagsBlock.innerHTML=`<div class="ms-flags-label">Active flags at review</div><div class="ms-flag-chips">${flags.map(f=>`<div class="ms-flag-chip">${f.label}</div>`).join('')}</div>`;
-  } else {
-    flagsBlock.style.display='none';
-  }
-
-  const saved=getMsReactions(key);
-  const chipsEl=document.getElementById('ms-reaction-chips');
-  chipsEl.innerHTML='';
-  MS_REACTIONS.forEach(em=>{
-    const count=saved[em]||0;
-    const chip=document.createElement('button');
-    chip.className='ms-r-chip'+(saved['_my_'+em]?' active':'');
-    chip.innerHTML=`<span class="ms-r-emoji">${em}</span><span class="ms-r-count">${count}</span>`;
-    chip.onclick=()=>{
-      const s=getMsReactions(key);
-      const mk='_my_'+em;
-      if(s[mk]){s[em]=Math.max(0,(s[em]||0)-1);delete s[mk];chip.classList.remove('active');}
-      else{s[em]=(s[em]||0)+1;s[mk]=true;chip.classList.add('active');}
-      chip.querySelector('.ms-r-count').textContent=s[em]||0;
-      saveMsReactions(key,s);
-      chip.classList.remove('bump');void chip.offsetWidth;chip.classList.add('bump');
-    };
-    chipsEl.appendChild(chip);
-  });
-
-  document.getElementById('ms-overlay').classList.add('show');
-}
-
-function closeMsCard(e){
-  if(e.target===document.getElementById('ms-overlay'))
-    document.getElementById('ms-overlay').classList.remove('show');
-}
-
-// Patch timeline dots to open ms card
-const _origRT=renderTimeline;
-renderTimeline=function(){
-  _origRT();
-  const svg=document.getElementById('timeline');
-  if(!svg) return;
-  const startDot=svg.getElementById?svg.getElementById('start-dot'):svg.querySelector('#start-dot');
-  if(startDot) startDot.addEventListener('click',()=>openMsCard('start'));
-  svg.querySelectorAll('.tl-dot').forEach(dot=>{
-    dot.addEventListener('click',()=>{
-      const idx=parseInt(dot.getAttribute('data-idx'));
-      openMsCard(idx);
-    });
-  });
-};
-
 function loadData(){
-  seedStartMilestone();
   renderBanner();
   renderOverview();
   renderThresholds();
   renderChecklist();
   renderReviewForm();
-  renderPanelComments();
 }
 
-loadData();
+// Bootstrap: load from API (or localStorage fallback), then render everything
+loadFromAPI().then(() => loadData());
 </script>
-</body>
-</html>
+
+
+</body></html>
