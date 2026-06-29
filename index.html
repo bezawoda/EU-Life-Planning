@@ -507,7 +507,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 //  CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════
 
-const EDITOR_PIN = "1234";
+const EDITOR_PIN = "5577";
 const HIDE_BURN_RATE = false;
 
 const WITHDRAWAL_SCHEDULE = [
@@ -685,8 +685,9 @@ function setData(d) {
   syncToAPI(_cache);
 }
 
-function saveField(k, v) {
-  _cache[k] = v;
+function saveField(key, value) {
+  // Called whenever any field changes — updates memory, local backup, and cloud
+  _cache[key] = value;
   localStorage.setItem('eu_dash', JSON.stringify(_cache));
   syncToAPI(_cache);
 }
@@ -797,17 +798,20 @@ function getInitials(n){return n.trim().split(' ').map(w=>w[0]).join('').toUpper
 function fmtCT(d){const diff=Math.floor((Date.now()-new Date(d).getTime())/1000);if(diff<60)return'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric'})}
 
 // ── Window logic ──────────────────────────────────────────────────────
-function getWindowState(idx){
-  const m=MILESTONES[idx];if(!m)return'pre';
-  const days=Math.floor((TODAY-new Date(m.date))/86400000);
-  if(days<0)return'pre';if(days<m.unlockDay)return'locked';if(days<=m.lockDay)return'open';return'sealed';
-}
-function getActiveIdx(){
-  let idx=-1;for(let i=0;i<MILESTONES.length;i++){if(TODAY>=new Date(MILESTONES[i].date))idx=i;else break;}return idx;
+// getWindowState removed — editing is PIN-only, not window-based
+function getActiveIdx() {
+  // Returns the index of the most recent milestone that has been reached
+  // Returns -1 if no milestones have been reached yet
+  let idx = -1;
+  for (let i = 0; i < MILESTONES.length; i++) {
+    if (TODAY >= new Date(MILESTONES[i].date)) idx = i;
+    else break;
+  }
+  return idx;
 }
 function canEdit(){
-  const idx=getActiveIdx();if(idx<0)return false;
-  const s=getWindowState(idx);if(s==='open')return true;if(sessionUnlocked&&s!=='pre')return true;return false;
+  // Only the PIN unlocks editing — no automatic window-based access
+  return sessionUnlocked;
 }
 
 // ── Burn rate ─────────────────────────────────────────────────────────
@@ -818,32 +822,47 @@ function buildMonthlyMap(){
     while(sy<ey||(sy===ey&&sm<=em)){const k=`${sy}-${String(sm).padStart(2,'0')}`;map[k]=(map[k]||0)+s.monthly;sm++;if(sm>12){sm=1;sy++;}}
   });return map;
 }
-function projectZero(){const map=buildMonthlyMap(),months=Object.keys(map).sort();let rem=TOTAL_SAVINGS;for(const mo of months){rem-=map[mo];if(rem<=0)return mo;}return months[months.length-1];}
-function getBurnStatus(){const zero=projectZero();const diff=mDiff(BURN_BASELINE,zero);const month=fmtShort(zero);if(diff>=0)return{label:'On track',month,color:'#059669'};if(diff>=-2)return{label:'Watch',month,color:'#d97706'};if(diff>=-4)return{label:'At risk',month,color:'#ea580c'};return{label:'Critical',month,color:'#dc2626'};}
-function getRothStatus(){const before2027=TODAY<new Date('2027-01-01');if(before2027){return ROTH_ACTUAL_WITHDRAWN===0?{label:'On track',color:'#059669'}:{label:'At risk',color:'#ea580c'};}return ROTH_ACTUAL_WITHDRAWN>ROTH_PLANNED_AMOUNT?{label:'At risk',color:'#ea580c'}:{label:'On track',color:'#059669'};}
+function projectZero() {
+  // Walk through each month of spending and find when savings hit zero
+  const map = buildMonthlyMap();
+  const months = Object.keys(map).sort();
+  let remaining = TOTAL_SAVINGS;
+  for (const month of months) {
+    remaining -= map[month];
+    if (remaining <= 0) return month;
+  }
+  return months[months.length - 1];
+}
+function getBurnStatus() {
+  // Compare when savings run out vs. the target baseline month
+  const zero = projectZero();
+  const diff = mDiff(BURN_BASELINE, zero); // positive = ahead of target
+  const month = fmtShort(zero);
+  if (diff >= 0)  return { label: 'On track', month, color: '#059669' };
+  if (diff >= -2) return { label: 'Watch',    month, color: '#d97706' };
+  if (diff >= -4) return { label: 'At risk',  month, color: '#ea580c' };
+  return             { label: 'Critical',  month, color: '#dc2626' };
+}
+function getRothStatus() {
+  // Before 2027: any Roth withdrawal is early and flagged At risk
+  // After 2027: compare actual vs. planned withdrawal amount
+  const before2027 = TODAY < new Date('2027-01-01');
+  if (before2027) {
+    return ROTH_ACTUAL_WITHDRAWN === 0
+      ? { label: 'On track', color: '#059669' }
+      : { label: 'At risk',  color: '#ea580c' };
+  }
+  return ROTH_ACTUAL_WITHDRAWN > ROTH_PLANNED_AMOUNT
+    ? { label: 'At risk',  color: '#ea580c' }
+    : { label: 'On track', color: '#059669' };
+}
 
 // ── Banner ────────────────────────────────────────────────────────────
+// Banner paused — restore the full function below to re-enable
 function renderBanner(){
-  const d=getData();const banner=document.getElementById('top-banner');const activeIdx=getActiveIdx();
-  if(activeIdx<0){banner.classList.remove('show');return;}
-  const m=MILESTONES[activeIdx];const state=getWindowState(activeIdx);const sealedDismissed=d['banner_sealed_dismissed_'+activeIdx]===true;
-  banner.className='';
-  if(state==='open'){
-    const sealDate=new Date(new Date(m.date).getTime()+(m.lockDay+1)*86400000);const daysLeft=Math.ceil((sealDate-TODAY)/86400000);
-    banner.classList.add('show','b-open');document.getElementById('banner-title').textContent=m.fullName+' review window is open';
-    document.getElementById('banner-sub').textContent='Closes '+sealDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' · '+daysLeft+' day'+(daysLeft===1?'':'s')+' remaining';
-    document.getElementById('banner-cta').style.display='inline-block';
-  } else if(state==='sealed'&&!sealedDismissed){
-    banner.classList.add('show','b-sealed');document.getElementById('banner-title').textContent=m.fullName+' review window sealed';
-    document.getElementById('banner-sub').textContent='That window has closed. Use your PIN to view history, or start a new quarterly review.';
-    document.getElementById('banner-cta').style.display='none';
-  } else {banner.classList.remove('show');}
-}
-function dismissBanner(){
-  const d=getData();const activeIdx=getActiveIdx();
-  if(activeIdx>=0&&getWindowState(activeIdx)==='sealed'){d['banner_sealed_dismissed_'+activeIdx]=true;setData(d);}
   document.getElementById('top-banner').classList.remove('show');
 }
+// dismissBanner removed — banner is paused
 
 // ── PIN ───────────────────────────────────────────────────────────────
 function requestPin(cb){
@@ -971,15 +990,11 @@ function renderVerdict(){
 function renderCatCards(){
   const d=getData();const activeIdx=getActiveIdx();const windowState=activeIdx>=0?getWindowState(activeIdx):'pre';const editable=canEdit();
   const esr=document.getElementById('edit-status-row');
-  if(activeIdx<0){esr.innerHTML=`<span class="window-badge wb-pre">Scoring opens after departure</span>`;}
-  else if(windowState==='open'){
-    const sealDate=new Date(new Date(MILESTONES[activeIdx].date).getTime()+(MILESTONES[activeIdx].lockDay+1)*86400000);
-    if(!sessionUnlocked){esr.innerHTML=`<span class="window-badge wb-open">Window open</span> <button class="btn btn-blue" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">Unlock editing</button>`;}
-    else{esr.innerHTML=`<span class="window-badge wb-open">Editing unlocked · closes ${sealDate.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;}
-  } else if(windowState==='sealed'){
-    if(!sessionUnlocked){esr.innerHTML=`<span class="window-badge wb-sealed">Review sealed</span> <button class="btn" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">PIN override</button>`;}
-    else{esr.innerHTML=`<span class="window-badge wb-open">PIN override active</span>`;}
-  } else {esr.innerHTML=`<span class="window-badge wb-pre">Breathing room · window opens in ${MILESTONES[activeIdx].unlockDay-(Math.floor((TODAY-new Date(MILESTONES[activeIdx].date))/86400000))} days</span>`;}
+  if(!sessionUnlocked){
+    esr.innerHTML=`<button class="btn btn-blue" style="padding:4px 12px;font-size:12px" onclick="requestPin(()=>renderCatCards())">Unlock editing</button>`;
+  } else {
+    esr.innerHTML=`<span class="window-badge wb-open">Editing unlocked</span>`;
+  }
   const container=document.getElementById('cat-cards');container.innerHTML='';
   CATS.forEach(c=>{
     const status=d['cat_'+c.id]||'unrated';const note=d['note_'+c.id]||'';const t=c.thresholds.find(t=>t.s===status);
@@ -1041,7 +1056,15 @@ function saveReview(){
 function exportJSON(){const blob=new Blob([JSON.stringify(getData(),null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='eu-dashboard-'+new Date().toISOString().split('T')[0]+'.json';a.click();URL.revokeObjectURL(url);}
 function importTrigger(){document.getElementById('import-file').click()}
 function importJSON(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{setData(JSON.parse(ev.target.result));loadData();alert('Data imported.');}catch{alert('Invalid JSON file.');}};r.readAsText(file);}
-function resetData(){if(confirm('Clear all saved data? This cannot be undone.')){localStorage.removeItem('eu_dash');_cache={};loadData();setSyncStatus('hidden');}}
+function resetData() {
+  // Clears all data from memory and local backup (Supabase keeps its own copy)
+  if (confirm('Clear all saved data? This cannot be undone.')) {
+    localStorage.removeItem('eu_dash');
+    _cache = {};
+    loadData();
+    setSyncStatus('hidden');
+  }
+}
 
 // ── Navigation ────────────────────────────────────────────────────────
 function showTab(id){
@@ -1166,8 +1189,14 @@ function loadData(){
   renderBanner();renderOverview();renderThresholds();renderChecklist();renderReviewForm();renderPanelComments();
 }
 
-// Load everything: dashboard state + comments + reactions, then render
-Promise.all([loadFromAPI(), loadCommentsFromAPI(), loadReactionsFromAPI()]).then(()=>loadData());
+// ── Startup ───────────────────────────────────────────────────────────
+// When the page loads: fetch data from Supabase, then draw the dashboard.
+// If Supabase is unreachable, falls back to the locally cached copy.
+Promise.all([
+  loadFromAPI(),          // dashboard ratings, notes, guardrails
+  loadCommentsFromAPI(),  // activity log comments
+  loadReactionsFromAPI(), // milestone emoji reactions
+]).then(() => loadData());
 </script>
 </body>
 </html>
