@@ -54,6 +54,7 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1rem}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:1rem}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+@media(max-width:700px){.grid4{grid-template-columns:repeat(2,1fr)}}
 .gr-carousel{display:flex;gap:10px;margin-bottom:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px}
 .gr-carousel::-webkit-scrollbar{height:4px}
 .gr-carousel::-webkit-scrollbar-track{background:rgba(226,114,91,0.08);border-radius:2px}
@@ -353,7 +354,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   <!-- OVERVIEW -->
   <div id="dashboard" class="section active">
     <h2>Category overview</h2>
-    <div id="overview-grid" class="grid3"></div>
+    <div id="overview-grid" class="grid4"></div>
     <hr class="divider">
     <h2>Financial guardrails</h2>
     <div class="gr-carousel" id="guardrails"></div>
