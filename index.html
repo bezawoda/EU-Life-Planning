@@ -989,7 +989,7 @@ function renderVerdict(){
 
 // ── Status cards ──────────────────────────────────────────────────────
 function renderCatCards(){
-  const d=getData();const activeIdx=getActiveIdx();const windowState=activeIdx>=0?getWindowState(activeIdx):'pre';const editable=canEdit();
+  const d=getData();const editable=canEdit();
   const esr=document.getElementById('edit-status-row');
   if(!sessionUnlocked){
     esr.innerHTML=`<button class="btn btn-blue" style="padding:4px 12px;font-size:12px" onclick="requestPin(()=>renderCatCards())">Unlock editing</button>`;
