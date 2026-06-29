@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0044)https://bezawoda.github.io/EU-Life-Planning/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EU experiment dashboard</title>
 <style>
@@ -30,7 +30,10 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .banner-dismiss{background:none;border:none;font-size:20px;cursor:pointer;color:#999;line-height:1;padding:2px 6px}
 .banner-dismiss:hover{color:#555}
 
-.app{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+/* ── App shell ── */
+.app-shell{display:flex;align-items:flex-start;gap:0;max-width:1180px;margin:0 auto;padding:2rem 1.5rem}
+.app-main{flex:1;min-width:0;max-width:900px}
+.app{width:100%}
 .header{margin-bottom:1.5rem}
 .header h1{font-size:22px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
 .header p{font-size:12px;color:#b05040}
@@ -51,6 +54,12 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1rem}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:1rem}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.gr-carousel{display:flex;gap:10px;margin-bottom:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.gr-carousel::-webkit-scrollbar{height:4px}
+.gr-carousel::-webkit-scrollbar-track{background:rgba(226,114,91,0.08);border-radius:2px}
+.gr-carousel::-webkit-scrollbar-thumb{background:rgba(226,114,91,0.3);border-radius:2px}
+.gr-carousel .gr-card{flex:0 0 calc(50% - 5px);scroll-snap-align:start;min-width:160px}
+@media(min-width:600px){.gr-carousel .gr-card{flex:0 0 calc(25% - 8px)}}
 
 /* ── Pills ── */
 .pill{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:700}
@@ -164,26 +173,103 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .pin-input:focus{border-color:#E2725B;outline:none}
 .pin-error{font-size:12px;color:#991b1b;margin-bottom:.75rem;min-height:18px}
 .pin-btn-row{display:flex;gap:8px;justify-content:center}
-
 .export-note{font-size:12px;color:#9a7060;margin-top:6px}
 
 /* ── Milestone chip ── */
 .milestone-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:6px;background:rgba(255,255,255,0.6);border:1px solid rgba(226,114,91,0.2);font-size:12px;margin:3px;cursor:pointer}
 .milestone-chip input{width:14px;height:14px;accent-color:#E2725B}
 
+/* ── Comment panel ── */
+.comment-panel{width:0;overflow:hidden;transition:width .25s ease;flex-shrink:0;border-left:0px solid rgba(226,114,91,0.15);background:rgba(255,255,255,0.38);border-radius:0 12px 12px 0;display:flex;flex-direction:column;position:sticky;top:0;max-height:100vh}
+.comment-panel.open{width:260px;border-left-width:1px}
+.panel-inner{padding:14px;display:flex;flex-direction:column;height:100%;min-width:260px;min-height:400px}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(226,114,91,0.12)}
+.panel-label{font-size:10px;color:#b0a090;letter-spacing:.04em;display:flex;align-items:center;gap:5px}
+.panel-count-badge{font-size:10px;color:#b0a090}
+.comment-list{flex:1;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column}
+.ci{padding:7px 0;border-bottom:1px solid rgba(226,114,91,0.07)}
+.ci:last-child{border-bottom:none}
+.ci-top{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.ci-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0}
+.ci-name{font-size:11px;font-style:italic;font-weight:600;color:#7a4030}
+.ci-date{font-size:10px;color:#c8b0a8;margin-left:auto}
+.ci-text{font-size:12px;color:#2a1a14;line-height:1.5;padding-left:27px}
+.panel-input{border-top:1px solid rgba(226,114,91,0.12);padding-top:8px}
+.panel-name-in{font-family:inherit;font-size:11px;color:#1a0e0a;background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.2);border-radius:5px;padding:5px 8px;width:100%;outline:none;margin-bottom:5px;font-style:italic}
+.panel-name-in:focus{border-color:#E2725B}
+.panel-text-row{display:flex;gap:5px;align-items:flex-end}
+.panel-text-in{font-family:inherit;font-size:12px;color:#1a0e0a;background:rgba(255,255,255,0.7);border:1px solid rgba(226,114,91,0.2);border-radius:5px;padding:6px 8px;flex:1;outline:none;resize:none;line-height:1.4;min-height:32px}
+.panel-text-in:focus{border-color:#E2725B}
+.panel-post-btn{background:#E2725B;color:#fff;border:none;border-radius:5px;padding:0 10px;font-size:11px;font-family:inherit;cursor:pointer;height:32px;font-weight:600;white-space:nowrap}
+.panel-post-btn:hover{background:#c85a44}
+.panel-post-btn:disabled{background:#e0c4bc;cursor:not-allowed}
+@keyframes slideInComment{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.ci.new-ci{animation:slideInComment .25s ease forwards}
+
+/* ── Toggle button ── */
+.panel-toggle{background:rgba(255,255,255,0.78);border:1px solid rgba(226,114,91,0.2);border-radius:6px;padding:5px 12px;font-size:11px;font-family:inherit;cursor:pointer;color:#7a4030;display:inline-flex;align-items:center;gap:6px;font-weight:600;white-space:nowrap}
+.panel-toggle:hover{background:rgba(226,114,91,0.08)}
+.panel-toggle-count{background:#E2725B;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px}
+
+/* ── Milestone card overlay ── */
+.ms-card-overlay{display:none;position:fixed;inset:0;background:rgba(26,14,10,0.35);z-index:150;align-items:center;justify-content:center;padding:20px}
+.ms-card-overlay.show{display:flex}
+.ms-card{background:#fff;border-radius:14px;width:100%;max-width:440px;overflow:hidden}
+.ms-card-top{padding:16px 18px 14px;border-bottom:1px solid rgba(226,114,91,0.1)}
+.ms-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1B6E9F;margin-bottom:4px}
+.ms-name{font-size:18px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
+.ms-date{font-size:12px;color:#9a7060}
+.ms-score-block{padding:14px 18px;border-bottom:1px solid rgba(226,114,91,0.1);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ms-score-num{font-size:28px;font-weight:700}
+.ms-score-denom{font-size:13px;color:#b0a090;font-weight:400}
+.ms-score-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#9a5040;margin-bottom:4px}
+.ms-verdict-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700;margin-bottom:4px}
+.ms-verdict-sub{font-size:11px;color:#9a7060;line-height:1.5}
+.ms-flags-block{padding:12px 18px;border-bottom:1px solid rgba(226,114,91,0.1)}
+.ms-flags-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:7px}
+.ms-flag-chips{display:flex;flex-wrap:wrap;gap:5px}
+.ms-flag-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px;background:#ffedd5;color:#9a3412;border:1px solid rgba(249,115,22,0.2)}
+.ms-reactions-block{padding:12px 18px;border-bottom:1px solid rgba(226,114,91,0.1)}
+.ms-reactions-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#b0a090;margin-bottom:8px}
+.ms-reaction-chips{display:flex;gap:6px;flex-wrap:wrap}
+.ms-r-chip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.75);border:1px solid rgba(226,114,91,0.18);border-radius:20px;padding:4px 10px;cursor:pointer;transition:all .15s;font-family:inherit}
+.ms-r-chip:hover{background:rgba(226,114,91,0.07);border-color:rgba(226,114,91,0.3);transform:scale(1.05)}
+.ms-r-chip.active{background:rgba(226,114,91,0.1);border-color:rgba(226,114,91,0.35)}
+.ms-r-emoji{font-size:15px;line-height:1}
+.ms-r-count{font-size:11px;font-weight:700;color:#7a4030;min-width:8px}
+.ms-card-footer{padding:11px 18px;display:flex;align-items:center;justify-content:space-between}
+.ms-footer-note{font-size:11px;color:#b0a090;font-style:italic}
+.ms-footer-link{font-size:11px;color:#1B6E9F;font-weight:600;cursor:pointer;background:none;border:none;font-family:inherit;padding:0}
+.ms-close-btn{background:none;border:none;cursor:pointer;color:#b0a090;font-size:20px;line-height:1;padding:0}
+.ms-close-btn:hover{color:#7a4030}
+@keyframes bump{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
+.bump{animation:bump .18s ease}
+
+/* ── Disco shimmer on milestone dot ── */
+@keyframes disco{
+  0%  {filter:drop-shadow(0 0 0px rgba(226,114,91,0))}
+  20% {filter:drop-shadow(0 0 6px rgba(226,114,91,0.7))}
+  40% {filter:drop-shadow(0 0 6px rgba(27,110,159,0.7))}
+  60% {filter:drop-shadow(0 0 6px rgba(16,185,129,0.6))}
+  80% {filter:drop-shadow(0 0 6px rgba(245,158,11,0.6))}
+  100%{filter:drop-shadow(0 0 0px rgba(226,114,91,0))}
+}
+
 @media print{
   #top-banner,.nav,.btn,.btn-row,.pin-overlay{display:none!important}
   .section{display:block!important}
   body{background:#fff}
-  .app{padding:0;max-width:100%}
+  .app-shell{padding:0}
+}
+@media(max-width:700px){
+  .app-shell{flex-direction:column;padding:1rem}
+  .comment-panel.open{width:100%;border-left:none;border-top:1px solid rgba(226,114,91,0.15);border-radius:0 0 12px 12px}
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════
-     TOP BANNER — auto-shows based on window state, no editing needed
-     ═══════════════════════════════════════════════════════════ -->
+<!-- TOP BANNER -->
 <div id="top-banner">
   <div class="banner-left">
     <div class="banner-dot"></div>
@@ -193,14 +279,12 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
   <div class="banner-right">
-    <button class="banner-cta" id="banner-cta" style="display:none" onclick="showTab(&#39;categories&#39;)">Update status cards</button>
+    <button class="banner-cta" id="banner-cta" style="display:none" onclick="showTab('categories')">Update status cards</button>
     <button class="banner-dismiss" onclick="dismissBanner()" title="Dismiss">×</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PIN MODAL
-     ═══════════════════════════════════════════════════════════ -->
+<!-- PIN MODAL -->
 <div class="pin-overlay" id="pin-overlay">
   <div class="pin-box">
     <h2>Editor access</h2>
@@ -214,31 +298,65 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   </div>
 </div>
 
-<div class="app">
-  <div class="header">
-    <h1>EU experiment dashboard</h1>
-    <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
+<!-- MILESTONE CARD OVERLAY -->
+<div class="ms-card-overlay" id="ms-overlay" onclick="closeMsCard(event)">
+  <div class="ms-card" id="ms-card">
+    <div class="ms-card-top">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="ms-eyebrow">Milestone completed</div>
+          <div class="ms-name" id="ms-name"></div>
+          <div class="ms-date" id="ms-date"></div>
+        </div>
+        <button class="ms-close-btn" onclick="document.getElementById('ms-overlay').classList.remove('show')">×</button>
+      </div>
+    </div>
+    <div class="ms-score-block" id="ms-score-block"></div>
+    <div class="ms-flags-block" id="ms-flags-block"></div>
+    <div class="ms-reactions-block">
+      <div class="ms-reactions-label">Reactions</div>
+      <div class="ms-reaction-chips" id="ms-reaction-chips"></div>
+    </div>
+    <div class="ms-card-footer">
+      <div class="ms-footer-note">Comments go to the activity log</div>
+      <button class="ms-footer-link" onclick="document.getElementById('ms-overlay').classList.remove('show');showTab('dashboard');setTimeout(()=>document.getElementById('comment-panel').classList.add('open'),100)">Open activity log →</button>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell">
+<div class="app app-main">
+
+  <div class="header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+    <div>
+      <h1>EU experiment dashboard</h1>
+      <p>A bounded life experiment · evaluating long-term well-being, security, and optionality</p>
+    </div>
+    <button class="panel-toggle" onclick="toggleCommentPanel()">
+      💬 Send some love
+      <span class="panel-toggle-count" id="panel-toggle-count">0</span>
+    </button>
   </div>
 
-  <!-- Sync status indicator — updated by the persistence layer below -->
+  <!-- Sync status indicator -->
   <div id="sync-indicator" style="font-size:11px;color:#9a7060;margin-bottom:1rem;height:16px"></div>
 
   <div class="nav" id="nav">
-    <button class="active" onclick="showTab(&#39;dashboard&#39;)">Overview</button>
-    <button onclick="showTab(&#39;categories&#39;)">Status cards</button>
-    <button onclick="showTab(&#39;thresholds&#39;)">Thresholds</button>
-    <button onclick="showTab(&#39;checklist&#39;)">Checklist</button>
-    <button onclick="showTab(&#39;review&#39;)">Quarterly review</button>
-    <button onclick="showTab(&#39;export&#39;)">Export</button>
+    <button class="active" onclick="showTab('dashboard')">Overview</button>
+    <button onclick="showTab('categories')">Status cards</button>
+    <button onclick="showTab('thresholds')">Thresholds</button>
+    <button onclick="showTab('checklist')">Checklist</button>
+    <button onclick="showTab('review')">Quarterly review</button>
+    <button onclick="showTab('export')">Export</button>
   </div>
 
   <!-- OVERVIEW -->
   <div id="dashboard" class="section active">
     <h2>Category overview</h2>
-    <div id="overview-grid" class="grid3"><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Financial runway</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">As secure as I can be currently, working through known ...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Residency / legal</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Temporary visa secured. Pending AIMA April visit for Re...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Career capital</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A. Program has not started.</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Mental health</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Mostly excited, with some anxiety as move-time approach...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Stress levels</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Move related, not country specific (Buereacracy, etc.)</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Physical health</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">4 month healthcare through private vendor secured. Yell...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Bureaucratic friction</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Social belonging</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Family relationships</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Adios America party planning split from original (Mom's...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Mission alignment</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Re-entry optionality</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Alternative support</div></div></div>
+    <div id="overview-grid" class="grid3"></div>
     <hr class="divider">
     <h2>Financial guardrails</h2>
-    <div class="grid4" id="guardrails"><div class="gr-card"><div class="gr-label">Retirement principal</div><div class="gr-value" style="color:#059669">Not touched</div></div><div class="gr-card"><div class="gr-label">Burn rate</div><div class="gr-value" style="color:#059669">On track · Jul'28</div></div><div class="gr-card"><div class="gr-label">Roth withdrawals</div><div class="gr-value" style="color:#059669">On track</div></div><div class="gr-card"><div class="gr-label">Consumer debt</div><div class="gr-value" style="color:#059669">None</div></div></div>
+    <div class="gr-carousel" id="guardrails"></div>
     <hr class="divider">
     <div class="sec-rule">
       <div class="tl-header">
@@ -260,27 +378,14 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
           <div class="tt-date" id="tt-date"></div>
           <div class="tt-arrow" id="tt-arrow"></div>
         </div>
-        <svg id="timeline" viewBox="0 0 620 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><circle cx="26" cy="26" r="5" fill="#4a8fad" stroke="#4a8fad" stroke-width="1.5"></circle><text x="26" y="43" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500">Start</text><line x1="31" y1="26" x2="65" y2="26" stroke="#4a8fad" stroke-width="2"></line><line x1="79" y1="26" x2="152" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="166" y1="26" x2="239" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="253" y1="26" x2="326" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="340" y1="26" x2="413" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="427" y1="26" x2="500" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="514" y1="26" x2="587" y2="26" stroke="#c5d8e8" stroke-width="2"></line><circle class="tl-dot" data-idx="0" cx="72" cy="26" r="9" fill="#fff" stroke="#1B6E9F" stroke-width="2.5" style="cursor:default"></circle><circle cx="72" cy="26" r="14" fill="none" stroke="#1B6E9F" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"></circle><text x="72" y="50" text-anchor="middle" font-size="9" fill="#1B6E9F" font-weight="700" style="pointer-events:none">Departure</text><circle class="tl-dot" data-idx="1" cx="159" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="159" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="159" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">1</text><circle class="tl-dot" data-idx="2" cx="246" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="246" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="246" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">2</text><circle class="tl-dot" data-idx="3" cx="333" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="333" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="333" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">3</text><circle class="tl-dot" data-idx="4" cx="420" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="420" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Graduation</text><circle class="tl-dot" data-idx="5" cx="507" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="507" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Employment</text><circle class="tl-dot" data-idx="6" cx="594" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="594" y="45" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Path</text><text x="594" y="56" text-anchor="middle" font-size="8" fill="#b8d0de" font-weight="400" style="pointer-events:none">Decision</text></svg>
+        <svg id="timeline" viewBox="0 0 620 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"></svg>
       </div>
       <div class="quip-free">
         <div class="quip-next-label">Next milestone</div>
-        <div class="quip-next-date" id="quip-next-date">Departure · Aug 8, 2026</div>
-        <div class="quip-text" id="quip-text">Nervous is just excited with worse PR.</div>
+        <div class="quip-next-date" id="quip-next-date"></div>
+        <div class="quip-text" id="quip-text"></div>
       </div>
-      <div id="verdict-container">
-    <div class="verdict-card" style="border:1px solid rgba(16,185,129,0.3);margin-top:12px">
-      <div class="verdict-top">
-        <div>
-          <div class="verdict-label" style="color:#065f46">Current decision signal · Pre-departure</div>
-          <div class="verdict-name">Stay and continue</div>
-        </div>
-        <span class="signal-badge" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.25)">Strong · 3.6 / 4.0</span>
-      </div>
-      <div class="verdict-sub">No red flags. Trajectory is positive. Maintain plan and next milestone review.</div>
-      <div class="vdivider"></div>
-      <div class="flags-label" style="color:#065f46">Active orange and red flags</div>
-      <div class="flag-chips"><div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div></div>
-    </div></div>
+      <div id="verdict-container"></div>
     </div>
   </div>
 
@@ -297,14 +402,14 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   <div id="thresholds" class="section">
     <h2>Threshold reference</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Read-only reference for all 12 categories.</p>
-    <div id="threshold-content"><div style="margin-bottom: 1.5rem;"><h3>Financial runway</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>18+ months runway</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>12-18 months runway</td><td style="color:#7a4030">Reduce discretionary spend, increase job/funding search</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>6-12 months runway</td><td style="color:#7a4030">Activate income or timeline adjustment plan</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Under 6 months runway</td><td style="color:#7a4030">Controlled exit or emergency support plan</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Residency / legal</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Status clear, next milestone visible</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Pending but in process</td><td style="color:#7a4030">Track deadlines, consult immigration support</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Delays affecting work, housing, or healthcare</td><td style="color:#7a4030">Engage immigration attorney, escalate</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No clear resolution path</td><td style="color:#7a4030">Evaluate whether path forward is viable</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Career capital</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Gaining skills, network, language, credentials</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Stable but not growing</td><td style="color:#7a4030">Identify one growth area, activate it</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Disconnected from market or network</td><td style="color:#7a4030">Reactivate networking, seek internships or projects</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Employability weakening in both EU and U.S.</td><td style="color:#7a4030">Emergency career reassessment; consider return timeline</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Mental health</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Thriving or coping well</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Persistent low-grade difficulty</td><td style="color:#7a4030">Add structure, community, or professional support</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Affecting sleep, decision quality, or enjoyment</td><td style="color:#7a4030">Seek professional support; reduce stressors</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Chronic distress, isolation, panic, or burnout</td><td style="color:#7a4030">Prioritise recovery; consider timeline adjustment</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Stress levels</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Normal challenge, recovering well</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Persistent but functional</td><td style="color:#7a4030">Monitor; add recovery practices</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Regularly affecting sleep, health, or decisions</td><td style="color:#7a4030">Audit stressors; reduce load</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Chronic, identity-shaping distress</td><td style="color:#7a4030">Immediate intervention; pause or exit</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Physical health</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Healthy, healthcare access secure</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Minor issues, healthcare navigable</td><td style="color:#7a4030">Stay on top of coverage and access</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Ongoing issue with unclear care path</td><td style="color:#7a4030">Escalate healthcare access; consult doctor</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Health deteriorating or care inaccessible</td><td style="color:#7a4030">Return home if care cannot be secured</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Bureaucratic friction</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Annoying but manageable</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Recurring delays but solvable</td><td style="color:#7a4030">Build buffer time into planning</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Delays affecting work, housing, or income</td><td style="color:#7a4030">Seek professional help; escalate</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No clear resolution; bureaucracy controlling major choices</td><td style="color:#7a4030">Seriously reassess viability of path</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Social belonging</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Building meaningful relationships</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Connections present but surface-level</td><td style="color:#7a4030">Invest more intentionally in community</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Isolated; relationships not forming</td><td style="color:#7a4030">Join structured communities; evaluate city fit</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Prolonged isolation with no improvement</td><td style="color:#7a4030">Reassess city/program; seek support resources</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Family relationships</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Strong, supported by the experiment</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Strain present but manageable</td><td style="color:#7a4030">Increase contact; plan visits</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Significant strain or family concern</td><td style="color:#7a4030">Prioritise; assess whether timeline adjustment helps</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Crisis or irrecoverable distance forming</td><td style="color:#7a4030">Return home or activate family support pathway</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Mission alignment</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Evidence supports the EU hypothesis</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Mixed evidence; unclear verdict</td><td style="color:#7a4030">Articulate what data would shift the assessment</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Benefits unclear relative to cost or stress</td><td style="color:#7a4030">Reassess hypothesis; define exit conditions</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Evidence contradicts the reason for being there</td><td style="color:#7a4030">Honest pivot conversation; avoid sunk-cost trap</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Re-entry optionality</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>U.S. path clearly preserved</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Gap growing but manageable</td><td style="color:#7a4030">Maintain U.S. connections; update resume/network</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>U.S. market drift noticeable</td><td style="color:#7a4030">Active U.S. networking; assess credential equivalency</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>U.S. re-entry would be very difficult</td><td style="color:#7a4030">Investigate bridging strategies before it worsens</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Alternative support</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Clear fallback options available</td><td style="color:#7a4030">Document the plan proactively</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Options exist but not formalised</td><td style="color:#7a4030">Have the conversation; make it concrete</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Fallback unclear or logistically complex</td><td style="color:#7a4030">Explore now, not during a crisis</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No viable fallback available</td><td style="color:#7a4030">Build one before continuing; this is a guardrail</td></tr></tbody></table></div></div>
+    <div id="threshold-content"></div>
   </div>
 
   <!-- CHECKLIST -->
   <div id="checklist" class="section">
     <h2>Decision checklist</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Core questions to answer honestly at each review point.</p>
-    <div id="checklist-content"><div class="checklist-item"><input type="checkbox" id="chk0" onchange="saveField(&#39;check_0&#39;,this.checked)"><label for="chk0"><div class="qtext">Do I feel safer about my long-term future than I did in the U.S.?</div><div class="qsub">Be honest. Not aspirationally. Based on current evidence.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk1" onchange="saveField(&#39;check_1&#39;,this.checked)"><label for="chk1"><div class="qtext">Could I imagine raising children here?</div><div class="qsub">Healthcare, childcare, schools, community, pace of life.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk2" onchange="saveField(&#39;check_2&#39;,this.checked)"><label for="chk2"><div class="qtext">Is bureaucracy manageable rather than defining daily life?</div><div class="qsub">Occasional frustration is normal. Paralysis is not.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk3" onchange="saveField(&#39;check_3&#39;,this.checked)"><label for="chk3"><div class="qtext">Does work support the life I want, or does life revolve around work?</div><div class="qsub">This was the core hypothesis. Check it directly.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk4" onchange="saveField(&#39;check_4&#39;,this.checked)"><label for="chk4"><div class="qtext">Am I building meaningful relationships?</div><div class="qsub">At least a few real connections, not just acquaintances.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk5" onchange="saveField(&#39;check_5&#39;,this.checked)"><label for="chk5"><div class="qtext">Are stress levels temporary and manageable?</div><div class="qsub">Or persistent and starting to shape my identity?</div></label></div><div class="checklist-item"><input type="checkbox" id="chk6" onchange="saveField(&#39;check_6&#39;,this.checked)"><label for="chk6"><div class="qtext">Am I preserving the ability to leave, stay, or pivot?</div><div class="qsub">All three options should still feel open.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk7" onchange="saveField(&#39;check_7&#39;,this.checked)"><label for="chk7"><div class="qtext">Am I avoiding sunk-cost reasoning?</div><div class="qsub">Would I start this experiment again today, knowing what I know?</div></label></div><div class="checklist-item"><input type="checkbox" id="chk8" onchange="saveField(&#39;check_8&#39;,this.checked)"><label for="chk8"><div class="qtext">If I knew then what I know now, would I still choose this path?</div><div class="qsub">The clearest signal. Answer it honestly.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk9" onchange="saveField(&#39;check_9&#39;,this.checked)"><label for="chk9"><div class="qtext">Is the financial experiment within guardrails?</div><div class="qsub">Roth ceiling intact, no consumer debt, runway above 12 months.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk10" onchange="saveField(&#39;check_10&#39;,this.checked)"><label for="chk10"><div class="qtext">Is my physical health stable or improving?</div><div class="qsub">Healthcare access secured, no untreated conditions.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk11" onchange="saveField(&#39;check_11&#39;,this.checked)"><label for="chk11"><div class="qtext">Are my nuclear family relationships intact?</div><div class="qsub">No irreversible distance forming. Any strain is acknowledged.</div></label></div></div>
+    <div id="checklist-content"></div>
     <hr class="divider">
     <h2>Financial tracking prompts</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:.75rem">Track these in your own spreadsheet. Not stored here.</p>
@@ -325,7 +430,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     <h2>Export and save</h2>
     <div class="card" style="margin-bottom:1rem">
       <h3 style="margin-bottom:.5rem">Save a copy</h3>
-      <p style="font-size:13px;color:#5a3020;margin-bottom:.75rem">All data auto-saves in your browser. Export JSON to back up or transfer. Use <strong>File → Print → Save as PDF</strong> for a PDF snapshot.</p>
+      <p style="font-size:13px;color:#5a3020;margin-bottom:.75rem">All data auto-saves to the cloud. Export JSON to back up or transfer.</p>
       <div class="btn-row" style="margin-top:0">
         <button class="btn btn-primary" onclick="exportJSON()">Export as JSON</button>
         <button class="btn" onclick="importTrigger()">Import JSON</button>
@@ -341,7 +446,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
 
-  <!-- QUARTERLY REVIEW (last) -->
+  <!-- QUARTERLY REVIEW -->
   <div id="review" class="section">
     <h2>Quarterly review</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Ratings pre-filled from your current status cards. Add observations, then save.</p>
@@ -364,179 +469,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
       </div>
       <button class="btn btn-blue" style="align-self:flex-end" onclick="prefillReviewFromCards()">Pull current ratings</button>
     </div>
-    <div id="review-form"><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Financial runway</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_financial&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green" selected="">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_financial&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Residency / legal</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_residency&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green" selected="">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_residency&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Career capital</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_career&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green" selected="">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_career&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Mental health</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_mental&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green">Green</option>
-            <option value="yellow" selected="">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_mental&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Stress levels</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_stress&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green">Green</option>
-            <option value="yellow" selected="">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_stress&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Physical health</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_physical&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green">Green</option>
-            <option value="yellow" selected="">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_physical&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Bureaucratic friction</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_bureaucracy&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green" selected="">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_bureaucracy&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Social belonging</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_social&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green">Green</option>
-            <option value="yellow" selected="">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_social&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Family relationships</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_family&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green">Green</option>
-            <option value="yellow" selected="">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_family&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Mission alignment</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_mission&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green" selected="">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_mission&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Re-entry optionality</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_reentry&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green" selected="">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_reentry&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div style="margin-bottom: 12px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">Alternative support</label>
-          <select style="margin-top:4px" onchange="saveField(&#39;rev_cat_support&#39;,this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green" selected="">Green</option>
-            <option value="yellow">Yellow</option>
-            <option value="orange">Orange</option>
-            <option value="red">Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField(&#39;rev_note_support&#39;,this.value)"></textarea>
-        </div>
-      </div></div><div>
-    <hr class="divider">
-    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField(&#39;rev_win&#39;,this.value)">Visa secured faster than expected.</textarea></div>
-    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What&#39;s worrying you most?" onchange="saveField(&#39;rev_concern&#39;,this.value)">Will I be able to leave for holidays. Will I be able to secure PT work in 2027?</textarea></div>
-    <div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField(&#39;rev_change&#39;,this.value)">Revamp this bad boy!</textarea></div></div></div>
+    <div id="review-form"></div>
     <hr class="divider">
     <h2>Auto-summary</h2>
     <div id="review-summary"><p style="font-size:13px;color:#9a7060">Pull ratings or select statuses above to see your summary.</p></div>
@@ -546,35 +479,36 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
 
-</div><!-- end .app -->
+</div><!-- end .app-main -->
+
+<!-- COMMENT PANEL -->
+<div class="comment-panel" id="comment-panel">
+  <div class="panel-inner">
+    <div class="panel-header">
+      <div class="panel-label">💬 notes</div>
+      <span class="panel-count-badge" id="panel-count-badge">0</span>
+    </div>
+    <div class="comment-list" id="panel-comment-list"></div>
+    <div class="panel-input">
+      <input class="panel-name-in" id="panel-name-in" type="text" placeholder="Your name" maxlength="40">
+      <div class="panel-text-row">
+        <textarea class="panel-text-in" id="panel-text-in" placeholder="Leave a note... 👋" rows="1" maxlength="300"></textarea>
+        <button class="panel-post-btn" id="panel-post-btn" disabled onclick="panelPost()">Post</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .app-shell -->
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════
-//
-//  CONFIGURATION — all editable settings are in this section.
-//  You do not need to touch anything outside this block.
-//
+//  CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════
 
-// ── PIN ──────────────────────────────────────────────────────────────
-// Change the four digits between the quotes to set your PIN.
-// Example: change "1234" to "9876"
 const EDITOR_PIN = "1234";
-
-// ── BURN RATE — show or hide ─────────────────────────────────────────
-// Set to true to hide the burn rate card from the dashboard.
-// Set to false (default) to show it.
 const HIDE_BURN_RATE = false;
 
-// ── BURN RATE — withdrawal schedule ─────────────────────────────────
-// Each line is one payment stream. Edit the numbers to update the burn rate.
-// Format: { start: 'YYYY-MM', end: 'YYYY-MM', monthly: amount }
-// start = first month of payments (YYYY-MM)
-// end   = last month of payments  (YYYY-MM)
-// monthly = amount paid each month in dollars
-//
-// Example: to change living expenses from $1150 to $1200,
-// find the line with monthly: 1150 and change it to monthly: 1200
 const WITHDRAWAL_SCHEDULE = [
   { label:'Tuition phase 1',   start:'2026-12', end:'2027-06', monthly: 480  },
   { label:'Tuition phase 2',   start:'2027-08', end:'2027-10', monthly: 690  },
@@ -582,43 +516,22 @@ const WITHDRAWAL_SCHEDULE = [
   { label:'Living expenses 2', start:'2027-10', end:'2028-09', monthly: 800  }
 ];
 
-// ── BURN RATE — savings and baseline ────────────────────────────────
-// TOTAL_SAVINGS: your starting cash savings amount in dollars
-// BURN_BASELINE: the target month savings should last until (YYYY-MM)
-//   On track = reaches or exceeds this month
-//   Watch    = 1-2 months early
-//   At risk  = 3-4 months early
-//   Critical = 5+ months early
 const TOTAL_SAVINGS   = 29000;
 const BURN_BASELINE   = '2028-07';
-
-// ── ROTH WITHDRAWALS ─────────────────────────────────────────────────
-// ROTH_PLANNED_AMOUNT: total planned withdrawal by the planned date
-// ROTH_PLANNED_BY: the month by which that full amount should be withdrawn
-// ROTH_ACTUAL_WITHDRAWN: update this number as you make withdrawals.
-//   Example: after withdrawing $2,000 change 0 to 2000
-// Status logic:
-//   Before 2027: On track if $0 withdrawn, At risk if any withdrawn early
-//   After planned date: On track if at or under planned amount, At risk if over
 const ROTH_PLANNED_AMOUNT    = 7000;
 const ROTH_PLANNED_BY        = '2027-05';
 const ROTH_ACTUAL_WITHDRAWN  = 0;
 
-// ── MILESTONES ───────────────────────────────────────────────────────
-// date:       when this milestone is reached (YYYY-MM-DD)
-// unlockDay:  scoring opens this many days after the date (default 7)
-// lockDay:    scoring window closes after this many days  (default 11)
-// quips:      rotating messages shown on the dashboard.
-//             To edit: find the milestone, change the text inside quotes.
-//             Each quip ends with a comma except the last one in the list.
-//             Avoid em dashes (--). Use a period or comma instead.
-
-  const MILESTONES = [
+const MILESTONES = [
   {
     name:'Start', fullName:'Experiment Start',
     date:'2026-01-01', unlockDay:0, lockDay:99999,
     quips:[
-      "The experiment has begun.",
+      "Pack an extra phone charger. You'll thank yourself in October.",
+      "The apartment will be smaller than you think. The city won't be.",
+      "Nervous is just excited with worse PR.",
+      "You've done harder things. Name one. Good.",
+      "The checklist will never be finished. Leave anyway."
     ]
   },
   {
@@ -699,83 +612,26 @@ const ROTH_ACTUAL_WITHDRAWN  = 0;
   }
 ];
 
+// To change reaction emojis: edit this array (5 max)
+const MS_REACTIONS = ['❤️','🎉','🫂','🌍','🎓'];
+
 // ═══════════════════════════════════════════════════════════════════════
-//  END OF CONFIGURATION — do not edit below this line
+//  END OF CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════
 
 const CATS = [
-  {id:'financial',label:'Financial runway',thresholds:[
-    {s:'green',label:'18+ months runway',action:'Continue plan'},
-    {s:'yellow',label:'12-18 months runway',action:'Reduce discretionary spend, increase job/funding search'},
-    {s:'orange',label:'6-12 months runway',action:'Activate income or timeline adjustment plan'},
-    {s:'red',label:'Under 6 months runway',action:'Controlled exit or emergency support plan'}
-  ]},
-  {id:'residency',label:'Residency / legal',thresholds:[
-    {s:'green',label:'Status clear, next milestone visible',action:'Continue plan'},
-    {s:'yellow',label:'Pending but in process',action:'Track deadlines, consult immigration support'},
-    {s:'orange',label:'Delays affecting work, housing, or healthcare',action:'Engage immigration attorney, escalate'},
-    {s:'red',label:'No clear resolution path',action:'Evaluate whether path forward is viable'}
-  ]},
-  {id:'career',label:'Career capital',thresholds:[
-    {s:'green',label:'Gaining skills, network, language, credentials',action:'Continue plan'},
-    {s:'yellow',label:'Stable but not growing',action:'Identify one growth area, activate it'},
-    {s:'orange',label:'Disconnected from market or network',action:'Reactivate networking, seek internships or projects'},
-    {s:'red',label:'Employability weakening in both EU and U.S.',action:'Emergency career reassessment; consider return timeline'}
-  ]},
-  {id:'mental',label:'Mental health',thresholds:[
-    {s:'green',label:'Thriving or coping well',action:'Continue plan'},
-    {s:'yellow',label:'Persistent low-grade difficulty',action:'Add structure, community, or professional support'},
-    {s:'orange',label:'Affecting sleep, decision quality, or enjoyment',action:'Seek professional support; reduce stressors'},
-    {s:'red',label:'Chronic distress, isolation, panic, or burnout',action:'Prioritise recovery; consider timeline adjustment'}
-  ]},
-  {id:'stress',label:'Stress levels',thresholds:[
-    {s:'green',label:'Normal challenge, recovering well',action:'Continue plan'},
-    {s:'yellow',label:'Persistent but functional',action:'Monitor; add recovery practices'},
-    {s:'orange',label:'Regularly affecting sleep, health, or decisions',action:'Audit stressors; reduce load'},
-    {s:'red',label:'Chronic, identity-shaping distress',action:'Immediate intervention; pause or exit'}
-  ]},
-  {id:'physical',label:'Physical health',thresholds:[
-    {s:'green',label:'Healthy, healthcare access secure',action:'Continue plan'},
-    {s:'yellow',label:'Minor issues, healthcare navigable',action:'Stay on top of coverage and access'},
-    {s:'orange',label:'Ongoing issue with unclear care path',action:'Escalate healthcare access; consult doctor'},
-    {s:'red',label:'Health deteriorating or care inaccessible',action:'Return home if care cannot be secured'}
-  ]},
-  {id:'bureaucracy',label:'Bureaucratic friction',thresholds:[
-    {s:'green',label:'Annoying but manageable',action:'Continue plan'},
-    {s:'yellow',label:'Recurring delays but solvable',action:'Build buffer time into planning'},
-    {s:'orange',label:'Delays affecting work, housing, or income',action:'Seek professional help; escalate'},
-    {s:'red',label:'No clear resolution; bureaucracy controlling major choices',action:'Seriously reassess viability of path'}
-  ]},
-  {id:'social',label:'Social belonging',thresholds:[
-    {s:'green',label:'Building meaningful relationships',action:'Continue plan'},
-    {s:'yellow',label:'Connections present but surface-level',action:'Invest more intentionally in community'},
-    {s:'orange',label:'Isolated; relationships not forming',action:'Join structured communities; evaluate city fit'},
-    {s:'red',label:'Prolonged isolation with no improvement',action:'Reassess city/program; seek support resources'}
-  ]},
-  {id:'family',label:'Family relationships',thresholds:[
-    {s:'green',label:'Strong, supported by the experiment',action:'Continue plan'},
-    {s:'yellow',label:'Strain present but manageable',action:'Increase contact; plan visits'},
-    {s:'orange',label:'Significant strain or family concern',action:'Prioritise; assess whether timeline adjustment helps'},
-    {s:'red',label:'Crisis or irrecoverable distance forming',action:'Return home or activate family support pathway'}
-  ]},
-  {id:'mission',label:'Mission alignment',thresholds:[
-    {s:'green',label:'Evidence supports the EU hypothesis',action:'Continue plan'},
-    {s:'yellow',label:'Mixed evidence; unclear verdict',action:'Articulate what data would shift the assessment'},
-    {s:'orange',label:'Benefits unclear relative to cost or stress',action:'Reassess hypothesis; define exit conditions'},
-    {s:'red',label:'Evidence contradicts the reason for being there',action:'Honest pivot conversation; avoid sunk-cost trap'}
-  ]},
-  {id:'reentry',label:'Re-entry optionality',thresholds:[
-    {s:'green',label:'U.S. path clearly preserved',action:'Continue plan'},
-    {s:'yellow',label:'Gap growing but manageable',action:'Maintain U.S. connections; update resume/network'},
-    {s:'orange',label:'U.S. market drift noticeable',action:'Active U.S. networking; assess credential equivalency'},
-    {s:'red',label:'U.S. re-entry would be very difficult',action:'Investigate bridging strategies before it worsens'}
-  ]},
-  {id:'support',label:'Alternative support',thresholds:[
-    {s:'green',label:'Clear fallback options available',action:'Document the plan proactively'},
-    {s:'yellow',label:'Options exist but not formalised',action:'Have the conversation; make it concrete'},
-    {s:'orange',label:'Fallback unclear or logistically complex',action:'Explore now, not during a crisis'},
-    {s:'red',label:'No viable fallback available',action:'Build one before continuing; this is a guardrail'}
-  ]}
+  {id:'financial',label:'Financial runway',thresholds:[{s:'green',label:'18+ months runway',action:'Continue plan'},{s:'yellow',label:'12-18 months runway',action:'Reduce discretionary spend, increase job/funding search'},{s:'orange',label:'6-12 months runway',action:'Activate income or timeline adjustment plan'},{s:'red',label:'Under 6 months runway',action:'Controlled exit or emergency support plan'}]},
+  {id:'residency',label:'Residency / legal',thresholds:[{s:'green',label:'Status clear, next milestone visible',action:'Continue plan'},{s:'yellow',label:'Pending but in process',action:'Track deadlines, consult immigration support'},{s:'orange',label:'Delays affecting work, housing, or healthcare',action:'Engage immigration attorney, escalate'},{s:'red',label:'No clear resolution path',action:'Evaluate whether path forward is viable'}]},
+  {id:'career',label:'Career capital',thresholds:[{s:'green',label:'Gaining skills, network, language, credentials',action:'Continue plan'},{s:'yellow',label:'Stable but not growing',action:'Identify one growth area, activate it'},{s:'orange',label:'Disconnected from market or network',action:'Reactivate networking, seek internships or projects'},{s:'red',label:'Employability weakening in both EU and U.S.',action:'Emergency career reassessment; consider return timeline'}]},
+  {id:'mental',label:'Mental health',thresholds:[{s:'green',label:'Thriving or coping well',action:'Continue plan'},{s:'yellow',label:'Persistent low-grade difficulty',action:'Add structure, community, or professional support'},{s:'orange',label:'Affecting sleep, decision quality, or enjoyment',action:'Seek professional support; reduce stressors'},{s:'red',label:'Chronic distress, isolation, panic, or burnout',action:'Prioritise recovery; consider timeline adjustment'}]},
+  {id:'stress',label:'Stress levels',thresholds:[{s:'green',label:'Normal challenge, recovering well',action:'Continue plan'},{s:'yellow',label:'Persistent but functional',action:'Monitor; add recovery practices'},{s:'orange',label:'Regularly affecting sleep, health, or decisions',action:'Audit stressors; reduce load'},{s:'red',label:'Chronic, identity-shaping distress',action:'Immediate intervention; pause or exit'}]},
+  {id:'physical',label:'Physical health',thresholds:[{s:'green',label:'Healthy, healthcare access secure',action:'Continue plan'},{s:'yellow',label:'Minor issues, healthcare navigable',action:'Stay on top of coverage and access'},{s:'orange',label:'Ongoing issue with unclear care path',action:'Escalate healthcare access; consult doctor'},{s:'red',label:'Health deteriorating or care inaccessible',action:'Return home if care cannot be secured'}]},
+  {id:'bureaucracy',label:'Bureaucratic friction',thresholds:[{s:'green',label:'Annoying but manageable',action:'Continue plan'},{s:'yellow',label:'Recurring delays but solvable',action:'Build buffer time into planning'},{s:'orange',label:'Delays affecting work, housing, or income',action:'Seek professional help; escalate'},{s:'red',label:'No clear resolution; bureaucracy controlling major choices',action:'Seriously reassess viability of path'}]},
+  {id:'social',label:'Social belonging',thresholds:[{s:'green',label:'Building meaningful relationships',action:'Continue plan'},{s:'yellow',label:'Connections present but surface-level',action:'Invest more intentionally in community'},{s:'orange',label:'Isolated; relationships not forming',action:'Join structured communities; evaluate city fit'},{s:'red',label:'Prolonged isolation with no improvement',action:'Reassess city/program; seek support resources'}]},
+  {id:'family',label:'Family relationships',thresholds:[{s:'green',label:'Strong, supported by the experiment',action:'Continue plan'},{s:'yellow',label:'Strain present but manageable',action:'Increase contact; plan visits'},{s:'orange',label:'Significant strain or family concern',action:'Prioritise; assess whether timeline adjustment helps'},{s:'red',label:'Crisis or irrecoverable distance forming',action:'Return home or activate family support pathway'}]},
+  {id:'mission',label:'Mission alignment',thresholds:[{s:'green',label:'Evidence supports the EU hypothesis',action:'Continue plan'},{s:'yellow',label:'Mixed evidence; unclear verdict',action:'Articulate what data would shift the assessment'},{s:'orange',label:'Benefits unclear relative to cost or stress',action:'Reassess hypothesis; define exit conditions'},{s:'red',label:'Evidence contradicts the reason for being there',action:'Honest pivot conversation; avoid sunk-cost trap'}]},
+  {id:'reentry',label:'Re-entry optionality',thresholds:[{s:'green',label:'U.S. path clearly preserved',action:'Continue plan'},{s:'yellow',label:'Gap growing but manageable',action:'Maintain U.S. connections; update resume/network'},{s:'orange',label:'U.S. market drift noticeable',action:'Active U.S. networking; assess credential equivalency'},{s:'red',label:'U.S. re-entry would be very difficult',action:'Investigate bridging strategies before it worsens'}]},
+  {id:'support',label:'Alternative support',thresholds:[{s:'green',label:'Clear fallback options available',action:'Document the plan proactively'},{s:'yellow',label:'Options exist but not formalised',action:'Have the conversation; make it concrete'},{s:'orange',label:'Fallback unclear or logistically complex',action:'Explore now, not during a crisis'},{s:'red',label:'No viable fallback available',action:'Build one before continuing; this is a guardrail'}]}
 ];
 
 const CHECKLIST = [
@@ -806,17 +662,11 @@ let sessionUnlocked = false;
 
 // ═══════════════════════════════════════════════════════════════════════
 //  PERSISTENCE LAYER
-//  Reads from / writes to the Vercel API (backed by Supabase).
-//  Falls back to localStorage automatically when offline or on API error.
-//  Do not change the getData / setData / saveField signatures —
-//  the rest of the dashboard calls them exactly as before.
+//  API-first with localStorage fallback.
 // ═══════════════════════════════════════════════════════════════════════
 
-// In-memory cache — always reflects the latest known state.
-// Populated on startup from the API (or localStorage if API is down).
 let _cache = {};
 
-// Show the small sync indicator beneath the header
 function setSyncStatus(state) {
   const el = document.getElementById('sync-indicator');
   if (!el) return;
@@ -826,28 +676,20 @@ function setSyncStatus(state) {
   if (state === 'hidden')  el.textContent = '';
 }
 
-// Read the current state (always instant — uses in-memory cache)
-function getData() {
-  return Object.assign({}, _cache);
-}
+function getData() { return Object.assign({}, _cache); }
 
-// Write state: update cache, persist to localStorage, then sync to API.
-// The dashboard keeps working even if the API call fails.
 function setData(d) {
   _cache = Object.assign({}, d);
   localStorage.setItem('eu_dash', JSON.stringify(_cache));
   syncToAPI(_cache);
 }
 
-// Convenience: update a single field and save (same API as before)
 function saveField(k, v) {
   _cache[k] = v;
   localStorage.setItem('eu_dash', JSON.stringify(_cache));
   syncToAPI(_cache);
 }
 
-// Push the full state to /api/data in the background.
-// Shows 🟡 while in flight, 🟢 on success, 🔴 on failure.
 async function syncToAPI(state) {
   setSyncStatus('saving');
   try {
@@ -864,313 +706,240 @@ async function syncToAPI(state) {
   }
 }
 
-// On startup: try to load from the API, fall back to localStorage cache.
 async function loadFromAPI() {
   try {
     const res = await fetch('/api/data');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     _cache = data;
-    // Keep localStorage in sync so offline fallback is always fresh
     localStorage.setItem('eu_dash', JSON.stringify(_cache));
     setSyncStatus('synced');
   } catch (err) {
     console.warn('API unavailable, loading from localStorage:', err.message);
-    // Fall back to whatever was cached locally
     try { _cache = JSON.parse(localStorage.getItem('eu_dash') || '{}'); } catch { _cache = {}; }
     setSyncStatus('offline');
   }
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+//  COMMENTS — in-memory store populated from API on load
+// ═══════════════════════════════════════════════════════════════════════
+
+let _comments = []; // populated from Supabase on load
+
+function getComments() { return _comments; }
+
+async function loadCommentsFromAPI() {
+  try {
+    const res = await fetch('/api/comments');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    _comments = await res.json();
+  } catch (err) {
+    // Fall back to localStorage cache
+    try { _comments = JSON.parse(localStorage.getItem('eu_comments') || '[]'); } catch { _comments = []; }
+    console.warn('Comments load failed, using local cache:', err.message);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  REACTIONS — in-memory store populated from API on load
+// ═══════════════════════════════════════════════════════════════════════
+
+let _reactions = {}; // { "milestone_idx:emoji": count }
+
+async function loadReactionsFromAPI() {
+  try {
+    const res = await fetch('/api/reactions');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const rows = await res.json();
+    _reactions = {};
+    rows.forEach(r => { _reactions[`${r.milestone_idx}:${r.emoji}`] = r.count; });
+  } catch (err) {
+    try { _reactions = JSON.parse(localStorage.getItem('eu_reactions') || '{}'); } catch { _reactions = {}; }
+    console.warn('Reactions load failed, using local cache:', err.message);
+  }
+}
+
+function getReactionCount(milestoneKey, emoji) {
+  return _reactions[`${milestoneKey}:${emoji}`] || 0;
+}
+
+function getMyReaction(milestoneKey, emoji) {
+  try {
+    const mine = JSON.parse(localStorage.getItem('eu_my_reactions') || '{}');
+    return !!mine[`${milestoneKey}:${emoji}`];
+  } catch { return false; }
+}
+
+function setMyReaction(milestoneKey, emoji, val) {
+  try {
+    const mine = JSON.parse(localStorage.getItem('eu_my_reactions') || '{}');
+    if (val) mine[`${milestoneKey}:${emoji}`] = true;
+    else delete mine[`${milestoneKey}:${emoji}`];
+    localStorage.setItem('eu_my_reactions', JSON.stringify(mine));
+  } catch {}
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  UTILITY FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════
+
 function pillClass(s){return{green:'s-green',yellow:'s-yellow',orange:'s-orange',red:'s-red',unrated:'s-gray'}[s]||'s-gray'}
 function pillLabel(s){return{green:'Green',yellow:'Yellow',orange:'Orange',red:'Red',unrated:'Unrated'}[s]||'Unrated'}
-function fmtDate(ym){
-  const[y,m]=ym.split('-');
-  return new Date(parseInt(y),parseInt(m)-1,1).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-}
-function fmtShort(ym){
-  const[y,m]=ym.split('-');
-  return new Date(parseInt(y),parseInt(m)-1,1).toLocaleDateString('en-US',{month:'short',year:'2-digit'}).replace(' ',"'");
-}
-function mDiff(a,b){
-  const[ay,am]=a.split('-').map(Number),[by,bm]=b.split('-').map(Number);
-  return(by-ay)*12+(bm-am);
-}
+function fmtDate(ym){const[y,m]=ym.split('-');return new Date(parseInt(y),parseInt(m)-1,1).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+function fmtShort(ym){const[y,m]=ym.split('-');return new Date(parseInt(y),parseInt(m)-1,1).toLocaleDateString('en-US',{month:'short',year:'2-digit'}).replace(' ',"'");}
+function mDiff(a,b){const[ay,am]=a.split('-').map(Number),[by,bm]=b.split('-').map(Number);return(by-ay)*12+(bm-am);}
+
+const AV_COLORS=[{bg:'#fde8e4',color:'#9a3412'},{bg:'#e0f0fa',color:'#1B6E9F'},{bg:'#f0fdf4',color:'#065f46'},{bg:'#fef9c3',color:'#854d0e'},{bg:'#f3e8ff',color:'#6b21a8'}];
+function getAV(name){let h=0;for(let i=0;i<name.length;i++)h=name.charCodeAt(i)+((h<<5)-h);return AV_COLORS[Math.abs(h)%AV_COLORS.length]}
+function getInitials(n){return n.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+function fmtCT(d){const diff=Math.floor((Date.now()-new Date(d).getTime())/1000);if(diff<60)return'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric'})}
 
 // ── Window logic ──────────────────────────────────────────────────────
 function getWindowState(idx){
-  const m=MILESTONES[idx];
-  if(!m) return 'pre';
+  const m=MILESTONES[idx];if(!m)return'pre';
   const days=Math.floor((TODAY-new Date(m.date))/86400000);
-  if(days<0) return 'pre';
-  if(days<m.unlockDay) return 'locked';
-  if(days<=m.lockDay) return 'open';
-  return 'sealed';
+  if(days<0)return'pre';if(days<m.unlockDay)return'locked';if(days<=m.lockDay)return'open';return'sealed';
 }
-
 function getActiveIdx(){
-  let idx=-1;
-  for(let i=0;i<MILESTONES.length;i++){
-    if(TODAY>=new Date(MILESTONES[i].date)) idx=i; else break;
-  }
-  return idx;
+  let idx=-1;for(let i=0;i<MILESTONES.length;i++){if(TODAY>=new Date(MILESTONES[i].date))idx=i;else break;}return idx;
 }
-
 function canEdit(){
-  const idx=getActiveIdx();
-  if(idx<0) return false;
-  const s=getWindowState(idx);
-  if(s==='open') return true;
-  if(sessionUnlocked&&s!=='pre') return true;
-  return false;
+  const idx=getActiveIdx();if(idx<0)return false;
+  const s=getWindowState(idx);if(s==='open')return true;if(sessionUnlocked&&s!=='pre')return true;return false;
 }
 
 // ── Burn rate ─────────────────────────────────────────────────────────
 function buildMonthlyMap(){
   const map={};
   WITHDRAWAL_SCHEDULE.forEach(s=>{
-    let[sy,sm]=s.start.split('-').map(Number);
-    const[ey,em]=s.end.split('-').map(Number);
-    while(sy<ey||(sy===ey&&sm<=em)){
-      const k=`${sy}-${String(sm).padStart(2,'0')}`;
-      map[k]=(map[k]||0)+s.monthly;
-      sm++;if(sm>12){sm=1;sy++;}
-    }
-  });
-  return map;
+    let[sy,sm]=s.start.split('-').map(Number);const[ey,em]=s.end.split('-').map(Number);
+    while(sy<ey||(sy===ey&&sm<=em)){const k=`${sy}-${String(sm).padStart(2,'0')}`;map[k]=(map[k]||0)+s.monthly;sm++;if(sm>12){sm=1;sy++;}}
+  });return map;
 }
-
-function projectZero(){
-  const map=buildMonthlyMap(),months=Object.keys(map).sort();
-  let rem=TOTAL_SAVINGS;
-  for(const mo of months){rem-=map[mo];if(rem<=0)return mo;}
-  return months[months.length-1];
-}
-
-function getBurnStatus(){
-  const zero=projectZero();
-  const diff=mDiff(BURN_BASELINE,zero);
-  const month=fmtShort(zero);
-  if(diff>=0)  return{label:'On track',  month, color:'#059669'};
-  if(diff>=-2) return{label:'Watch',     month, color:'#d97706'};
-  if(diff>=-4) return{label:'At risk',   month, color:'#ea580c'};
-  return             {label:'Critical',  month, color:'#dc2626'};
-}
-
-function getRothStatus(){
-  const before2027=TODAY<new Date('2027-01-01');
-  if(before2027){
-    return ROTH_ACTUAL_WITHDRAWN===0
-      ?{label:'On track',color:'#059669'}
-      :{label:'At risk', color:'#ea580c'};
-  }
-  return ROTH_ACTUAL_WITHDRAWN>ROTH_PLANNED_AMOUNT
-    ?{label:'At risk', color:'#ea580c'}
-    :{label:'On track',color:'#059669'};
-}
+function projectZero(){const map=buildMonthlyMap(),months=Object.keys(map).sort();let rem=TOTAL_SAVINGS;for(const mo of months){rem-=map[mo];if(rem<=0)return mo;}return months[months.length-1];}
+function getBurnStatus(){const zero=projectZero();const diff=mDiff(BURN_BASELINE,zero);const month=fmtShort(zero);if(diff>=0)return{label:'On track',month,color:'#059669'};if(diff>=-2)return{label:'Watch',month,color:'#d97706'};if(diff>=-4)return{label:'At risk',month,color:'#ea580c'};return{label:'Critical',month,color:'#dc2626'};}
+function getRothStatus(){const before2027=TODAY<new Date('2027-01-01');if(before2027){return ROTH_ACTUAL_WITHDRAWN===0?{label:'On track',color:'#059669'}:{label:'At risk',color:'#ea580c'};}return ROTH_ACTUAL_WITHDRAWN>ROTH_PLANNED_AMOUNT?{label:'At risk',color:'#ea580c'}:{label:'On track',color:'#059669'};}
 
 // ── Banner ────────────────────────────────────────────────────────────
 function renderBanner(){
-  const d=getData();
-  const banner=document.getElementById('top-banner');
-  const activeIdx=getActiveIdx();
+  const d=getData();const banner=document.getElementById('top-banner');const activeIdx=getActiveIdx();
   if(activeIdx<0){banner.classList.remove('show');return;}
-  const m=MILESTONES[activeIdx];
-  const state=getWindowState(activeIdx);
-  const sealedDismissed=d['banner_sealed_dismissed_'+activeIdx]===true;
+  const m=MILESTONES[activeIdx];const state=getWindowState(activeIdx);const sealedDismissed=d['banner_sealed_dismissed_'+activeIdx]===true;
   banner.className='';
   if(state==='open'){
-    const sealDate=new Date(new Date(m.date).getTime()+(m.lockDay+1)*86400000);
-    const daysLeft=Math.ceil((sealDate-TODAY)/86400000);
-    banner.classList.add('show','b-open');
-    document.getElementById('banner-title').textContent=m.fullName+' review window is open';
+    const sealDate=new Date(new Date(m.date).getTime()+(m.lockDay+1)*86400000);const daysLeft=Math.ceil((sealDate-TODAY)/86400000);
+    banner.classList.add('show','b-open');document.getElementById('banner-title').textContent=m.fullName+' review window is open';
     document.getElementById('banner-sub').textContent='Closes '+sealDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' · '+daysLeft+' day'+(daysLeft===1?'':'s')+' remaining';
     document.getElementById('banner-cta').style.display='inline-block';
   } else if(state==='sealed'&&!sealedDismissed){
-    banner.classList.add('show','b-sealed');
-    document.getElementById('banner-title').textContent=m.fullName+' review window sealed';
+    banner.classList.add('show','b-sealed');document.getElementById('banner-title').textContent=m.fullName+' review window sealed';
     document.getElementById('banner-sub').textContent='That window has closed. Use your PIN to view history, or start a new quarterly review.';
     document.getElementById('banner-cta').style.display='none';
-  } else {
-    banner.classList.remove('show');
-  }
+  } else {banner.classList.remove('show');}
 }
-
 function dismissBanner(){
-  const d=getData();
-  const activeIdx=getActiveIdx();
-  if(activeIdx>=0&&getWindowState(activeIdx)==='sealed'){
-    d['banner_sealed_dismissed_'+activeIdx]=true;
-    setData(d);
-  }
+  const d=getData();const activeIdx=getActiveIdx();
+  if(activeIdx>=0&&getWindowState(activeIdx)==='sealed'){d['banner_sealed_dismissed_'+activeIdx]=true;setData(d);}
   document.getElementById('top-banner').classList.remove('show');
 }
 
 // ── PIN ───────────────────────────────────────────────────────────────
 function requestPin(cb){
   document.getElementById('pin-overlay').classList.add('show');
-  document.getElementById('pin-input').value='';
-  document.getElementById('pin-error').textContent='';
-  setTimeout(()=>document.getElementById('pin-input').focus(),50);
-  window._pinCb=cb;
+  document.getElementById('pin-input').value='';document.getElementById('pin-error').textContent='';
+  setTimeout(()=>document.getElementById('pin-input').focus(),50);window._pinCb=cb;
 }
 function submitPin(){
   const v=document.getElementById('pin-input').value;
-  if(v===EDITOR_PIN){
-    sessionUnlocked=true;
-    document.getElementById('pin-overlay').classList.remove('show');
-    if(window._pinCb)window._pinCb();
-  } else {
-    document.getElementById('pin-error').textContent='Incorrect PIN. Try again.';
-    document.getElementById('pin-input').value='';
-    document.getElementById('pin-input').focus();
-  }
+  if(v===EDITOR_PIN){sessionUnlocked=true;document.getElementById('pin-overlay').classList.remove('show');if(window._pinCb)window._pinCb();}
+  else{document.getElementById('pin-error').textContent='Incorrect PIN. Try again.';document.getElementById('pin-input').value='';document.getElementById('pin-input').focus();}
 }
 function closePinModal(){document.getElementById('pin-overlay').classList.remove('show')}
-document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&document.getElementById('pin-overlay').classList.contains('show'))submitPin();
-});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('pin-overlay').classList.contains('show'))submitPin();});
 
 // ── Overview ──────────────────────────────────────────────────────────
 function renderOverview(){
-  const d=getData();
-  const grid=document.getElementById('overview-grid');
-  grid.innerHTML='';
+  const d=getData();const grid=document.getElementById('overview-grid');grid.innerHTML='';
   CATS.forEach(c=>{
-    const status=d['cat_'+c.id]||'unrated';
-    const note=d['note_'+c.id]||'';
-    const div=document.createElement('div');
-    div.className='card';div.style.cursor='pointer';
-    div.onclick=()=>showTab('categories');
+    const status=d['cat_'+c.id]||'unrated';const note=d['note_'+c.id]||'';
+    const div=document.createElement('div');div.className='card';div.style.cursor='pointer';div.onclick=()=>showTab('categories');
     div.innerHTML=`<span class="pill ${pillClass(status)}" style="margin-bottom:6px;display:inline-block">${pillLabel(status)}</span><div style="font-size:13px;font-weight:600;color:#4a1a10">${c.label}</div>${note?`<div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">${note.substring(0,55)}${note.length>55?'...':''}</div>`:''}`;
     grid.appendChild(div);
   });
-  renderGuardrails();
-  renderTimeline();
-  renderVerdict();
+  renderGuardrails();renderTimeline();renderVerdict();
 }
 
 // ── Guardrails ────────────────────────────────────────────────────────
 function renderGuardrails(){
-  const guard=document.getElementById('guardrails');
-  guard.innerHTML='';
-  const burn=getBurnStatus();
-  const roth=getRothStatus();
+  const guard=document.getElementById('guardrails');guard.innerHTML='';
+  const burn=getBurnStatus();const roth=getRothStatus();
   const items=[
-    {label:'Retirement principal', value:'Not touched', color:'#059669'},
-    {label:'Burn rate',
-      value: HIDE_BURN_RATE ? 'Hidden' : burn.label+' · '+burn.month,
-      color: HIDE_BURN_RATE ? '#b0a090' : burn.color},
-    {label:'Roth withdrawals', value:roth.label, color:roth.color},
-    {label:'Consumer debt',
-      value: getData().consumer_debt==='yes'?'Present':'None',
-      color: getData().consumer_debt==='yes'?'#dc2626':'#059669'}
+    {label:'Retirement principal',value:'Not touched',color:'#059669'},
+    {label:'Burn rate',value:HIDE_BURN_RATE?'Hidden':burn.label+' · '+burn.month,color:HIDE_BURN_RATE?'#b0a090':burn.color},
+    {label:'Roth withdrawals',value:roth.label,color:roth.color},
+    {label:'Consumer debt',value:getData().consumer_debt==='yes'?'Present':'None',color:getData().consumer_debt==='yes'?'#dc2626':'#059669'}
   ];
-  items.forEach(g=>{
-    const div=document.createElement('div');
-    div.className='gr-card';
-    div.innerHTML=`<div class="gr-label">${g.label}</div><div class="gr-value" style="color:${g.color}">${g.value}</div>`;
-    guard.appendChild(div);
-  });
+  items.forEach(g=>{const div=document.createElement('div');div.className='gr-card';div.innerHTML=`<div class="gr-label">${g.label}</div><div class="gr-value" style="color:${g.color}">${g.value}</div>`;guard.appendChild(div);});
 }
 
 // ── Timeline ──────────────────────────────────────────────────────────
 function renderTimeline(){
-  const d=getData();
-  const activeIdx=getActiveIdx();
-  const nextIdx=activeIdx+1;
-  const N=MILESTONES.length,W=620,PAD=26,SGAP=46,CY=26;
-  const CX=(W-PAD-SGAP-PAD)/(N-1);
-  const mX=i=>PAD+SGAP+i*CX;
+  const d=getData();const activeIdx=getActiveIdx();const nextIdx=activeIdx+1;
+  const N=MILESTONES.length,W=620,PAD=26,SGAP=0,CY=26;
+  const CX=(W-PAD*2)/(N-1);const mX=i=>PAD+i*CX;
   const DONE='#4a8fad',NEXT_C='#1B6E9F',FUT='#c5d8e8';
-
   let h='';
-  h+=`<circle cx="${PAD}" cy="${CY}" r="5" fill="${DONE}" stroke="${DONE}" stroke-width="1.5"/>`;
-  h+=`<text x="${PAD}" y="${CY+17}" text-anchor="middle" font-size="8" fill="#2d6a88" font-weight="500">Start</text>`;
-  h+=`<line x1="${PAD+5}" y1="${CY}" x2="${mX(0)-7}" y2="${CY}" stroke="${DONE}" stroke-width="2"/>`;
-
-  MILESTONES.forEach((_,i)=>{
-    if(i>=N-1)return;
-    h+=`<line x1="${mX(i)+7}" y1="${CY}" x2="${mX(i+1)-7}" y2="${CY}" stroke="${i<activeIdx?DONE:FUT}" stroke-width="2"/>`;
-  });
-
+  MILESTONES.forEach((_,i)=>{if(i>=N-1)return;h+=`<line x1="${mX(i)+7}" y1="${CY}" x2="${mX(i+1)-7}" y2="${CY}" stroke="${i<activeIdx?DONE:FUT}" stroke-width="2"/>`;});
   MILESTONES.forEach((m,i)=>{
-    const x=mX(i);
-    const done=i<=activeIdx,next=i===nextIdx;
-    const r=next?9:6;
-    const fill=done?DONE:'#fff';
-    const stroke=done?DONE:next?NEXT_C:FUT;
-    const sw=next?2.5:1.5;
-    const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
-    const fw=next?'700':'400';
-    const fs=next?9:8;
-    const ly=CY+r+(next?15:13);
+    const x=mX(i);const done=i<=activeIdx,next=i===nextIdx;
+    const r=next?9:6;const fill=done?DONE:'#fff';const stroke=done?DONE:next?NEXT_C:FUT;
+    const sw=next?2.5:1.5;const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
+    const fw=next?'700':'400';const fs=next?10:9;const ly=CY+r+(next?15:13);
     h+=`<circle class="tl-dot" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done?'pointer':'default'}"/>`;
     if(next)h+=`<circle cx="${x}" cy="${CY}" r="14" fill="none" stroke="${NEXT_C}" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"/>`;
     const words=m.name.split(' ');
-    if(words.length===1){
-      h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${m.name}</text>`;
-    } else {
-      h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words[0]}</text>`;
-      h+=`<text x="${x}" y="${ly+11}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words.slice(1).join(' ')}</text>`;
-    }
+    if(words.length===1){h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${m.name}</text>`;}
+    else{h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words[0]}</text>`;h+=`<text x="${x}" y="${ly+11}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words.slice(1).join(' ')}</text>`;}
   });
-
   document.getElementById('timeline').innerHTML=h;
 
-  // Quip — from current phase (pre-departure uses Departure quips)
   const quipSrc=activeIdx<0?MILESTONES[0]:MILESTONES[Math.min(activeIdx,MILESTONES.length-1)];
   const nextM=nextIdx<N?MILESTONES[nextIdx]:MILESTONES[N-1];
   document.getElementById('quip-next-date').textContent=nextM.fullName+' · '+new Date(nextM.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
   document.getElementById('quip-text').textContent=quipSrc.quips[Math.floor(Math.random()*quipSrc.quips.length)];
 
-  // Tooltip events
-  const svg=document.getElementById('timeline');
-  const tt=document.getElementById('tl-tooltip');
-  const twrap=document.querySelector('.tl-wrap');
+  const svg=document.getElementById('timeline');const tt=document.getElementById('tl-tooltip');const twrap=document.querySelector('.tl-wrap');
   svg.querySelectorAll('.tl-dot').forEach(dot=>{
-    const idx=parseInt(dot.getAttribute('data-idx'));
-    const m=MILESTONES[idx];
+    const idx=parseInt(dot.getAttribute('data-idx'));const m=MILESTONES[idx];
+    // Click: open milestone card for completed milestones
+    if(idx<=activeIdx){
+      dot.addEventListener('click',()=>openMsCard(idx));
+    }
     if(idx>activeIdx)return;
     dot.addEventListener('mouseenter',()=>{
       const sr=svg.getBoundingClientRect(),wr=twrap.getBoundingClientRect();
-      const xPx=(mX(idx)/W)*sr.width+(sr.left-wr.left);
-      const yPx=sr.top-wr.top;
-      const savedScore=d['milestone_score_'+idx];
-      const savedBand=d['milestone_band_'+idx];
-      const savedSignal=d['milestone_signal_'+idx];
+      const xPx=(mX(idx)/W)*sr.width+(sr.left-wr.left);const yPx=sr.top-wr.top;
+      const savedScore=d['milestone_score_'+idx];const savedBand=d['milestone_band_'+idx];const savedSignal=d['milestone_signal_'+idx];
       const st=savedBand?SIGNAL_STYLES[savedBand]:null;
       if(st&&savedScore){
         tt.style.background=st.bg;tt.style.borderColor=st.border;
-        document.getElementById('tt-eyebrow').textContent='Decision signal';
-        document.getElementById('tt-eyebrow').style.color=st.eyebrow;
-        document.getElementById('tt-name').textContent=m.fullName;
-        document.getElementById('tt-name').style.color='#1a0e0a';
-        const sc=document.getElementById('tt-score');
-        sc.textContent=savedScore+' / 4.0';sc.style.color=st.scoreColor;sc.style.fontSize='22px';
-        const sig=document.getElementById('tt-signal');
-        sig.textContent=savedSignal||'';sig.style.color=st.scoreColor;
+        document.getElementById('tt-eyebrow').textContent='Decision signal';document.getElementById('tt-eyebrow').style.color=st.eyebrow;
+        document.getElementById('tt-name').textContent=m.fullName;document.getElementById('tt-name').style.color='#1a0e0a';
+        const sc=document.getElementById('tt-score');sc.textContent=savedScore+' / 4.0';sc.style.color=st.scoreColor;sc.style.fontSize='22px';
+        const sig=document.getElementById('tt-signal');sig.textContent=savedSignal||'';sig.style.color=st.scoreColor;
         document.getElementById('tt-date').textContent=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
         document.getElementById('tt-arrow').style.borderTopColor=st.border;
       } else {
         tt.style.background='#f0f7fc';tt.style.borderColor='#c5d8e8';
-        document.getElementById('tt-eyebrow').textContent='Completed';
-        document.getElementById('tt-eyebrow').style.color='#1B6E9F';
-        document.getElementById('tt-name').textContent=m.fullName;
-        document.getElementById('tt-name').style.color='#1a0e0a';
-        const sc=document.getElementById('tt-score');
-        sc.textContent=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-        sc.style.color='#1B6E9F';sc.style.fontSize='14px';
-        document.getElementById('tt-signal').textContent='Review not yet scored';
-        document.getElementById('tt-signal').style.color='#9a7060';
-        document.getElementById('tt-date').textContent='';
-        document.getElementById('tt-arrow').style.borderTopColor='#c5d8e8';
+        document.getElementById('tt-eyebrow').textContent='Completed';document.getElementById('tt-eyebrow').style.color='#1B6E9F';
+        document.getElementById('tt-name').textContent=m.fullName;document.getElementById('tt-name').style.color='#1a0e0a';
+        const sc=document.getElementById('tt-score');sc.textContent=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});sc.style.color='#1B6E9F';sc.style.fontSize='14px';
+        document.getElementById('tt-signal').textContent='Review not yet scored';document.getElementById('tt-signal').style.color='#9a7060';
+        document.getElementById('tt-date').textContent='';document.getElementById('tt-arrow').style.borderTopColor='#c5d8e8';
       }
-      const ttW=210;
-      let left=xPx-ttW/2;
-      left=Math.max(0,Math.min(left,wr.width-ttW));
-      tt.style.left=left+'px';tt.style.top=(yPx-112)+'px';
-      tt.classList.add('show');
+      const ttW=210;let left=xPx-ttW/2;left=Math.max(0,Math.min(left,wr.width-ttW));
+      tt.style.left=left+'px';tt.style.top=(yPx-112)+'px';tt.classList.add('show');
     });
     dot.addEventListener('mouseleave',()=>tt.classList.remove('show'));
   });
@@ -1178,211 +947,75 @@ function renderTimeline(){
 
 // ── Verdict ───────────────────────────────────────────────────────────
 function renderVerdict(){
-  const d=getData();
-  const vc=document.getElementById('verdict-container');
+  const d=getData();const vc=document.getElementById('verdict-container');
   const rated=CATS.filter(c=>d['cat_'+c.id]&&d['cat_'+c.id]!=='unrated');
-  const reds=CATS.filter(c=>d['cat_'+c.id]==='red');
-  const oranges=CATS.filter(c=>d['cat_'+c.id]==='orange');
+  const reds=CATS.filter(c=>d['cat_'+c.id]==='red');const oranges=CATS.filter(c=>d['cat_'+c.id]==='orange');
   const avg=rated.length?rated.reduce((a,c)=>a+(SCORE_MAP[d['cat_'+c.id]]||0),0)/rated.length:null;
-  if(!avg){
-    vc.innerHTML=`<div class="verdict-card" style="border:1px solid rgba(27,110,159,0.2);margin-top:12px"><div class="verdict-label" style="color:#1B6E9F">Decision signal</div><div class="verdict-name" style="font-size:15px;font-weight:700;color:#1a0e0a;margin-top:3px">No ratings yet</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.5">Rate categories in Status Cards to generate your decision signal.</div></div>`;
-    return;
-  }
-  const band=avg>=3.5?'strong':avg>=2.5?'moderate':avg>=1.5?'caution':'critical';
-  const activeIdx=getActiveIdx();
+  if(!avg){vc.innerHTML=`<div class="verdict-card" style="border:1px solid rgba(27,110,159,0.2);margin-top:12px"><div class="verdict-label" style="color:#1B6E9F">Decision signal</div><div class="verdict-name" style="font-size:15px;font-weight:700;color:#1a0e0a;margin-top:3px">No ratings yet</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.5">Rate categories in Status Cards to generate your decision signal.</div></div>`;return;}
+  const band=avg>=3.5?'strong':avg>=2.5?'moderate':avg>=1.5?'caution':'critical';const activeIdx=getActiveIdx();
   let verdict,vsub,cardBorder,badgeBg,badgeColor,badgeBorder,labelColor;
-  if(reds.length>=2||d['cat_financial']==='red'||d['cat_mental']==='red'){
-    verdict='Exit or activate fallback';vsub='Multiple red flags or financial/mental health at red. Activate a controlled exit or fallback plan within 90 days.';
-    cardBorder='rgba(239,68,68,0.3)';badgeBg='#fee2e2';badgeColor='#991b1b';badgeBorder='rgba(239,68,68,0.25)';labelColor='#991b1b';
-  } else if(reds.length===1||avg<2.5){
-    verdict='Pivot the approach';vsub='One red flag or significant orange cluster. Adapt strategy and set a 60-day improvement target.';
-    cardBorder='rgba(249,115,22,0.3)';badgeBg='#ffedd5';badgeColor='#9a3412';badgeBorder='rgba(249,115,22,0.25)';labelColor='#9a3412';
-  } else if(oranges.length>=3){
-    verdict='Stay and intervene';vsub='No red flags, but multiple orange flags active. Set a 60-day improvement target before committing further.';
-    cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';
-  } else if(avg>=3.0&&reds.length===0&&oranges.length<=2){
-    verdict='Stay and continue';vsub='No red flags. Trajectory is positive. Maintain plan and next milestone review.';
-    cardBorder='rgba(16,185,129,0.3)';badgeBg='#d1fae5';badgeColor='#065f46';badgeBorder='rgba(16,185,129,0.25)';labelColor='#065f46';
-  } else {
-    verdict='Stay and intervene';vsub='Mixed signals present. Monitor closely and address orange flags before next milestone.';
-    cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';
-  }
-  if(activeIdx>=0){
-    const dd=getData();
-    dd['milestone_score_'+activeIdx]=avg.toFixed(1);
-    dd['milestone_band_'+activeIdx]=band;
-    dd['milestone_signal_'+activeIdx]=verdict;
-    setData(dd);
-  }
+  if(reds.length>=2||d['cat_financial']==='red'||d['cat_mental']==='red'){verdict='Exit or activate fallback';vsub='Multiple red flags or financial/mental health at red. Activate a controlled exit or fallback plan within 90 days.';cardBorder='rgba(239,68,68,0.3)';badgeBg='#fee2e2';badgeColor='#991b1b';badgeBorder='rgba(239,68,68,0.25)';labelColor='#991b1b';}
+  else if(reds.length===1||avg<2.5){verdict='Pivot the approach';vsub='One red flag or significant orange cluster. Adapt strategy and set a 60-day improvement target.';cardBorder='rgba(249,115,22,0.3)';badgeBg='#ffedd5';badgeColor='#9a3412';badgeBorder='rgba(249,115,22,0.25)';labelColor='#9a3412';}
+  else if(oranges.length>=3){verdict='Stay and intervene';vsub='No red flags, but multiple orange flags active. Set a 60-day improvement target before committing further.';cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';}
+  else if(avg>=3.0&&reds.length===0&&oranges.length<=2){verdict='Stay and continue';vsub='No red flags. Trajectory is positive. Maintain plan and next milestone review.';cardBorder='rgba(16,185,129,0.3)';badgeBg='#d1fae5';badgeColor='#065f46';badgeBorder='rgba(16,185,129,0.25)';labelColor='#065f46';}
+  else{verdict='Stay and intervene';vsub='Mixed signals present. Monitor closely and address orange flags before next milestone.';cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';}
+  if(activeIdx>=0){const dd=getData();dd['milestone_score_'+activeIdx]=avg.toFixed(1);dd['milestone_band_'+activeIdx]=band;dd['milestone_signal_'+activeIdx]=verdict;setData(dd);}
   const activeFlags=[...reds,...oranges.filter(c=>!reds.includes(c))];
-  const flagsHTML=activeFlags.length
-    ?activeFlags.map(c=>`<div class="flag-chip" style="background:${SCORE_MAP[d['cat_'+c.id]]===1?'#fee2e2':'#ffedd5'};color:${SCORE_MAP[d['cat_'+c.id]]===1?'#991b1b':'#9a3412'};border:1px solid ${SCORE_MAP[d['cat_'+c.id]]===1?'rgba(239,68,68,0.2)':'rgba(249,115,22,0.2)'}">${c.label}</div>`).join('')
-    :`<div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div>`;
-  const activeName=activeIdx>=0?MILESTONES[activeIdx].fullName:'Pre-departure';
-  const bandLabel=avg>=3.5?'Strong':avg>=2.5?'Moderate':avg>=1.5?'Caution':'Critical';
-  vc.innerHTML=`
-    <div class="verdict-card" style="border:1px solid ${cardBorder};margin-top:12px">
-      <div class="verdict-top">
-        <div>
-          <div class="verdict-label" style="color:${labelColor}">Current decision signal · ${activeName}</div>
-          <div class="verdict-name">${verdict}</div>
-        </div>
-        <span class="signal-badge" style="background:${badgeBg};color:${badgeColor};border:1px solid ${badgeBorder}">${bandLabel} · ${avg.toFixed(1)} / 4.0</span>
-      </div>
-      <div class="verdict-sub">${vsub}</div>
-      <div class="vdivider"></div>
-      <div class="flags-label" style="color:${labelColor}">Active orange and red flags</div>
-      <div class="flag-chips">${flagsHTML}</div>
-    </div>`;
+  const flagsHTML=activeFlags.length?activeFlags.map(c=>`<div class="flag-chip" style="background:${SCORE_MAP[d['cat_'+c.id]]===1?'#fee2e2':'#ffedd5'};color:${SCORE_MAP[d['cat_'+c.id]]===1?'#991b1b':'#9a3412'};border:1px solid ${SCORE_MAP[d['cat_'+c.id]]===1?'rgba(239,68,68,0.2)':'rgba(249,115,22,0.2)'}">${c.label}</div>`).join(''):`<div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div>`;
+  const activeName=activeIdx>=0?MILESTONES[activeIdx].fullName:'Pre-departure';const bandLabel=avg>=3.5?'Strong':avg>=2.5?'Moderate':avg>=1.5?'Caution':'Critical';
+  vc.innerHTML=`<div class="verdict-card" style="border:1px solid ${cardBorder};margin-top:12px"><div class="verdict-top"><div><div class="verdict-label" style="color:${labelColor}">Current decision signal · ${activeName}</div><div class="verdict-name">${verdict}</div></div><span class="signal-badge" style="background:${badgeBg};color:${badgeColor};border:1px solid ${badgeBorder}">${bandLabel} · ${avg.toFixed(1)} / 4.0</span></div><div class="verdict-sub">${vsub}</div><div class="vdivider"></div><div class="flags-label" style="color:${labelColor}">Active orange and red flags</div><div class="flag-chips">${flagsHTML}</div></div>`;
 }
 
 // ── Status cards ──────────────────────────────────────────────────────
 function renderCatCards(){
-  const d=getData();
-  const activeIdx=getActiveIdx();
-  const windowState=activeIdx>=0?getWindowState(activeIdx):'pre';
-  const editable=canEdit();
+  const d=getData();const activeIdx=getActiveIdx();const windowState=activeIdx>=0?getWindowState(activeIdx):'pre';const editable=canEdit();
   const esr=document.getElementById('edit-status-row');
-  if(activeIdx<0){
-    esr.innerHTML=`<span class="window-badge wb-pre">Scoring opens after departure</span>`;
-  } else if(windowState==='open'){
+  if(activeIdx<0){esr.innerHTML=`<span class="window-badge wb-pre">Scoring opens after departure</span>`;}
+  else if(windowState==='open'){
     const sealDate=new Date(new Date(MILESTONES[activeIdx].date).getTime()+(MILESTONES[activeIdx].lockDay+1)*86400000);
-    if(!sessionUnlocked){
-      esr.innerHTML=`<span class="window-badge wb-open">Window open</span> <button class="btn btn-blue" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">Unlock editing</button>`;
-    } else {
-      esr.innerHTML=`<span class="window-badge wb-open">Editing unlocked · closes ${sealDate.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;
-    }
+    if(!sessionUnlocked){esr.innerHTML=`<span class="window-badge wb-open">Window open</span> <button class="btn btn-blue" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">Unlock editing</button>`;}
+    else{esr.innerHTML=`<span class="window-badge wb-open">Editing unlocked · closes ${sealDate.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;}
   } else if(windowState==='sealed'){
-    if(!sessionUnlocked){
-      esr.innerHTML=`<span class="window-badge wb-sealed">Review sealed</span> <button class="btn" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">PIN override</button>`;
-    } else {
-      esr.innerHTML=`<span class="window-badge wb-open">PIN override active</span>`;
-    }
-  } else {
-    esr.innerHTML=`<span class="window-badge wb-pre">Breathing room · window opens in ${MILESTONES[activeIdx].unlockDay-(Math.floor((TODAY-new Date(MILESTONES[activeIdx].date))/86400000))} days</span>`;
-  }
-  const container=document.getElementById('cat-cards');
-  container.innerHTML='';
+    if(!sessionUnlocked){esr.innerHTML=`<span class="window-badge wb-sealed">Review sealed</span> <button class="btn" style="padding:4px 12px;font-size:12px;margin-left:6px" onclick="requestPin(()=>renderCatCards())">PIN override</button>`;}
+    else{esr.innerHTML=`<span class="window-badge wb-open">PIN override active</span>`;}
+  } else {esr.innerHTML=`<span class="window-badge wb-pre">Breathing room · window opens in ${MILESTONES[activeIdx].unlockDay-(Math.floor((TODAY-new Date(MILESTONES[activeIdx].date))/86400000))} days</span>`;}
+  const container=document.getElementById('cat-cards');container.innerHTML='';
   CATS.forEach(c=>{
-    const status=d['cat_'+c.id]||'unrated';
-    const note=d['note_'+c.id]||'';
-    const t=c.thresholds.find(t=>t.s===status);
-    const div=document.createElement('div');
-    div.className='card'+(editable?'':' cat-locked');
-    div.style.marginBottom='10px';
-    div.innerHTML=`
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
-        <div style="font-size:14px;font-weight:600;color:#4a1a10">${c.label}</div>
-        <select style="width:auto;min-width:110px" ${editable?'':'disabled'} onchange="saveField('cat_${c.id}',this.value);renderOverview();renderVerdict()">
-          <option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option>
-          <option value="green"   ${status==='green'  ?'selected':''}>Green</option>
-          <option value="yellow"  ${status==='yellow' ?'selected':''}>Yellow</option>
-          <option value="orange"  ${status==='orange' ?'selected':''}>Orange</option>
-          <option value="red"     ${status==='red'    ?'selected':''}>Red</option>
-        </select>
-      </div>
-      ${t?`<div class="pill ${pillClass(t.s)}" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>${pillLabel(t.s)}</strong> · ${t.label}</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: ${t.action}</div>`:''}
-      <label>Notes</label>
-      <textarea placeholder="What's driving this rating?" ${editable?'':'disabled'} onchange="saveField('note_${c.id}',this.value)">${note}</textarea>
-      ${!editable?'<div class="lock-note">Read only · unlock editing to update this category.</div>':''}`;
+    const status=d['cat_'+c.id]||'unrated';const note=d['note_'+c.id]||'';const t=c.thresholds.find(t=>t.s===status);
+    const div=document.createElement('div');div.className='card'+(editable?'':' cat-locked');div.style.marginBottom='10px';
+    div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">${c.label}</div><select style="width:auto;min-width:110px" ${editable?'':'disabled'} onchange="saveField('cat_${c.id}',this.value);renderOverview();renderVerdict()"><option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option><option value="green" ${status==='green'?'selected':''}>Green</option><option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option><option value="orange" ${status==='orange'?'selected':''}>Orange</option><option value="red" ${status==='red'?'selected':''}>Red</option></select></div>${t?`<div class="pill ${pillClass(t.s)}" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>${pillLabel(t.s)}</strong> · ${t.label}</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: ${t.action}</div>`:''}<label>Notes</label><textarea placeholder="What's driving this rating?" ${editable?'':'disabled'} onchange="saveField('note_${c.id}',this.value)">${note}</textarea>${!editable?'<div class="lock-note">Read only · unlock editing to update this category.</div>':''}`;
     container.appendChild(div);
   });
-  const gDiv=document.createElement('div');
-  gDiv.className='card';gDiv.style.marginBottom='10px';
-  const d2=getData();
-  gDiv.innerHTML=`
-    <div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div>
-    <div class="row">
-      <div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="${d2.roth_used||''}" onchange="saveField('roth_used',this.value);renderOverview()"></div>
-      <div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="${d2.cash_used||''}" onchange="saveField('cash_used',this.value);renderOverview()"></div>
-    </div>
-    <div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label>
-      <select onchange="saveField('consumer_debt',this.value);renderOverview()">
-        <option value="no"  ${(d2.consumer_debt||'no')==='no'?'selected':''}>No</option>
-        <option value="yes" ${d2.consumer_debt==='yes'?'selected':''}>Yes</option>
-      </select>
-    </div>`;
+  const gDiv=document.createElement('div');gDiv.className='card';gDiv.style.marginBottom='10px';const d2=getData();
+  gDiv.innerHTML=`<div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div><div class="row"><div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="${d2.roth_used||''}" onchange="saveField('roth_used',this.value);renderOverview()"></div><div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="${d2.cash_used||''}" onchange="saveField('cash_used',this.value);renderOverview()"></div></div><div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label><select onchange="saveField('consumer_debt',this.value);renderOverview()"><option value="no" ${(d2.consumer_debt||'no')==='no'?'selected':''}>No</option><option value="yes" ${d2.consumer_debt==='yes'?'selected':''}>Yes</option></select></div>`;
   container.appendChild(gDiv);
 }
 
 // ── Thresholds ────────────────────────────────────────────────────────
 function renderThresholds(){
-  const container=document.getElementById('threshold-content');
-  container.innerHTML='';
-  CATS.forEach(c=>{
-    const wrap=document.createElement('div');wrap.style.marginBottom='1.5rem';
-    let rows='';
-    c.thresholds.forEach(t=>{rows+=`<tr><td style="width:80px"><span class="pill ${pillClass(t.s)}">${pillLabel(t.s)}</span></td><td>${t.label}</td><td style="color:#7a4030">${t.action}</td></tr>`;});
-    wrap.innerHTML=`<h3>${c.label}</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody>${rows}</tbody></table>`;
-    container.appendChild(wrap);
-  });
+  const container=document.getElementById('threshold-content');container.innerHTML='';
+  CATS.forEach(c=>{const wrap=document.createElement('div');wrap.style.marginBottom='1.5rem';let rows='';c.thresholds.forEach(t=>{rows+=`<tr><td style="width:80px"><span class="pill ${pillClass(t.s)}">${pillLabel(t.s)}</span></td><td>${t.label}</td><td style="color:#7a4030">${t.action}</td></tr>`;});wrap.innerHTML=`<h3>${c.label}</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody>${rows}</tbody></table>`;container.appendChild(wrap);});
 }
 
 // ── Checklist ─────────────────────────────────────────────────────────
 function renderChecklist(){
-  const d=getData();
-  const container=document.getElementById('checklist-content');
-  container.innerHTML='';
-  CHECKLIST.forEach((item,i)=>{
-    const checked=d['check_'+i]===true;
-    const div=document.createElement('div');div.className='checklist-item';
-    div.innerHTML=`<input type="checkbox" id="chk${i}" ${checked?'checked':''} onchange="saveField('check_${i}',this.checked)"><label for="chk${i}"><div class="qtext">${item.q}</div><div class="qsub">${item.sub}</div></label>`;
-    container.appendChild(div);
-  });
+  const d=getData();const container=document.getElementById('checklist-content');container.innerHTML='';
+  CHECKLIST.forEach((item,i)=>{const checked=d['check_'+i]===true;const div=document.createElement('div');div.className='checklist-item';div.innerHTML=`<input type="checkbox" id="chk${i}" ${checked?'checked':''} onchange="saveField('check_${i}',this.checked)"><label for="chk${i}"><div class="qtext">${item.q}</div><div class="qsub">${item.sub}</div></label>`;container.appendChild(div);});
 }
 
 // ── Quarterly review ──────────────────────────────────────────────────
-function prefillReviewFromCards(){
-  const d=getData();
-  CATS.forEach(c=>{
-    const cur=d['cat_'+c.id];
-    if(cur&&cur!=='unrated')saveField('rev_cat_'+c.id,cur);
-  });
-  renderReviewForm();
-  generateSummary();
-}
+function prefillReviewFromCards(){const d=getData();CATS.forEach(c=>{const cur=d['cat_'+c.id];if(cur&&cur!=='unrated')saveField('rev_cat_'+c.id,cur);});renderReviewForm();generateSummary();}
 
 function renderReviewForm(){
-  const d=getData();
-  const container=document.getElementById('review-form');
-  container.innerHTML='';
-  CATS.forEach(c=>{
-    const row=document.createElement('div');row.style.marginBottom='12px';
-    row.innerHTML=`
-      <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-        <div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">${c.label}</label>
-          <select style="margin-top:4px" onchange="saveField('rev_cat_${c.id}',this.value);generateSummary()">
-            <option value="">Select status</option>
-            <option value="green"  ${d['rev_cat_'+c.id]==='green' ?'selected':''}>Green</option>
-            <option value="yellow" ${d['rev_cat_'+c.id]==='yellow'?'selected':''}>Yellow</option>
-            <option value="orange" ${d['rev_cat_'+c.id]==='orange'?'selected':''}>Orange</option>
-            <option value="red"    ${d['rev_cat_'+c.id]==='red'   ?'selected':''}>Red</option>
-          </select>
-        </div>
-        <div style="flex:2;min-width:200px"><label>Key observation</label>
-          <textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${c.id}',this.value)">${d['rev_note_'+c.id]||''}</textarea>
-        </div>
-      </div>`;
-    container.appendChild(row);
-  });
-  const extra=document.createElement('div');
-  extra.innerHTML=`
-    <hr class="divider">
-    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${getData().rev_win||''}</textarea></div>
-    <div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${getData().rev_concern||''}</textarea></div>
-    <div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${getData().rev_change||''}</textarea></div>`;
-  container.appendChild(extra);
+  const d=getData();const container=document.getElementById('review-form');container.innerHTML='';
+  CATS.forEach(c=>{const row=document.createElement('div');row.style.marginBottom='12px';row.innerHTML=`<div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap"><div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">${c.label}</label><select style="margin-top:4px" onchange="saveField('rev_cat_${c.id}',this.value);generateSummary()"><option value="">Select status</option><option value="green" ${d['rev_cat_'+c.id]==='green'?'selected':''}>Green</option><option value="yellow" ${d['rev_cat_'+c.id]==='yellow'?'selected':''}>Yellow</option><option value="orange" ${d['rev_cat_'+c.id]==='orange'?'selected':''}>Orange</option><option value="red" ${d['rev_cat_'+c.id]==='red'?'selected':''}>Red</option></select></div><div style="flex:2;min-width:200px"><label>Key observation</label><textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${c.id}',this.value)">${d['rev_note_'+c.id]||''}</textarea></div></div>`;container.appendChild(row);});
+  const extra=document.createElement('div');extra.innerHTML=`<hr class="divider"><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${getData().rev_win||''}</textarea></div><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${getData().rev_concern||''}</textarea></div><div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${getData().rev_change||''}</textarea></div>`;container.appendChild(extra);
 }
 
 function generateSummary(){
-  const d=getData();
-  const el=document.getElementById('review-summary');
-  if(!el)return;
-  const reds=CATS.filter(c=>d['rev_cat_'+c.id]==='red').map(c=>c.label);
-  const oranges=CATS.filter(c=>d['rev_cat_'+c.id]==='orange').map(c=>c.label);
-  const greens=CATS.filter(c=>d['rev_cat_'+c.id]==='green').map(c=>c.label);
-  const rated=CATS.filter(c=>d['rev_cat_'+c.id]);
-  const avg=rated.length?rated.reduce((a,c)=>a+(SCORE_MAP[d['rev_cat_'+c.id]]||0),0)/rated.length:null;
+  const d=getData();const el=document.getElementById('review-summary');if(!el)return;
+  const reds=CATS.filter(c=>d['rev_cat_'+c.id]==='red').map(c=>c.label);const oranges=CATS.filter(c=>d['rev_cat_'+c.id]==='orange').map(c=>c.label);const greens=CATS.filter(c=>d['rev_cat_'+c.id]==='green').map(c=>c.label);
+  const rated=CATS.filter(c=>d['rev_cat_'+c.id]);const avg=rated.length?rated.reduce((a,c)=>a+(SCORE_MAP[d['rev_cat_'+c.id]]||0),0)/rated.length:null;
   let verdict='',vcolor='#1B6E9F';
   if(!avg){verdict='Pull ratings or select statuses above to see your summary.';}
   else if(reds.length>=2||avg<1.8){verdict='Exit signal. Multiple red flags active. Review exit or pivot plan immediately.';vcolor='#991b1b';}
@@ -1390,51 +1023,23 @@ function generateSummary(){
   else if(oranges.length>=3){verdict='Watch closely. Several orange flags. Trajectory matters.';vcolor='#854d0e';}
   else if(avg>=3.5){verdict='Continue. Evidence supports the mission. Maintain momentum.';vcolor='#059669';}
   else{verdict='Proceed with intention. More mixed than ideal. Track trends carefully.';vcolor='#1B6E9F';}
-  el.innerHTML=`
-    <div class="summary-box">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a7060;margin-bottom:4px">Overall verdict</div>
-      <div style="font-size:15px;font-weight:700;color:${vcolor}">${verdict}</div>
-      ${avg?`<div style="font-size:12px;color:#9a7060;margin-top:4px">Score: ${avg.toFixed(1)} / 4.0 · ${rated.length} of ${CATS.length} categories rated</div>`:''}
-    </div>
-    ${greens.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#059669;font-weight:700">Strengths: </span>${greens.join(', ')}</div>`:''}
-    ${oranges.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#9a3412;font-weight:700">Watch: </span>${oranges.join(', ')}</div>`:''}
-    ${reds.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#991b1b;font-weight:700">Action required: </span>${reds.join(', ')}</div>`:''}
-    ${d.rev_win?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:700">Win: </span>${d.rev_win}</div>`:''}
-    ${d.rev_concern?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:700">Concern: </span>${d.rev_concern}</div>`:''}
-    ${d.rev_change?`<div style="font-size:13px;color:#555"><span style="font-weight:700">Next action: </span>${d.rev_change}</div>`:''}`;
+  el.innerHTML=`<div class="summary-box"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a7060;margin-bottom:4px">Overall verdict</div><div style="font-size:15px;font-weight:700;color:${vcolor}">${verdict}</div>${avg?`<div style="font-size:12px;color:#9a7060;margin-top:4px">Score: ${avg.toFixed(1)} / 4.0 · ${rated.length} of ${CATS.length} categories rated</div>`:''}</div>${greens.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#059669;font-weight:700">Strengths: </span>${greens.join(', ')}</div>`:''}${oranges.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#9a3412;font-weight:700">Watch: </span>${oranges.join(', ')}</div>`:''}${reds.length?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="color:#991b1b;font-weight:700">Action required: </span>${reds.join(', ')}</div>`:''}${d.rev_win?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:700">Win: </span>${d.rev_win}</div>`:''}${d.rev_concern?`<div style="font-size:13px;color:#555;margin-bottom:6px"><span style="font-weight:700">Concern: </span>${d.rev_concern}</div>`:''}${d.rev_change?`<div style="font-size:13px;color:#555"><span style="font-weight:700">Next action: </span>${d.rev_change}</div>`:''}`;
 }
 
 function saveReview(){
-  const d=getData();
-  const reviews=d.saved_reviews||[];
+  const d=getData();const reviews=d.saved_reviews||[];
   const snap={period:document.getElementById('review-period').value,date:document.getElementById('review-date').value,saved:new Date().toISOString(),cats:{}};
-  CATS.forEach(c=>{snap.cats[c.id]={status:d['rev_cat_'+c.id]||'',note:d['rev_note_'+c.id]||''}});
+  CATS.forEach(c=>{snap.cats[c.id]={status:d['rev_cat_'+c.id]||'',note:d['rev_note_'+c.id]||''};});
   snap.win=d.rev_win||'';snap.concern=d.rev_concern||'';snap.change=d.rev_change||'';
   reviews.unshift(snap);d.saved_reviews=reviews.slice(0,12);setData(d);
-
-  // Also append the review to its own Supabase table for a cleaner audit trail
-  fetch('/api/append', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({type:'review', data:snap})
-  }).catch(err => console.warn('Review append to API failed:', err.message));
-
+  fetch('/api/append',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'review',data:snap})}).catch(err=>console.warn('Review append failed:',err.message));
   alert('Review saved.');
 }
 
 // ── Export ────────────────────────────────────────────────────────────
-function exportJSON(){
-  const blob=new Blob([JSON.stringify(getData(),null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='eu-dashboard-'+new Date().toISOString().split('T')[0]+'.json';a.click();URL.revokeObjectURL(url);
-}
+function exportJSON(){const blob=new Blob([JSON.stringify(getData(),null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='eu-dashboard-'+new Date().toISOString().split('T')[0]+'.json';a.click();URL.revokeObjectURL(url);}
 function importTrigger(){document.getElementById('import-file').click()}
-function importJSON(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=ev=>{try{setData(JSON.parse(ev.target.result));loadData();alert('Data imported.');}catch{alert('Invalid JSON file.');}};
-  r.readAsText(file);
-}
+function importJSON(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{setData(JSON.parse(ev.target.result));loadData();alert('Data imported.');}catch{alert('Invalid JSON file.');}};r.readAsText(file);}
 function resetData(){if(confirm('Clear all saved data? This cannot be undone.')){localStorage.removeItem('eu_dash');_cache={};loadData();setSyncStatus('hidden');}}
 
 // ── Navigation ────────────────────────────────────────────────────────
@@ -1443,24 +1048,125 @@ function showTab(id){
   document.getElementById(id).classList.add('active');
   const tabs=['dashboard','categories','thresholds','checklist','review','export'];
   document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',tabs[i]===id));
-  if(id==='dashboard')  renderOverview();
-  if(id==='categories') renderCatCards();
-  if(id==='thresholds') renderThresholds();
-  if(id==='checklist')  renderChecklist();
-  if(id==='review')     {renderReviewForm();generateSummary();}
+  if(id==='dashboard')renderOverview();
+  if(id==='categories')renderCatCards();
+  if(id==='thresholds')renderThresholds();
+  if(id==='checklist')renderChecklist();
+  if(id==='review'){renderReviewForm();generateSummary();}
 }
 
+// ── Comment panel ──────────────────────────────────────────────────────
+function toggleCommentPanel(){
+  const panel=document.getElementById('comment-panel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open'))renderPanelComments();
+}
+
+function renderPanelComments(animateLast=false){
+  const comments=getComments();const list=document.getElementById('panel-comment-list');if(!list)return;
+  list.innerHTML='';
+  const cb=document.getElementById('panel-count-badge');const tc=document.getElementById('panel-toggle-count');
+  if(cb)cb.textContent=comments.length;if(tc)tc.textContent=comments.length;
+  if(!comments.length){list.innerHTML='<div style="font-size:11px;color:#b0a090;font-style:italic;text-align:center;padding:12px 0">No notes yet. Be first.</div>';return;}
+  comments.forEach((c,i)=>{
+    const ac=getAV(c.name||'A');
+    const div=document.createElement('div');div.className='ci'+(animateLast&&i===comments.length-1?' new-ci':'');
+    div.innerHTML=`<div class="ci-top"><div class="ci-av" style="background:${ac.bg};color:${ac.color}">${getInitials(c.name||'A')}</div><span class="ci-name">${c.name||'Anonymous'}</span><span class="ci-date">${fmtCT(c.timestamp||c.date)}</span></div><div class="ci-text">${c.text}</div>`;
+    list.appendChild(div);
+  });
+  list.scrollTop=list.scrollHeight;
+}
+
+async function panelPost(){
+  const name=document.getElementById('panel-name-in').value.trim();
+  const text=document.getElementById('panel-text-in').value.trim();
+  if(!name||!text)return;
+
+  // Optimistically add to local list and render immediately
+  const newComment={name,text,timestamp:new Date().toISOString()};
+  _comments.push(newComment);
+  localStorage.setItem('eu_comments',JSON.stringify(_comments));
+  document.getElementById('panel-text-in').value='';
+  document.getElementById('panel-text-in').style.height='auto';
+  document.getElementById('panel-post-btn').disabled=true;
+  renderPanelComments(true);
+
+  // Then send to Supabase in the background
+  try {
+    await fetch('/api/append',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'comment',name,text})});
+  } catch(err){console.warn('Comment save to API failed:',err.message);}
+}
+
+function validatePanel(){
+  const n=document.getElementById('panel-name-in').value.trim();const t=document.getElementById('panel-text-in').value.trim();
+  const btn=document.getElementById('panel-post-btn');if(btn)btn.disabled=!(n&&t);
+}
+
+setTimeout(()=>{
+  const ni=document.getElementById('panel-name-in');const ti=document.getElementById('panel-text-in');
+  if(ni)ni.addEventListener('input',validatePanel);
+  if(ti){ti.addEventListener('input',e=>{e.target.style.height='auto';e.target.style.height=Math.min(e.target.scrollHeight,80)+'px';validatePanel();});ti.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();panelPost();}});}
+},400);
+
+// ── Milestone card ─────────────────────────────────────────────────────
+function openMsCard(idx){
+  const d=getData();const m=MILESTONES[idx];if(!m)return;
+  const name=m.fullName;
+  const date=new Date(m.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const score=d['milestone_score_'+idx];const band=d['milestone_band_'+idx];const signal=d['milestone_signal_'+idx];
+  const flags=[];CATS.forEach(c=>{const s=d['cat_'+c.id];if(s==='orange'||s==='red')flags.push({label:c.label,status:s});});
+  const key=String(idx);
+
+  document.getElementById('ms-name').textContent=name;
+  document.getElementById('ms-date').textContent=date;
+
+  const st=score?(SIGNAL_STYLES[band]||SIGNAL_STYLES.moderate):null;
+  const scoreBlock=document.getElementById('ms-score-block');
+  if(score&&st){
+    const bBg=band==='strong'?'#d1fae5':band==='moderate'?'#fef9c3':band==='caution'?'#ffedd5':'#fee2e2';
+    const bColor=band==='strong'?'#065f46':band==='moderate'?'#854d0e':band==='caution'?'#9a3412':'#991b1b';
+    const bBdr=band==='strong'?'rgba(16,185,129,0.25)':band==='moderate'?'rgba(245,158,11,0.25)':band==='caution'?'rgba(249,115,22,0.25)':'rgba(239,68,68,0.25)';
+    scoreBlock.innerHTML=`<div><div class="ms-score-label">Overall score</div><div><span class="ms-score-num" style="color:${st.scoreColor}">${score}</span><span class="ms-score-denom"> / 4.0</span></div></div><div><div class="ms-verdict-badge" style="background:${bBg};color:${bColor};border:1px solid ${bBdr}">${signal||''}</div><div class="ms-verdict-sub">${flags.length?flags.length+' flag'+(flags.length>1?'s':'')+' active at review.':'No active flags at review.'}</div></div>`;
+  } else {scoreBlock.innerHTML='<div style="font-size:12px;color:#9a7060;font-style:italic">Review not yet scored.</div>';}
+
+  const flagsBlock=document.getElementById('ms-flags-block');
+  if(flags.length){flagsBlock.style.display='';flagsBlock.innerHTML=`<div class="ms-flags-label">Active flags at review</div><div class="ms-flag-chips">${flags.map(f=>`<div class="ms-flag-chip">${f.label}</div>`).join('')}</div>`;}
+  else{flagsBlock.style.display='none';}
+
+  // Reactions — loaded from _reactions (Supabase) with localStorage for "my" votes
+  const chipsEl=document.getElementById('ms-reaction-chips');chipsEl.innerHTML='';
+  MS_REACTIONS.forEach(em=>{
+    const count=getReactionCount(key,em);const isMine=getMyReaction(key,em);
+    const chip=document.createElement('button');chip.className='ms-r-chip'+(isMine?' active':'');
+    chip.innerHTML=`<span class="ms-r-emoji">${em}</span><span class="ms-r-count">${count}</span>`;
+    chip.onclick=async()=>{
+      const wasMine=getMyReaction(key,em);
+      const newCount=wasMine?Math.max(0,getReactionCount(key,em)-1):getReactionCount(key,em)+1;
+      _reactions[`${key}:${em}`]=newCount;
+      setMyReaction(key,em,!wasMine);
+      localStorage.setItem('eu_reactions',JSON.stringify(_reactions));
+      chip.querySelector('.ms-r-count').textContent=newCount;
+      chip.classList.toggle('active',!wasMine);
+      chip.classList.remove('bump');void chip.offsetWidth;chip.classList.add('bump');
+      // Sync to Supabase
+      try{await fetch('/api/append',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'reaction',milestone_idx:parseInt(key),emoji:em,count:newCount})});}
+      catch(err){console.warn('Reaction sync failed:',err.message);}
+    };
+    chipsEl.appendChild(chip);
+  });
+
+  document.getElementById('ms-overlay').classList.add('show');
+}
+
+function closeMsCard(e){if(e.target===document.getElementById('ms-overlay'))document.getElementById('ms-overlay').classList.remove('show');}
+
+// ── Bootstrap ──────────────────────────────────────────────────────────
 function loadData(){
-  renderBanner();
-  renderOverview();
-  renderThresholds();
-  renderChecklist();
-  renderReviewForm();
+  renderBanner();renderOverview();renderThresholds();renderChecklist();renderReviewForm();renderPanelComments();
 }
 
-// Bootstrap: load from API (or localStorage fallback), then render everything
-loadFromAPI().then(() => loadData());
+// Load everything: dashboard state + comments + reactions, then render
+Promise.all([loadFromAPI(), loadCommentsFromAPI(), loadReactionsFromAPI()]).then(()=>loadData());
 </script>
-
-
-</body></html>
+</body>
+</html>
