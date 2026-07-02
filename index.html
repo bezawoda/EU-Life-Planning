@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0036)https://eu-life-planning.vercel.app/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EU Relocation</title>
 <style>
@@ -98,9 +97,12 @@ h2{font-size:15px;font-weight:700;color:#1a0e0a;margin-bottom:10px}
 h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:8px}
 
 /* ── Guardrails ── */
-.gr-card{background:rgba(255,255,255,0.78);border:1px solid rgba(226,114,91,0.15);border-radius:10px;padding:13px 16px}
+.gr-card{background:rgba(255,255,255,0.78);border:1px solid rgba(226,114,91,0.15);border-radius:10px;display:flex;overflow:hidden}
+.gr-icon-col{flex:0 0 33%;display:flex;align-items:center;justify-content:center;background:rgba(226,114,91,0.05)}
+.gr-icon-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.gr-text-col{flex:1;min-width:0;padding:13px 12px}
 .gr-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#7a4030;margin-bottom:7px}
-.gr-value{font-size:15px;font-weight:700}
+.gr-value{font-size:10px;font-weight:700}
 
 /* ── Checklist ── */
 .checklist-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(226,114,91,0.1)}
@@ -143,6 +145,75 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .flags-label{font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-bottom:6px}
 .flag-chips{display:flex;flex-wrap:wrap;gap:5px}
 .flag-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:5px}
+
+/* ── Analytics dashboard (Quarterly review) ── */
+.dash-top{display:grid;grid-template-columns:180px 1fr;gap:16px;margin-bottom:14px}
+@media(max-width:600px){.dash-top{grid-template-columns:1fr}}
+.ring-card{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px}
+.ring-wrap{position:relative;width:120px;height:120px;margin-bottom:8px}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-pct{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct .num{font-size:24px;font-weight:700;color:#1a0e0a}
+.ring-pct .lbl{font-size:9px;color:#9a7060;text-transform:uppercase;letter-spacing:.05em}
+.ring-trend{font-size:11px;font-weight:700;margin-top:2px}
+.trend-up{color:#059669}
+.trend-down{color:#991b1b}
+.trend-flat{color:#9a7060}
+.qoq-card{padding:14px 16px}
+.qoq-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:10px}
+.qoq-chart{display:flex;align-items:flex-end;gap:10px;height:70px;padding-top:6px}
+.qoq-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.qoq-bar{width:100%;max-width:34px;border-radius:4px 4px 0 0;background:#c5d8e8;transition:height .3s}
+.qoq-bar.current{background:#1B6E9F}
+.qoq-q-label{font-size:9px;color:#9a7060;margin-top:2px}
+.qoq-q-val{font-size:9px;color:#7a4030;font-weight:700}
+.bucket-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+@media(max-width:640px){.bucket-grid{grid-template-columns:repeat(5,1fr);gap:5px}}
+.bucket-mini{background:rgba(255,255,255,0.6);border:1px solid rgba(226,114,91,0.14);border-radius:8px;padding:9px 8px;min-width:0}
+.bucket-mini-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.bucket-mini-name{font-size:10.5px;font-weight:700;color:#4a1a10;display:flex;align-items:center;gap:5px;line-height:1.25}
+.bucket-mini-name .label-text{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.bucket-mini-icon{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.bucket-mini-pct{font-size:14px;font-weight:700}
+.spark{display:block;margin-top:2px}
+.bucket-mini-trend{font-size:9px;margin-top:4px;font-weight:600;line-height:1.3}
+
+/* ── Quarterly review inputs: lock strip + accordion ── */
+.qr-header-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:2px}
+.lock-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700}
+.lock-status.locked{color:#9a5040}
+.lock-status.unlocked{color:#059669}
+.locked-strip{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.locked-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.55);border:1px solid rgba(226,114,91,0.12);border-radius:8px;opacity:.85}
+.locked-row-left{display:flex;align-items:center;gap:10px}
+.locked-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.locked-name{font-size:13px;font-weight:600;color:#4a1a10}
+.locked-cats{font-size:11px;color:#9a7060}
+.locked-pills{display:flex;gap:4px}
+.mini-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.accordion{margin-top:10px}
+.bucket-group{border:1px solid rgba(226,114,91,0.15);border-radius:10px;margin-bottom:8px;overflow:hidden;background:rgba(255,255,255,0.5)}
+.bucket-group-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;background:rgba(255,255,255,0.4)}
+.bucket-group-head:hover{background:rgba(226,114,91,0.06)}
+.bucket-group-left{display:flex;align-items:center;gap:10px}
+.bucket-group-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.bucket-group-title{font-size:13px;font-weight:700;color:#1a0e0a}
+.bucket-group-sub{font-size:11px;color:#9a7060;margin-top:1px}
+.chev{width:16px;height:16px;transition:transform .2s;color:#9a5040}
+.bucket-group.open .chev{transform:rotate(180deg)}
+.bucket-group-body{max-height:0;overflow:hidden;transition:max-height .25s ease}
+.bucket-group.open .bucket-group-body{max-height:2000px}
+.bucket-group-body-inner{padding:4px 14px 14px}
+.cat-row{padding:10px 0;border-top:1px solid rgba(226,114,91,0.1)}
+.cat-row-head{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+.cat-row-head .lbl{font-weight:600;color:#1a0e0a;min-width:170px;flex:1}
+.cat-row-head .fld{flex:1;min-width:160px}
+.cat-row-obs{flex:2;min-width:200px}
+.ic-finances{background:#dcfce7;color:#166534}
+.ic-health{background:#fee2e2;color:#991b1b}
+.ic-legal{background:#dbeafe;color:#1e40af}
+.ic-lifestyle{background:#fef3c7;color:#92400e}
+.ic-professional{background:#ede9fe;color:#5b21b6}
 
 /* ── Status card lock ── */
 .cat-locked{opacity:.55;pointer-events:none;user-select:none}
@@ -281,7 +352,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
   </div>
   <div class="banner-right">
-    <button class="banner-cta" id="banner-cta" style="display:none" onclick="showTab('categories')">Update status cards</button>
+    <button class="banner-cta" id="banner-cta" style="display:none" onclick="showTab(&#39;categories&#39;)">Update status cards</button>
     <button class="banner-dismiss" onclick="dismissBanner()" title="Dismiss">×</button>
   </div>
 </div>
@@ -310,7 +381,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
           <div class="ms-name" id="ms-name"></div>
           <div class="ms-date" id="ms-date"></div>
         </div>
-        <button class="ms-close-btn" onclick="document.getElementById('ms-overlay').classList.remove('show')">×</button>
+        <button class="ms-close-btn" onclick="document.getElementById(&#39;ms-overlay&#39;).classList.remove(&#39;show&#39;)">×</button>
       </div>
     </div>
     <div class="ms-score-block" id="ms-score-block"></div>
@@ -321,7 +392,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
     <div class="ms-card-footer">
       <div class="ms-footer-note">Comments go to the activity log</div>
-      <button class="ms-footer-link" onclick="document.getElementById('ms-overlay').classList.remove('show');showTab('dashboard');setTimeout(()=>document.getElementById('comment-panel').classList.add('open'),100)">Open activity log →</button>
+      <button class="ms-footer-link" onclick="document.getElementById(&#39;ms-overlay&#39;).classList.remove(&#39;show&#39;);showTab(&#39;dashboard&#39;);setTimeout(()=&gt;document.getElementById(&#39;comment-panel&#39;).classList.add(&#39;open&#39;),100)">Open activity log →</button>
     </div>
   </div>
 </div>
@@ -336,29 +407,29 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
     <button class="panel-toggle" onclick="toggleCommentPanel()">
       💬 Send some love
-      <span class="panel-toggle-count" id="panel-toggle-count">0</span>
+      <span class="panel-toggle-count" id="panel-toggle-count">1</span>
     </button>
   </div>
 
   <!-- Sync status indicator -->
-  <div id="sync-indicator" style="font-size:11px;color:#9a7060;margin-bottom:1rem;height:16px"></div>
+  <div id="sync-indicator" style="font-size:11px;color:#9a7060;margin-bottom:1rem;height:16px">🟢 Synced</div>
 
   <div class="nav" id="nav">
-    <button class="active" onclick="showTab('dashboard')">Overview</button>
-    <button onclick="showTab('categories')">Status cards</button>
-    <button onclick="showTab('thresholds')">Thresholds</button>
-    <button onclick="showTab('checklist')">Checklist</button>
-    <button onclick="showTab('review')">Quarterly review</button>
-    <button onclick="showTab('export')">Export</button>
+    <button class="" onclick="showTab(&#39;dashboard&#39;)">Overview</button>
+    <button onclick="showTab(&#39;categories&#39;)" class="">Status cards</button>
+    <button onclick="showTab(&#39;thresholds&#39;)" class="">Thresholds</button>
+    <button onclick="showTab(&#39;checklist&#39;)">Checklist</button>
+    <button onclick="showTab(&#39;review&#39;)" class="active">Quarterly review</button>
+    <button onclick="showTab(&#39;export&#39;)">Export</button>
   </div>
 
   <!-- OVERVIEW -->
-  <div id="dashboard" class="section active">
+  <div id="dashboard" class="section">
     <h2>Category overview</h2>
-    <div id="overview-grid" class="grid4"></div>
+    <div id="overview-grid" class="grid4"><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Financial runway</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">On track to hit all savings goals. Cashflowing 2/10 tui...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Residency / legal</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Temporary D4 visa secured 6/26. AIMA visit scheduled fo...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Career capital</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A until Semester 3+.</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Mental health</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Mostly excited, with some anxiety as move-time approach...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Stress levels</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Mostly excited, with some anxiety as move-time approach...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Physical health</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Looming coverage gap between private coverage (4 months...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-yellow" style="margin-bottom:6px;display:inline-block">Yellow</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Bureaucratic friction</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4"> Student visa (D4) visa will expire in December and lim...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Social belonging</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A until Semester 1.</div></div><div class="card" style="cursor: pointer;"><span class="pill s-green" style="margin-bottom:6px;display:inline-block">Green</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Family relationships</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">Adios Party Planning. Increased time with friends and f...</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Mission alignment</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A until Semester 1.</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Re-entry optionality</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A until Semester 1.</div></div><div class="card" style="cursor: pointer;"><span class="pill s-gray" style="margin-bottom:6px;display:inline-block">Unrated</span><div style="font-size:13px;font-weight:600;color:#4a1a10">Alternative support</div><div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">N/A until Semester 1.</div></div></div>
     <hr class="divider">
-    <h2>Financial guardrails</h2>
-    <div class="gr-carousel" id="guardrails"></div>
+    <h2>Guardrails</h2>
+    <div class="gr-carousel" id="guardrails"><div class="gr-card"><div class="gr-label">Retirement principal</div><div class="gr-value" style="color:#059669">Not touched</div></div><div class="gr-card"><div class="gr-label">Burn rate</div><div class="gr-value" style="color:#059669">On track · Jul'28</div></div><div class="gr-card"><div class="gr-label">Roth withdrawals</div><div class="gr-value" style="color:#059669">On track</div></div><div class="gr-card"><div class="gr-label">Consumer debt</div><div class="gr-value" style="color:#059669">None</div></div></div>
     <hr class="divider">
     <div class="sec-rule">
       <div class="tl-header">
@@ -372,22 +443,22 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
         </div>
       </div>
       <div class="tl-wrap">
-        <div id="tl-tooltip" class="tl-tooltip">
-          <div class="tt-eyebrow" id="tt-eyebrow"></div>
-          <div class="tt-name" id="tt-name"></div>
-          <div class="tt-score" id="tt-score"></div>
-          <div class="tt-signal" id="tt-signal"></div>
-          <div class="tt-date" id="tt-date"></div>
-          <div class="tt-arrow" id="tt-arrow"></div>
+        <div id="tl-tooltip" class="tl-tooltip" style="background: rgb(240, 253, 244); border-color: rgb(110, 231, 183); left: 0px; top: -112px;">
+          <div class="tt-eyebrow" id="tt-eyebrow" style="color: rgb(6, 95, 70);">Decision signal</div>
+          <div class="tt-name" id="tt-name" style="color: rgb(26, 14, 10);">Experiment Start</div>
+          <div class="tt-score" id="tt-score" style="color: rgb(5, 150, 105); font-size: 22px;">3.7 / 4.0</div>
+          <div class="tt-signal" id="tt-signal" style="color: rgb(5, 150, 105);">Stay and continue</div>
+          <div class="tt-date" id="tt-date">Dec 31, 2025</div>
+          <div class="tt-arrow" id="tt-arrow" style="border-top-color: rgb(110, 231, 183);"></div>
         </div>
-        <svg id="timeline" viewBox="0 0 620 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"></svg>
+        <svg id="timeline" viewBox="0 0 620 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block"><line x1="33" y1="26" x2="100.14285714285714" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="114.14285714285714" y1="26" x2="181.28571428571428" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="195.28571428571428" y1="26" x2="262.42857142857144" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="276.42857142857144" y1="26" x2="343.57142857142856" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="357.57142857142856" y1="26" x2="424.71428571428567" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="438.71428571428567" y1="26" x2="505.8571428571429" y2="26" stroke="#c5d8e8" stroke-width="2"></line><line x1="519.8571428571429" y1="26" x2="587" y2="26" stroke="#c5d8e8" stroke-width="2"></line><circle class="tl-dot" data-idx="0" cx="26" cy="26" r="6" fill="#4a8fad" stroke="#4a8fad" stroke-width="1.5" style="cursor:pointer"></circle><text x="26" y="45" text-anchor="middle" font-size="9" fill="#2d6a88" font-weight="400" style="pointer-events:none">Start</text><circle class="tl-dot" data-idx="1" cx="107.14285714285714" cy="26" r="9" fill="#fff" stroke="#1B6E9F" stroke-width="2.5" style="cursor:default"></circle><circle cx="107.14285714285714" cy="26" r="14" fill="none" stroke="#1B6E9F" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"></circle><text x="107.14285714285714" y="50" text-anchor="middle" font-size="10" fill="#1B6E9F" font-weight="700" style="pointer-events:none">Departure</text><circle class="tl-dot" data-idx="2" cx="188.28571428571428" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="188.28571428571428" y="45" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="188.28571428571428" y="56" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">1</text><circle class="tl-dot" data-idx="3" cx="269.42857142857144" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="269.42857142857144" y="45" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="269.42857142857144" y="56" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">2</text><circle class="tl-dot" data-idx="4" cx="350.57142857142856" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="350.57142857142856" y="45" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">Semester</text><text x="350.57142857142856" y="56" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">3</text><circle class="tl-dot" data-idx="5" cx="431.71428571428567" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="431.71428571428567" y="45" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">Graduation</text><circle class="tl-dot" data-idx="6" cx="512.8571428571429" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="512.8571428571429" y="45" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">Employment</text><circle class="tl-dot" data-idx="7" cx="594" cy="26" r="6" fill="#fff" stroke="#c5d8e8" stroke-width="1.5" style="cursor:default"></circle><text x="594" y="45" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">Path</text><text x="594" y="56" text-anchor="middle" font-size="9" fill="#b8d0de" font-weight="400" style="pointer-events:none">Decision</text></svg>
       </div>
       <div class="quip-free">
         <div class="quip-next-label">Next milestone</div>
-        <div class="quip-next-date" id="quip-next-date"></div>
-        <div class="quip-text" id="quip-text"></div>
+        <div class="quip-next-date" id="quip-next-date">Departure · Aug 8, 2026</div>
+        <div class="quip-text" id="quip-text">You've done harder things. Name one. Good.</div>
       </div>
-      <div id="verdict-container"></div>
+      <div id="verdict-container"><div class="verdict-card" style="border:1px solid rgba(16,185,129,0.3);margin-top:12px"><div class="verdict-top"><div><div class="verdict-label" style="color:#065f46">Current decision signal · Experiment Start</div><div class="verdict-name">Stay and continue</div></div><span class="signal-badge" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.25)">Strong · 3.7 / 4.0</span></div><div class="verdict-sub">No red flags. Trajectory is positive. Maintain plan and next milestone review.</div><div class="vdivider"></div><div class="flags-label" style="color:#065f46">Active orange and red flags</div><div class="flag-chips"><div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div></div></div></div>
     </div>
   </div>
 
@@ -395,36 +466,24 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   <div id="categories" class="section">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:1rem">
       <h2 style="margin-bottom:0">Status cards</h2>
-      <div id="edit-status-row"></div>
+      <div id="edit-status-row"><button class="btn btn-blue" style="padding:4px 12px;font-size:12px" onclick="requestPin(()=&gt;renderCatCards())">Unlock editing</button></div>
     </div>
-    <div id="cat-cards"></div>
+    <div id="cat-cards"><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Financial runway</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_financial&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · 18+ months runway</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_financial&#39;,this.value)">On track to hit all savings goals. Cashflowing 2/10 tuition payments ahead of time. Working through exit strategies.
+</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Residency / legal</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_residency&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Status clear, next milestone visible</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_residency&#39;,this.value)">Temporary D4 visa secured 6/26. AIMA visit scheduled for Residence Card (1 year). </textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Career capital</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_career&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_career&#39;,this.value)">N/A until Semester 3+.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Mental health</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_mental&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Thriving or coping well</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_mental&#39;,this.value)">Mostly excited, with some anxiety as move-time approaches.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Stress levels</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_stress&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Normal challenge, recovering well</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_stress&#39;,this.value)">Mostly excited, with some anxiety as move-time approaches.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Physical health</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_physical&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green">Green</option><option value="yellow" selected="">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-yellow" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Yellow</strong> · Minor issues, healthcare navigable</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Stay on top of coverage and access</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_physical&#39;,this.value)">Looming coverage gap between private coverage (4 months) and public health coverage via residence permit.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Bureaucratic friction</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_bureaucracy&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green">Green</option><option value="yellow" selected="">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-yellow" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Yellow</strong> · Recurring delays but solvable</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Build buffer time into planning</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_bureaucracy&#39;,this.value)"> Student visa (D4) visa will expire in December and limiting re-entry into to Portugal, impacting US and Brazil winter travel plans.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Social belonging</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_social&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_social&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Family relationships</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_family&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Strong, supported by the experiment</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_family&#39;,this.value)">Adios Party Planning. Increased time with friends and family ahead of move.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Mission alignment</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_mission&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_mission&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Re-entry optionality</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_reentry&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_reentry&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Alternative support</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_support&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_support&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card" style="margin-bottom: 10px;"><div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div><div class="row"><div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="" onchange="saveField(&#39;roth_used&#39;,this.value);renderOverview()"></div><div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="" onchange="saveField(&#39;cash_used&#39;,this.value);renderOverview()"></div></div><div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label><select onchange="saveField(&#39;consumer_debt&#39;,this.value);renderOverview()"><option value="no" selected="">No</option><option value="yes">Yes</option></select></div></div></div>
   </div>
 
   <!-- THRESHOLDS -->
   <div id="thresholds" class="section">
     <h2>Threshold reference</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Read-only reference for all 12 categories.</p>
-    <div id="threshold-content"></div>
+    <div id="threshold-content"><div style="margin-bottom: 1.5rem;"><h3>Financial runway</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>18+ months runway</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>12-18 months runway</td><td style="color:#7a4030">Reduce discretionary spend, increase job/funding search</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>6-12 months runway</td><td style="color:#7a4030">Activate income or timeline adjustment plan</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Under 6 months runway</td><td style="color:#7a4030">Controlled exit or emergency support plan</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Residency / legal</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Status clear, next milestone visible</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Pending but in process</td><td style="color:#7a4030">Track deadlines, consult immigration support</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Delays affecting work, housing, or healthcare</td><td style="color:#7a4030">Engage immigration attorney, escalate</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No clear resolution path</td><td style="color:#7a4030">Evaluate whether path forward is viable</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Career capital</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Gaining skills, network, language, credentials</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Stable but not growing</td><td style="color:#7a4030">Identify one growth area, activate it</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Disconnected from market or network</td><td style="color:#7a4030">Reactivate networking, seek internships or projects</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Employability weakening in both EU and U.S.</td><td style="color:#7a4030">Emergency career reassessment; consider return timeline</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Mental health</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Thriving or coping well</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Persistent low-grade difficulty</td><td style="color:#7a4030">Add structure, community, or professional support</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Affecting sleep, decision quality, or enjoyment</td><td style="color:#7a4030">Seek professional support; reduce stressors</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Chronic distress, isolation, panic, or burnout</td><td style="color:#7a4030">Prioritise recovery; consider timeline adjustment</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Stress levels</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Normal challenge, recovering well</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Persistent but functional</td><td style="color:#7a4030">Monitor; add recovery practices</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Regularly affecting sleep, health, or decisions</td><td style="color:#7a4030">Audit stressors; reduce load</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Chronic, identity-shaping distress</td><td style="color:#7a4030">Immediate intervention; pause or exit</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Physical health</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Healthy, healthcare access secure</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Minor issues, healthcare navigable</td><td style="color:#7a4030">Stay on top of coverage and access</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Ongoing issue with unclear care path</td><td style="color:#7a4030">Escalate healthcare access; consult doctor</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Health deteriorating or care inaccessible</td><td style="color:#7a4030">Return home if care cannot be secured</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Bureaucratic friction</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Annoying but manageable</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Recurring delays but solvable</td><td style="color:#7a4030">Build buffer time into planning</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Delays affecting work, housing, or income</td><td style="color:#7a4030">Seek professional help; escalate</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No clear resolution; bureaucracy controlling major choices</td><td style="color:#7a4030">Seriously reassess viability of path</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Social belonging</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Building meaningful relationships</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Connections present but surface-level</td><td style="color:#7a4030">Invest more intentionally in community</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Isolated; relationships not forming</td><td style="color:#7a4030">Join structured communities; evaluate city fit</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Prolonged isolation with no improvement</td><td style="color:#7a4030">Reassess city/program; seek support resources</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Family relationships</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Strong, supported by the experiment</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Strain present but manageable</td><td style="color:#7a4030">Increase contact; plan visits</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Significant strain or family concern</td><td style="color:#7a4030">Prioritise; assess whether timeline adjustment helps</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Crisis or irrecoverable distance forming</td><td style="color:#7a4030">Return home or activate family support pathway</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Mission alignment</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Evidence supports the EU hypothesis</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Mixed evidence; unclear verdict</td><td style="color:#7a4030">Articulate what data would shift the assessment</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Benefits unclear relative to cost or stress</td><td style="color:#7a4030">Reassess hypothesis; define exit conditions</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>Evidence contradicts the reason for being there</td><td style="color:#7a4030">Honest pivot conversation; avoid sunk-cost trap</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Re-entry optionality</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>U.S. path clearly preserved</td><td style="color:#7a4030">Continue plan</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Gap growing but manageable</td><td style="color:#7a4030">Maintain U.S. connections; update resume/network</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>U.S. market drift noticeable</td><td style="color:#7a4030">Active U.S. networking; assess credential equivalency</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>U.S. re-entry would be very difficult</td><td style="color:#7a4030">Investigate bridging strategies before it worsens</td></tr></tbody></table></div><div style="margin-bottom: 1.5rem;"><h3>Alternative support</h3><table class="data-table"><thead><tr><th style="width:80px">Status</th><th>Definition</th><th>Recommended action</th></tr></thead><tbody><tr><td style="width:80px"><span class="pill s-green">Green</span></td><td>Clear fallback options available</td><td style="color:#7a4030">Document the plan proactively</td></tr><tr><td style="width:80px"><span class="pill s-yellow">Yellow</span></td><td>Options exist but not formalised</td><td style="color:#7a4030">Have the conversation; make it concrete</td></tr><tr><td style="width:80px"><span class="pill s-orange">Orange</span></td><td>Fallback unclear or logistically complex</td><td style="color:#7a4030">Explore now, not during a crisis</td></tr><tr><td style="width:80px"><span class="pill s-red">Red</span></td><td>No viable fallback available</td><td style="color:#7a4030">Build one before continuing; this is a guardrail</td></tr></tbody></table></div></div>
   </div>
 
   <!-- CHECKLIST -->
   <div id="checklist" class="section">
     <h2>Decision checklist</h2>
     <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Core questions to answer honestly at each review point.</p>
-    <div id="checklist-content"></div>
-    <hr class="divider">
-    <h2>Financial tracking prompts</h2>
-    <p style="font-size:13px;color:#9a7060;margin-bottom:.75rem">Track these in your own spreadsheet. Not stored here.</p>
-    <div class="card" style="font-size:13px;line-height:2;color:#5a3020">
-      <div>1. Total cash runway in months — target 12 or more at all times</div>
-      <div>2. Roth contribution withdrawals used vs. $10,000 planned ceiling</div>
-      <div>3. Monthly burn rate vs. projected budget for that period</div>
-      <div>4. Emergency buffer — target 3 months minimum in liquid savings</div>
-      <div>5. EU vs. U.S. cost-of-living delta (monthly and annualised)</div>
-      <div>6. Opportunity cost estimate: income foregone while in school</div>
-      <div>7. Post-graduation income target to break even on experiment cost</div>
-      <div>8. Total experiment cost vs. $39,000 ceiling ($29k savings + $10k Roth)</div>
-    </div>
+    <div id="checklist-content"><div class="checklist-item"><input type="checkbox" id="chk0" onchange="saveField(&#39;check_0&#39;,this.checked)"><label for="chk0"><div class="qtext">Do I feel safer about my long-term future than I did in the U.S.?</div><div class="qsub">Be honest. Not aspirationally. Based on current evidence.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk1" onchange="saveField(&#39;check_1&#39;,this.checked)"><label for="chk1"><div class="qtext">Could I imagine raising children here?</div><div class="qsub">Healthcare, childcare, schools, community, pace of life.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk2" onchange="saveField(&#39;check_2&#39;,this.checked)"><label for="chk2"><div class="qtext">Is bureaucracy manageable rather than defining daily life?</div><div class="qsub">Occasional frustration is normal. Paralysis is not.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk3" onchange="saveField(&#39;check_3&#39;,this.checked)"><label for="chk3"><div class="qtext">Does work support the life I want, or does life revolve around work?</div><div class="qsub">This was the core hypothesis. Check it directly.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk4" onchange="saveField(&#39;check_4&#39;,this.checked)"><label for="chk4"><div class="qtext">Am I building meaningful relationships?</div><div class="qsub">At least a few real connections, not just acquaintances.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk5" onchange="saveField(&#39;check_5&#39;,this.checked)"><label for="chk5"><div class="qtext">Are stress levels temporary and manageable?</div><div class="qsub">Or persistent and starting to shape my identity?</div></label></div><div class="checklist-item"><input type="checkbox" id="chk6" onchange="saveField(&#39;check_6&#39;,this.checked)"><label for="chk6"><div class="qtext">Am I preserving the ability to leave, stay, or pivot?</div><div class="qsub">All three options should still feel open.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk7" onchange="saveField(&#39;check_7&#39;,this.checked)"><label for="chk7"><div class="qtext">Am I avoiding sunk-cost reasoning?</div><div class="qsub">Would I start this experiment again today, knowing what I know?</div></label></div><div class="checklist-item"><input type="checkbox" id="chk8" onchange="saveField(&#39;check_8&#39;,this.checked)"><label for="chk8"><div class="qtext">If I knew then what I know now, would I still choose this path?</div><div class="qsub">The clearest signal. Answer it honestly.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk9" onchange="saveField(&#39;check_9&#39;,this.checked)"><label for="chk9"><div class="qtext">Is the financial experiment within guardrails?</div><div class="qsub">Roth ceiling intact, no consumer debt, runway above 12 months.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk10" onchange="saveField(&#39;check_10&#39;,this.checked)"><label for="chk10"><div class="qtext">Is my physical health stable or improving?</div><div class="qsub">Healthcare access secured, no untreated conditions.</div></label></div><div class="checklist-item"><input type="checkbox" id="chk11" onchange="saveField(&#39;check_11&#39;,this.checked)"><label for="chk11"><div class="qtext">Are my nuclear family relationships intact?</div><div class="qsub">No irreversible distance forming. Any strain is acknowledged.</div></label></div></div>
   </div>
 
   <!-- EXPORT -->
@@ -449,32 +508,62 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   </div>
 
   <!-- QUARTERLY REVIEW -->
-  <div id="review" class="section">
+  <div id="review" class="section active">
     <h2>Quarterly review</h2>
-    <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Ratings pre-filled from your current status cards. Add observations, then save.</p>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
-      <div class="field" style="max-width:240px">
-        <label>Review period</label>
-        <select id="review-period">
-          <option>Before departure</option>
-          <option>End of semester 1</option>
-          <option>End of semester 2</option>
-          <option>End of semester 3</option>
-          <option>Program graduation</option>
-          <option>Employment midpoint check-in</option>
-          <option>Long-term path decision</option>
-        </select>
+    <p style="font-size:13px;color:#9a7060;margin-bottom:1rem">Dashboard tracks trends across saved reviews. Inputs are condensed and PIN-protected — unlock to edit this quarter.</p>
+
+    <div class="card">
+      <h2 style="font-size:15px;margin-bottom:2px">Analytics dashboard</h2>
+      <div style="font-size:12px;color:#9a7060;margin-bottom:14px">Directional scoring across saved reviews</div>
+      <div class="dash-top">
+        <div class="card ring-card" id="ring-card" style="margin-bottom:0"></div>
+        <div class="card qoq-card" id="qoq-card" style="margin-bottom:0"></div>
       </div>
-      <div class="field" style="max-width:160px">
-        <label>Date</label>
-        <input type="text" id="review-date" placeholder="e.g. Dec 2026">
-      </div>
-      <button class="btn btn-blue" style="align-self:flex-end" onclick="prefillReviewFromCards()">Pull current ratings</button>
+      <h3 style="margin-top:4px">Directional scoring by bucket</h3>
+      <div class="bucket-grid" id="bucket-dash"></div>
     </div>
-    <div id="review-form"></div>
+
+    <div class="card">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:1rem">
+        <div class="field" style="max-width:240px">
+          <label>Review period</label>
+          <select id="review-period">
+            <option>Before departure</option>
+            <option>End of semester 1</option>
+            <option>End of semester 2</option>
+            <option>End of semester 3</option>
+            <option>Program graduation</option>
+            <option>Employment midpoint check-in</option>
+            <option>Long-term path decision</option>
+          </select>
+        </div>
+        <div class="field" style="max-width:160px">
+          <label>Date</label>
+          <input type="text" id="review-date" placeholder="e.g. Dec 2026">
+        </div>
+        <button class="btn btn-blue" style="align-self:flex-end" onclick="prefillReviewFromCards()">Pull current ratings</button>
+      </div>
+
+      <div class="qr-header-row">
+        <h2 style="margin-bottom:0;font-size:15px">Quarterly review inputs</h2>
+        <div id="lock-status-el" class="lock-status locked">🔒 Locked</div>
+      </div>
+
+      <div id="locked-view">
+        <div class="locked-strip" id="locked-strip"></div>
+        <div style="margin-top:12px">
+          <button class="btn btn-blue" onclick="requestPin(()=>renderReviewForm())">Unlock editing</button>
+        </div>
+      </div>
+
+      <div id="unlocked-view" style="display:none">
+        <div id="review-accordion"></div>
+      </div>
+    </div>
+
     <hr class="divider">
     <h2>Auto-summary</h2>
-    <div id="review-summary"><p style="font-size:13px;color:#9a7060">Pull ratings or select statuses above to see your summary.</p></div>
+    <div id="review-summary"><div class="summary-box"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a7060;margin-bottom:4px">Overall verdict</div><div style="font-size:15px;font-weight:700;color:#1B6E9F">Pull ratings or select statuses above to see your summary.</div></div></div>
     <div class="btn-row">
       <button class="btn btn-blue" onclick="generateSummary()">Generate summary</button>
       <button class="btn btn-primary" onclick="saveReview()">Save review</button>
@@ -484,18 +573,18 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 </div><!-- end .app-main -->
 
 <!-- COMMENT PANEL -->
-<div class="comment-panel" id="comment-panel">
+<div class="comment-panel open" id="comment-panel">
   <div class="panel-inner">
     <div class="panel-header">
       <div class="panel-label">💬 notes</div>
-      <span class="panel-count-badge" id="panel-count-badge">0</span>
+      <span class="panel-count-badge" id="panel-count-badge">1</span>
     </div>
-    <div class="comment-list" id="panel-comment-list"></div>
+    <div class="comment-list" id="panel-comment-list"><div class="ci"><div class="ci-top"><div class="ci-av" style="background:#e0f0fa;color:#1B6E9F">B</div><span class="ci-name">Beza</span><span class="ci-date">16h ago</span></div><div class="ci-text">Fly safe!!</div></div></div>
     <div class="panel-input">
       <input class="panel-name-in" id="panel-name-in" type="text" placeholder="Your name" maxlength="40">
       <div class="panel-text-row">
         <textarea class="panel-text-in" id="panel-text-in" placeholder="Leave a note... 👋" rows="1" maxlength="300"></textarea>
-        <button class="panel-post-btn" id="panel-post-btn" disabled onclick="panelPost()">Post</button>
+        <button class="panel-post-btn" id="panel-post-btn" disabled="" onclick="panelPost()">Post</button>
       </div>
     </div>
   </div>
@@ -635,6 +724,19 @@ const CATS = [
   {id:'reentry',label:'Re-entry optionality',thresholds:[{s:'green',label:'U.S. path clearly preserved',action:'Continue plan'},{s:'yellow',label:'Gap growing but manageable',action:'Maintain U.S. connections; update resume/network'},{s:'orange',label:'U.S. market drift noticeable',action:'Active U.S. networking; assess credential equivalency'},{s:'red',label:'U.S. re-entry would be very difficult',action:'Investigate bridging strategies before it worsens'}]},
   {id:'support',label:'Alternative support',thresholds:[{s:'green',label:'Clear fallback options available',action:'Document the plan proactively'},{s:'yellow',label:'Options exist but not formalised',action:'Have the conversation; make it concrete'},{s:'orange',label:'Fallback unclear or logistically complex',action:'Explore now, not during a crisis'},{s:'red',label:'No viable fallback available',action:'Build one before continuing; this is a guardrail'}]}
 ];
+
+// Category buckets for the Quarterly Review dashboard + condensed inputs.
+// 'support' (Alternative support) is intentionally excluded — it's tracked
+// on Status Cards but not part of the quarterly bucket rollup for now.
+const BUCKETS = [
+  {id:'finances', label:'Finances', fullLabel:'Finances', icon:'💰', cls:'ic-finances', cats:['financial']},
+  {id:'health', label:'Health', fullLabel:'Health', icon:'❤️', cls:'ic-health', cats:['mental','physical','stress']},
+  {id:'legal', label:'Legal', fullLabel:'Legal', icon:'⚖️', cls:'ic-legal', cats:['residency','bureaucracy','reentry']},
+  {id:'lifestyle', label:'Lifestyle', fullLabel:'Lifestyle', icon:'🌍', cls:'ic-lifestyle', cats:['social','family','mission']},
+  {id:'professional', label:'Professional', fullLabel:'Professional prospects', icon:'💼', cls:'ic-professional', cats:['career']}
+];
+
+const DOT_COLOR = {green:'#10b981', yellow:'#eab308', orange:'#f97316', red:'#ef4444', unrated:'#9ca3af'};
 
 const CHECKLIST = [
   {q:'Do I feel safer about my long-term future than I did in the U.S.?',sub:'Be honest. Not aspirationally. Based on current evidence.'},
@@ -896,12 +998,12 @@ function renderGuardrails(){
   const guard=document.getElementById('guardrails');guard.innerHTML='';
   const burn=getBurnStatus();const roth=getRothStatus();
   const items=[
-    {label:'Retirement principal',value:'Not touched',color:'#059669'},
-    {label:'Burn rate',value:HIDE_BURN_RATE?'Hidden':burn.label+' · '+burn.month,color:HIDE_BURN_RATE?'#b0a090':burn.color},
-    {label:'Roth withdrawals',value:roth.label,color:roth.color},
-    {label:'Consumer debt',value:getData().consumer_debt==='yes'?'Present':'None',color:getData().consumer_debt==='yes'?'#dc2626':'#059669'}
+    {label:'Retirement principal',value:'Not touched',color:'#059669',icon:'🏦'},
+    {label:'Burn rate',value:HIDE_BURN_RATE?'Hidden':burn.label+' · '+burn.month,color:HIDE_BURN_RATE?'#b0a090':burn.color,icon:'📉'},
+    {label:'Roth withdrawals',value:roth.label,color:roth.color,icon:'💵'},
+    {label:'Consumer debt',value:getData().consumer_debt==='yes'?'Present':'None',color:getData().consumer_debt==='yes'?'#dc2626':'#059669',icon:'💳'}
   ];
-  items.forEach(g=>{const div=document.createElement('div');div.className='gr-card';div.innerHTML=`<div class="gr-label">${g.label}</div><div class="gr-value" style="color:${g.color}">${g.value}</div>`;guard.appendChild(div);});
+  items.forEach(g=>{const div=document.createElement('div');div.className='gr-card';div.innerHTML=`<div class="gr-icon-col"><div class="gr-icon-badge" style="background:${hexToRgba(g.color,0.15)};color:${g.color}">${g.icon}</div></div><div class="gr-text-col"><div class="gr-label">${g.label}</div><div class="gr-value" style="color:${g.color}">${g.value}</div></div>`;guard.appendChild(div);});
 }
 
 // ── Timeline ──────────────────────────────────────────────────────────
@@ -1003,8 +1105,8 @@ function renderCatCards(){
     div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">${c.label}</div><select style="width:auto;min-width:110px" ${editable?'':'disabled'} onchange="saveField('cat_${c.id}',this.value);renderOverview();renderVerdict()"><option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option><option value="green" ${status==='green'?'selected':''}>Green</option><option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option><option value="orange" ${status==='orange'?'selected':''}>Orange</option><option value="red" ${status==='red'?'selected':''}>Red</option></select></div>${t?`<div class="pill ${pillClass(t.s)}" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>${pillLabel(t.s)}</strong> · ${t.label}</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: ${t.action}</div>`:''}<label>Notes</label><textarea placeholder="What's driving this rating?" ${editable?'':'disabled'} onchange="saveField('note_${c.id}',this.value)">${note}</textarea>${!editable?'<div class="lock-note">Read only · unlock editing to update this category.</div>':''}`;
     container.appendChild(div);
   });
-  const gDiv=document.createElement('div');gDiv.className='card';gDiv.style.marginBottom='10px';const d2=getData();
-  gDiv.innerHTML=`<div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div><div class="row"><div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="${d2.roth_used||''}" onchange="saveField('roth_used',this.value);renderOverview()"></div><div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="${d2.cash_used||''}" onchange="saveField('cash_used',this.value);renderOverview()"></div></div><div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label><select onchange="saveField('consumer_debt',this.value);renderOverview()"><option value="no" ${(d2.consumer_debt||'no')==='no'?'selected':''}>No</option><option value="yes" ${d2.consumer_debt==='yes'?'selected':''}>Yes</option></select></div>`;
+  const gDiv=document.createElement('div');gDiv.className='card'+(editable?'':' cat-locked');gDiv.style.marginBottom='10px';const d2=getData();
+  gDiv.innerHTML=`<div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div><div class="row"><div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="${d2.roth_used||''}" ${editable?'':'disabled'} onchange="saveField('roth_used',this.value);renderOverview()"></div><div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="${d2.cash_used||''}" ${editable?'':'disabled'} onchange="saveField('cash_used',this.value);renderOverview()"></div></div><div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label><select ${editable?'':'disabled'} onchange="saveField('consumer_debt',this.value);renderOverview()"><option value="no" ${(d2.consumer_debt||'no')==='no'?'selected':''}>No</option><option value="yes" ${d2.consumer_debt==='yes'?'selected':''}>Yes</option></select></div>${!editable?'<div class="lock-note">Read only · unlock editing to update guardrail inputs.</div>':''}`;
   container.appendChild(gDiv);
 }
 
@@ -1023,10 +1125,97 @@ function renderChecklist(){
 // ── Quarterly review ──────────────────────────────────────────────────
 function prefillReviewFromCards(){const d=getData();CATS.forEach(c=>{const cur=d['cat_'+c.id];if(cur&&cur!=='unrated')saveField('rev_cat_'+c.id,cur);});renderReviewForm();generateSummary();}
 
+function hexToRgba(hex,a){const h=hex.replace('#','');const full=h.length===3?h.split('').map(x=>x+x).join(''):h;const n=parseInt(full,16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
+
+function sparkPath(vals,w,h){
+  if(!vals.length)return '';
+  const step=vals.length>1?w/(vals.length-1):0;
+  return vals.map((v,i)=>{const x=i*step;const y=h-(Math.max(0,Math.min(100,v))/100)*h;return (i===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1);}).join(' ');
+}
+
+function bucketAvgPct(catIds,ratings){
+  const scores=catIds.map(id=>SCORE_MAP[ratings[id]]).filter(v=>v!==undefined&&v!==null);
+  if(!scores.length)return null;
+  return Math.round((scores.reduce((a,b)=>a+b,0)/scores.length/4)*100);
+}
+function overallAvgPct(ratings){return bucketAvgPct(BUCKETS.flatMap(b=>b.cats),ratings);}
+
+// Builds up to 4 chronological columns: the last 3 saved reviews (oldest→newest)
+// plus the current in-progress review as the final "Current" column.
+function getReviewHistory(){
+  const d=getData();
+  const saved=(d.saved_reviews||[]).slice(0,3).reverse();
+  const cols=saved.map(s=>{
+    const ratings={};Object.keys(s.cats||{}).forEach(id=>{if(s.cats[id]&&s.cats[id].status)ratings[id]=s.cats[id].status;});
+    return {label:s.period||s.date||'Saved',ratings,isCurrent:false};
+  });
+  const currentRatings={};BUCKETS.flatMap(b=>b.cats).forEach(id=>{if(d['rev_cat_'+id])currentRatings[id]=d['rev_cat_'+id];});
+  cols.push({label:'Current',ratings:currentRatings,isCurrent:true});
+  return cols;
+}
+
+function renderReviewDashboard(){
+  const history=getReviewHistory();
+  const latest=history[history.length-1];const prev=history.length>1?history[history.length-2]:null;
+  const overallPct=overallAvgPct(latest.ratings);const prevPct=prev?overallAvgPct(prev.ratings):null;
+  const delta=(overallPct!==null&&prevPct!==null)?overallPct-prevPct:null;
+
+  const ring=document.getElementById('ring-card');
+  const circumference=2*Math.PI*52;const dash=overallPct!==null?(overallPct/100)*circumference:0;
+  const ringColor=overallPct===null?'#c5d8e8':overallPct>=70?'#059669':overallPct>=50?'#eab308':'#dc2626';
+  ring.innerHTML=`<div class="ring-wrap"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#f0e5df" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="${ringColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(1)} ${circumference.toFixed(1)}" stroke-linecap="round"/></svg><div class="ring-pct"><div class="num">${overallPct===null?'—':overallPct+'%'}</div><div class="lbl">Overall</div></div></div>${delta!==null?`<div class="ring-trend ${delta>0?'trend-up':delta<0?'trend-down':'trend-flat'}">${delta>0?'▲':delta<0?'▼':'—'} ${delta>0?'+':''}${delta}% vs last quarter</div>`:'<div class="ring-trend trend-flat">No prior review yet</div>'}`;
+
+  const qoq=document.getElementById('qoq-card');
+  const bars=history.map(h=>{const pct=overallAvgPct(h.ratings);const barH=pct===null?4:Math.max(4,pct);return `<div class="qoq-bar-col"><div class="qoq-q-val">${pct===null?'—':pct+'%'}</div><div class="qoq-bar${h.isCurrent?' current':''}" style="height:${barH}%"></div><div class="qoq-q-label">${h.label}</div></div>`;}).join('');
+  qoq.innerHTML=`<div class="qoq-title">Quarter over quarter · overall score</div><div class="qoq-chart">${bars}</div>`;
+
+  const bd=document.getElementById('bucket-dash');
+  bd.innerHTML=BUCKETS.map(b=>{
+    const seriesVals=history.map(h=>{const p=bucketAvgPct(b.cats,h.ratings);return p===null?0:p;});
+    const pct=bucketAvgPct(b.cats,latest.ratings);const prevPctB=prev?bucketAvgPct(b.cats,prev.ratings):null;
+    const deltaB=(pct!==null&&prevPctB!==null)?pct-prevPctB:null;
+    const trendCls=deltaB>0?'trend-up':deltaB<0?'trend-down':'trend-flat';const arrow=deltaB>0?'▲':deltaB<0?'▼':'—';
+    return `<div class="bucket-mini">
+      <div class="bucket-mini-top"><div class="bucket-mini-name"><span class="bucket-mini-icon ${b.cls}">${b.icon}</span><span class="label-text">${b.label}</span></div></div>
+      <div class="bucket-mini-pct">${pct===null?'—':pct+'%'}</div>
+      <svg class="spark" width="100%" height="24" viewBox="0 0 100 24" preserveAspectRatio="none"><path d="${sparkPath(seriesVals,100,20)}" fill="none" stroke="#1B6E9F" stroke-width="2"/></svg>
+      ${deltaB!==null?`<div class="bucket-mini-trend ${trendCls}">${arrow} ${deltaB>0?'+':''}${deltaB}%</div>`:'<div class="bucket-mini-trend" style="color:#9a7060">No data</div>'}
+    </div>`;
+  }).join('');
+}
+
+function renderReviewLockedStrip(){
+  const d=getData();const el=document.getElementById('locked-strip');if(!el)return;
+  el.innerHTML=BUCKETS.map(b=>{
+    const dots=b.cats.map(id=>{const st=d['rev_cat_'+id]||'unrated';const cat=CATS.find(c=>c.id===id);return `<span class="mini-dot" style="background:${DOT_COLOR[st]}" title="${cat.label}"></span>`;}).join('');
+    return `<div class="locked-row"><div class="locked-row-left"><span class="locked-icon ${b.cls}">${b.icon}</span><div><div class="locked-name">${b.fullLabel}</div><div class="locked-cats">${b.cats.map(id=>CATS.find(c=>c.id===id).label).join(' · ')}</div></div></div><div class="locked-pills">${dots}</div></div>`;
+  }).join('');
+}
+
+function renderReviewAccordion(){
+  const d=getData();const el=document.getElementById('review-accordion');if(!el)return;
+  const groups=BUCKETS.map((b,i)=>{
+    const rows=b.cats.map(id=>{
+      const c=CATS.find(x=>x.id===id);const status=d['rev_cat_'+id]||'';const note=d['rev_note_'+id]||'';
+      return `<div class="cat-row"><div class="cat-row-head"><div class="lbl">${c.label}</div><div class="fld"><select onchange="saveField('rev_cat_${id}',this.value);generateSummary();renderReviewDashboard()"><option value="">Select status</option><option value="green" ${status==='green'?'selected':''}>Green</option><option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option><option value="orange" ${status==='orange'?'selected':''}>Orange</option><option value="red" ${status==='red'?'selected':''}>Red</option></select></div></div><div class="cat-row-obs"><label>Key observation</label><textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${id}',this.value)">${note}</textarea></div></div>`;
+    }).join('');
+    return `<div class="bucket-group${i===0?' open':''}" id="rbg-${b.id}"><div class="bucket-group-head" onclick="toggleReviewBucket('${b.id}')"><div class="bucket-group-left"><span class="bucket-group-icon ${b.cls}">${b.icon}</span><div><div class="bucket-group-title">${b.fullLabel}</div><div class="bucket-group-sub">${b.cats.length} categor${b.cats.length>1?'ies':'y'}</div></div></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div><div class="bucket-group-body"><div class="bucket-group-body-inner">${rows}</div></div></div>`;
+  }).join('');
+  const extra=`<hr class="divider"><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${d.rev_win||''}</textarea></div><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${d.rev_concern||''}</textarea></div><div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${d.rev_change||''}</textarea></div>`;
+  el.innerHTML=groups+extra;
+}
+
+function toggleReviewBucket(id){document.getElementById('rbg-'+id).classList.toggle('open');}
+
 function renderReviewForm(){
-  const d=getData();const container=document.getElementById('review-form');container.innerHTML='';
-  CATS.forEach(c=>{const row=document.createElement('div');row.style.marginBottom='12px';row.innerHTML=`<div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap"><div style="min-width:180px;flex:1"><label style="font-weight:600;color:#1a0e0a">${c.label}</label><select style="margin-top:4px" onchange="saveField('rev_cat_${c.id}',this.value);generateSummary()"><option value="">Select status</option><option value="green" ${d['rev_cat_'+c.id]==='green'?'selected':''}>Green</option><option value="yellow" ${d['rev_cat_'+c.id]==='yellow'?'selected':''}>Yellow</option><option value="orange" ${d['rev_cat_'+c.id]==='orange'?'selected':''}>Orange</option><option value="red" ${d['rev_cat_'+c.id]==='red'?'selected':''}>Red</option></select></div><div style="flex:2;min-width:200px"><label>Key observation</label><textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${c.id}',this.value)">${d['rev_note_'+c.id]||''}</textarea></div></div>`;container.appendChild(row);});
-  const extra=document.createElement('div');extra.innerHTML=`<hr class="divider"><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${getData().rev_win||''}</textarea></div><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${getData().rev_concern||''}</textarea></div><div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${getData().rev_change||''}</textarea></div>`;container.appendChild(extra);
+  renderReviewDashboard();
+  const locked=!sessionUnlocked;
+  document.getElementById('locked-view').style.display=locked?'':'none';
+  document.getElementById('unlocked-view').style.display=locked?'none':'';
+  const st=document.getElementById('lock-status-el');
+  st.className='lock-status '+(locked?'locked':'unlocked');
+  st.textContent=locked?'🔒 Locked':'🔓 Unlocked';
+  if(locked){renderReviewLockedStrip();}else{renderReviewAccordion();}
 }
 
 function generateSummary(){
@@ -1199,5 +1388,6 @@ Promise.all([
   loadReactionsFromAPI(), // milestone emoji reactions
 ]).then(() => loadData());
 </script>
-</body>
-</html>
+
+
+</body></html>
