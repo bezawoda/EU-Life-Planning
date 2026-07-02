@@ -238,10 +238,31 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .wb-pre{background:#f3f4f6;color:#6b7280}
 
 /* ── Tables ── */
-.data-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:1.5rem}
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  font-size:13px;
+  margin-bottom:1.5rem;
+}
 .data-table th{font-size:11px;font-weight:700;color:#9a5040;text-transform:uppercase;letter-spacing:.05em;padding:6px 10px;text-align:left;border-bottom:1px solid rgba(226,114,91,0.2)}
 .data-table td{padding:8px 10px;border-bottom:1px solid rgba(226,114,91,0.08);vertical-align:top;line-height:1.5}
 .data-table tr:last-child td{border-bottom:none}
+.data-table th:nth-child(1),
+.data-table td:nth-child(1){width:90px}
+.data-table th:nth-child(2),
+.data-table td:nth-child(2){width:45%}
+.data-table th:nth-child(3),
+.data-table td:nth-child(3){width:45%}
+@media(max-width:620px){
+  .data-table{table-layout:auto}
+  .data-table th:nth-child(1),
+  .data-table td:nth-child(1){width:78px}
+  .data-table th:nth-child(2),
+  .data-table td:nth-child(2),
+  .data-table th:nth-child(3),
+  .data-table td:nth-child(3){width:auto}
+}
 
 /* ── Summary ── */
 .summary-box{background:rgba(27,110,159,0.07);border-left:3px solid #1B6E9F;border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:12px}
