@@ -645,7 +645,21 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     <div id="review-summary"><div class="summary-box"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a7060;margin-bottom:4px">Overall verdict</div><div style="font-size:15px;font-weight:700;color:#1B6E9F">Pull ratings or select statuses above to see your summary.</div></div></div>
     <div class="btn-row">
       <button class="btn btn-blue" onclick="generateSummary()">Generate summary</button>
-      <button class="btn btn-primary" onclick="saveReview()">Save review</button>
+      <button class="btn btn-primary" onclick="saveReview(// Has this quarter already been saved?
+const existingIndex = saved_reviews.findIndex(
+    r => r.period === selectedQuarter
+);
+
+if (existingIndex >= 0 && !editingSavedReview) {
+    alert("This quarter has already been saved. Click 'Edit review' to update it.");
+    return;
+}
+
+// Don't allow empty reviews
+if (!hasReviewContent()) {
+    alert("Add at least one rating or note before saving.");
+    return;
+})">Save review</button>
     </div>
   </div>
 
@@ -1424,12 +1438,32 @@ function saveReview(){
   const snap={quarter,period:quarter,label:quarterLabel(quarter),date:quarterLabel(quarter),saved:new Date().toISOString(),cats:{}};
   CATS.forEach(c=>{snap.cats[c.id]={status:d['rev_cat_'+c.id]||'',note:d['rev_note_'+c.id]||''};});
   snap.win=d.rev_win||'';snap.concern=d.rev_concern||'';snap.change=d.rev_change||'';
-  reviews.push(snap);
-  d.saved_reviews=reviews
-    .filter(r=>REVIEW_QUARTERS.some(q=>q.id===(r.quarter||r.period)))
-    .sort((a,b)=>REVIEW_QUARTERS.findIndex(q=>q.id===(a.quarter||a.period))-REVIEW_QUARTERS.findIndex(q=>q.id===(b.quarter||b.period)));
-  clearReviewDraft(d);
-  setData(d);
+  const reviews = d.saved_reviews || [];
+const existingIndex = reviews.findIndex(r => r.period === snap.period);
+
+if (existingIndex >= 0) {
+  alert("This quarter has already been saved. Use Edit review to update it.");
+  return;
+  
+}
+  
+function hasReviewContent(snap) {
+  const hasCatRatings = Object.values(snap.cats || {}).some(c => c.status);
+  const hasCatNotes = Object.values(snap.cats || {}).some(c => c.note && c.note.trim());
+  const hasSummaryNotes = [snap.win, snap.concern, snap.change].some(v => v && v.trim());
+
+  return hasCatRatings || hasCatNotes || hasSummaryNotes;
+  
+}
+  
+if (!hasReviewContent(snap)) {
+  alert("Add at least one rating or note before saving this review.");
+  return;
+}
+
+reviews.push(snap);
+d.saved_reviews = reviews;
+setData(d);
   fetch('/api/append',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'review',data:snap})}).catch(err=>console.warn('Review append failed:',err.message));
   renderReviewForm();generateSummary();
   alert('Review saved. That quarter is now locked and removed from the form dropdown.');
