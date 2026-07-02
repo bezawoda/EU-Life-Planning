@@ -522,8 +522,8 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
       <h2 style="margin-bottom:0">Status cards</h2>
       <div id="edit-status-row"><button class="btn btn-blue" style="padding:4px 12px;font-size:12px" onclick="requestPin(()=&gt;renderCatCards())">Unlock editing</button></div>
     </div>
-    <div id="cat-cards"><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Financial runway</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_financial&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · At expected burn rate</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_financial&#39;,this.value)">On track to hit all savings goals. Cashflowing 2/10 tuition payments ahead of time. Working through exit strategies.
-</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Residency / legal</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_residency&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Status clear, next milestone visible</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_residency&#39;,this.value)">Temporary D4 visa secured 6/26. AIMA visit scheduled for Residence Card (1 year). </textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Career capital</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_career&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_career&#39;,this.value)">N/A until Semester 3+.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Mental health</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_mental&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Thriving or coping well</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_mental&#39;,this.value)">Mostly excited, with some anxiety as move-time approaches.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Stress levels</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_stress&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Normal challenge, recovering well</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_stress&#39;,this.value)">Mostly excited, with some anxiety as move-time approaches.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Physical health</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_physical&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green">Green</option><option value="yellow" selected="">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-yellow" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Yellow</strong> · Minor issues, healthcare navigable</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Stay on top of coverage and access</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_physical&#39;,this.value)">Looming coverage gap between private coverage (4 months) and public health coverage via residence permit.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Bureaucratic friction</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_bureaucracy&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green">Green</option><option value="yellow" selected="">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-yellow" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Yellow</strong> · Recurring delays but solvable</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Build buffer time into planning</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_bureaucracy&#39;,this.value)"> Student visa (D4) visa will expire in December and limiting re-entry into to Portugal, impacting US and Brazil winter travel plans.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Social belonging</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_social&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_social&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Family relationships</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_family&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Strong, supported by the experiment</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_family&#39;,this.value)">Adios Party Planning. Increased time with friends and family ahead of move.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Mission alignment</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_mission&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_mission&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Re-entry optionality</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_reentry&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_reentry&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Alternative support</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_support&#39;,this.value);renderOverview();renderVerdict()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_support&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div><div class="row"><div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="" disabled="" onchange="saveField(&#39;roth_used&#39;,this.value);renderOverview()"></div><div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="" disabled="" onchange="saveField(&#39;cash_used&#39;,this.value);renderOverview()"></div></div><div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label><select disabled="" onchange="saveField(&#39;consumer_debt&#39;,this.value);renderOverview()"><option value="no" selected="">No</option><option value="yes">Yes</option></select></div><div class="lock-note">Read only · unlock editing to update guardrail inputs.</div></div></div>
+    <div id="cat-cards"><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Financial runway</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_financial&#39;,this.value);renderOverview()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · At expected burn rate</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_financial&#39;,this.value)">On track to hit all savings goals. Cashflowing 2/10 tuition payments ahead of time. Working through exit strategies.
+</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Residency / legal</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_residency&#39;,this.value);renderOverview()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Status clear, next milestone visible</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_residency&#39;,this.value)">Temporary D4 visa secured 6/26. AIMA visit scheduled for Residence Card (1 year). </textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Career capital</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_career&#39;,this.value);renderOverview()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_career&#39;,this.value)">N/A until Semester 3+.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Mental health</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_mental&#39;,this.value);renderOverview()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Thriving or coping well</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_mental&#39;,this.value)">Mostly excited, with some anxiety as move-time approaches.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Stress levels</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_stress&#39;,this.value);renderOverview()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Normal challenge, recovering well</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_stress&#39;,this.value)">Mostly excited, with some anxiety as move-time approaches.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Physical health</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_physical&#39;,this.value);renderOverview()"><option value="unrated">Unrated</option><option value="green">Green</option><option value="yellow" selected="">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-yellow" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Yellow</strong> · Minor issues, healthcare navigable</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Stay on top of coverage and access</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_physical&#39;,this.value)">Looming coverage gap between private coverage (4 months) and public health coverage via residence permit.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Bureaucratic friction</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_bureaucracy&#39;,this.value);renderOverview()"><option value="unrated">Unrated</option><option value="green">Green</option><option value="yellow" selected="">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-yellow" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Yellow</strong> · Recurring delays but solvable</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Build buffer time into planning</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_bureaucracy&#39;,this.value)"> Student visa (D4) visa will expire in December and limiting re-entry into to Portugal, impacting US and Brazil winter travel plans.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Social belonging</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_social&#39;,this.value);renderOverview()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_social&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Family relationships</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_family&#39;,this.value);renderOverview()"><option value="unrated">Unrated</option><option value="green" selected="">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><div class="pill s-green" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>Green</strong> · Strong, supported by the experiment</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: Continue plan</div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_family&#39;,this.value)">Adios Party Planning. Increased time with friends and family ahead of move.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Mission alignment</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_mission&#39;,this.value);renderOverview()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_mission&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Re-entry optionality</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_reentry&#39;,this.value);renderOverview()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_reentry&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">Alternative support</div><select style="width:auto;min-width:110px" disabled="" onchange="saveField(&#39;cat_support&#39;,this.value);renderOverview()"><option value="unrated" selected="">Unrated</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="orange">Orange</option><option value="red">Red</option></select></div><label>Notes</label><textarea placeholder="What&#39;s driving this rating?" disabled="" onchange="saveField(&#39;note_support&#39;,this.value)">N/A until Semester 1.</textarea><div class="lock-note">Read only · unlock editing to update this category.</div></div><div class="card cat-locked" style="margin-bottom: 10px;"><div style="font-size:14px;font-weight:600;color:#4a1a10;margin-bottom:10px">Guardrail inputs</div><div class="row"><div class="field"><label>Roth withdrawals made ($)</label><input type="text" placeholder="0" value="" disabled="" onchange="saveField(&#39;roth_used&#39;,this.value);renderOverview()"></div><div class="field"><label>Cash savings used ($)</label><input type="text" placeholder="0" value="" disabled="" onchange="saveField(&#39;cash_used&#39;,this.value);renderOverview()"></div></div><div style="max-width:220px;margin-top:6px"><label>Consumer debt present?</label><select disabled="" onchange="saveField(&#39;consumer_debt&#39;,this.value);renderOverview()"><option value="no" selected="">No</option><option value="yes">Yes</option></select></div><div class="lock-note">Read only · unlock editing to update guardrail inputs.</div></div></div>
   </div>
 
   <!-- THRESHOLDS -->
@@ -616,7 +616,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
         </div>
         <div class="review-quarter-control">
           <label for="review-quarter">Quarter</label>
-          <select id="review-quarter" onchange="saveField('rev_quarter',this.value)"></select>
+          <select id="review-quarter" onchange="handleQuarterChange(this.value)"></select>
         </div>
       </div>
       <div class="review-action-row">
@@ -630,7 +630,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 
       <div id="locked-view">
         <div class="locked-strip" id="locked-strip"><div class="locked-row"><div class="locked-row-left"><span class="locked-icon ic-finances">💰</span><div><div class="locked-name">Finances</div><div class="locked-cats">Financial runway</div></div></div><div class="locked-pills"><span class="mini-dot" style="background:#10b981" title="Financial runway"></span></div></div><div class="locked-row"><div class="locked-row-left"><span class="locked-icon ic-health">❤️</span><div><div class="locked-name">Health</div><div class="locked-cats">Mental health · Physical health · Stress levels</div></div></div><div class="locked-pills"><span class="mini-dot" style="background:#10b981" title="Mental health"></span><span class="mini-dot" style="background:#eab308" title="Physical health"></span><span class="mini-dot" style="background:#10b981" title="Stress levels"></span></div></div><div class="locked-row"><div class="locked-row-left"><span class="locked-icon ic-legal">⚖️</span><div><div class="locked-name">Legal</div><div class="locked-cats">Residency / legal · Bureaucratic friction · Re-entry optionality</div></div></div><div class="locked-pills"><span class="mini-dot" style="background:#10b981" title="Residency / legal"></span><span class="mini-dot" style="background:#eab308" title="Bureaucratic friction"></span><span class="mini-dot" style="background:#9ca3af" title="Re-entry optionality"></span></div></div><div class="locked-row"><div class="locked-row-left"><span class="locked-icon ic-lifestyle">🌍</span><div><div class="locked-name">Lifestyle</div><div class="locked-cats">Social belonging · Family relationships · Mission alignment</div></div></div><div class="locked-pills"><span class="mini-dot" style="background:#9ca3af" title="Social belonging"></span><span class="mini-dot" style="background:#10b981" title="Family relationships"></span><span class="mini-dot" style="background:#9ca3af" title="Mission alignment"></span></div></div><div class="locked-row"><div class="locked-row-left"><span class="locked-icon ic-professional">💼</span><div><div class="locked-name">Professional prospects</div><div class="locked-cats">Career capital</div></div></div><div class="locked-pills"><span class="mini-dot" style="background:#9ca3af" title="Career capital"></span></div></div></div>
-        <div style="margin-top:12px">
+        <div style="margin-top:12px" id="review-edit-row">
           <button class="btn btn-blue" onclick="requestPin(()=&gt;renderReviewForm())">Unlock editing</button>
         </div>
       </div>
@@ -645,21 +645,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     <div id="review-summary"><div class="summary-box"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a7060;margin-bottom:4px">Overall verdict</div><div style="font-size:15px;font-weight:700;color:#1B6E9F">Pull ratings or select statuses above to see your summary.</div></div></div>
     <div class="btn-row">
       <button class="btn btn-blue" onclick="generateSummary()">Generate summary</button>
-      <button class="btn btn-primary" onclick="saveReview(// Has this quarter already been saved?
-const existingIndex = saved_reviews.findIndex(
-    r => r.period === selectedQuarter
-);
-
-if (existingIndex >= 0 && !editingSavedReview) {
-    alert("This quarter has already been saved. Click 'Edit review' to update it.");
-    return;
-}
-
-// Don't allow empty reviews
-if (!hasReviewContent()) {
-    alert("Add at least one rating or note before saving.");
-    return;
-})">Save review</button>
+      <button class="btn btn-primary" id="save-review-btn" onclick="saveReview()">Save review</button>
     </div>
   </div>
 
@@ -847,26 +833,62 @@ const REVIEW_QUARTERS = [
   {id:'2029-Q4', label:"Q4 '29"}
 ];
 function quarterLabel(id){const q=REVIEW_QUARTERS.find(x=>x.id===id);return q?q.label:id;}
+function getSavedReviewForQuarter(qid){return (getData().saved_reviews||[]).find(r=>(r.quarter||r.period)===qid)||null;}
 function savedQuarterIds(){const d=getData();return new Set((d.saved_reviews||[]).map(r=>r.quarter||r.period).filter(Boolean));}
 function getReviewDraftRatings(){const d=getData();const ratings={};BUCKETS.flatMap(b=>b.cats).forEach(id=>{if(d['rev_cat_'+id])ratings[id]=d['rev_cat_'+id];});return ratings;}
 function clearReviewDraft(d){
   delete d.rev_quarter; delete d.rev_win; delete d.rev_concern; delete d.rev_change;
   CATS.forEach(c=>{delete d['rev_cat_'+c.id];delete d['rev_note_'+c.id];});
 }
+function applySavedReviewToDraft(d, review){
+  if(!review)return;
+  clearReviewDraft(d);
+  const qid=review.quarter||review.period;
+  d.rev_quarter=qid;
+  CATS.forEach(c=>{
+    const item=(review.cats||{})[c.id]||{};
+    if(item.status)d['rev_cat_'+c.id]=item.status;
+    if(item.note)d['rev_note_'+c.id]=item.note;
+  });
+  d.rev_win=review.win||'';
+  d.rev_concern=review.concern||'';
+  d.rev_change=review.change||'';
+}
+function ensureSelectedQuarter(){
+  const d=getData();
+  const validIds=REVIEW_QUARTERS.map(q=>q.id);
+  const selected=validIds.includes(d.rev_quarter)?d.rev_quarter:validIds[0];
+  if(d.rev_quarter!==selected){_cache.rev_quarter=selected;localStorage.setItem('eu_dash',JSON.stringify(_cache));}
+  return selected;
+}
+function handleQuarterChange(qid){
+  const d=getData();
+  const selected=REVIEW_QUARTERS.some(q=>q.id===qid)?qid:REVIEW_QUARTERS[0].id;
+  const saved=(d.saved_reviews||[]).find(r=>(r.quarter||r.period)===selected);
+  editingReviewQuarter=null;
+  if(saved){applySavedReviewToDraft(d,saved);}
+  else{clearReviewDraft(d);d.rev_quarter=selected;}
+  setData(d);
+  renderReviewForm();
+  generateSummary();
+}
 function renderQuarterDropdown(){
   const sel=document.getElementById('review-quarter');if(!sel)return;
-  const d=getData();const saved=savedQuarterIds();
-  const available=REVIEW_QUARTERS.filter(q=>!saved.has(q.id));
-  if(d.rev_quarter&&saved.has(d.rev_quarter)){delete d.rev_quarter;localStorage.setItem('eu_dash',JSON.stringify(d));}
-  if(!d.rev_quarter&&available.length){d.rev_quarter=available[0].id;localStorage.setItem('eu_dash',JSON.stringify(d));}
-  sel.innerHTML=available.length
-    ? available.map(q=>`<option value="${q.id}" ${d.rev_quarter===q.id?'selected':''}>${q.label}</option>`).join('')
-    : '<option value="">All quarters saved</option>';
-  sel.disabled=!available.length;
+  const selected=ensureSelectedQuarter();
+  const saved=savedQuarterIds();
+  sel.innerHTML=REVIEW_QUARTERS.map(q=>`<option value="${q.id}" ${selected===q.id?'selected':''}>${q.label}${saved.has(q.id)?' · saved':''}</option>`).join('');
+  sel.disabled=false;
   const note=document.getElementById('quarter-lock-note');
-  if(note) note.textContent=available.length
-    ? 'Quarter can be changed until you save the review. Saved quarters are removed from this form and remain visible in the dashboard.'
-    : 'All quarters from Q2 2026 through Q4 2029 have saved reviews.';
+  const hasSaved=saved.has(selected);
+  if(note) note.textContent=hasSaved
+    ? 'This quarter has already been saved. You can view it here, or unlock Edit review to update it.'
+    : 'This quarter has not been saved yet. Save review will lock the quarter and prevent duplicate entries.';
+}
+function hasReviewContent(snap) {
+  const hasCatRatings = Object.values(snap.cats || {}).some(c => c.status);
+  const hasCatNotes = Object.values(snap.cats || {}).some(c => c.note && c.note.trim());
+  const hasSummaryNotes = [snap.win, snap.concern, snap.change].some(v => v && v.trim());
+  return hasCatRatings || hasCatNotes || hasSummaryNotes;
 }
 
 const DOT_COLOR = {green:'#10b981', yellow:'#eab308', orange:'#f97316', red:'#ef4444', unrated:'#9ca3af'};
@@ -896,6 +918,7 @@ const SIGNAL_STYLES = {
 
 const TODAY = new Date();
 let sessionUnlocked = false;
+let editingReviewQuarter = null;
 
 // ═══════════════════════════════════════════════════════════════════════
 //  PERSISTENCE LAYER
@@ -1253,7 +1276,7 @@ function renderCatCards(){
   CATS.forEach(c=>{
     const status=d['cat_'+c.id]||'unrated';const note=d['note_'+c.id]||'';const t=c.thresholds.find(t=>t.s===status);
     const div=document.createElement('div');div.className='card'+(editable?'':' cat-locked');div.style.marginBottom='10px';
-    div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">${c.label}</div><select style="width:auto;min-width:110px" ${editable?'':'disabled'} onchange="saveField('cat_${c.id}',this.value);renderOverview();renderVerdict()"><option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option><option value="green" ${status==='green'?'selected':''}>Green</option><option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option><option value="orange" ${status==='orange'?'selected':''}>Orange</option><option value="red" ${status==='red'?'selected':''}>Red</option></select></div>${t?`<div class="pill ${pillClass(t.s)}" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>${pillLabel(t.s)}</strong> · ${t.label}</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: ${t.action}</div>`:''}<label>Notes</label><textarea placeholder="What's driving this rating?" ${editable?'':'disabled'} onchange="saveField('note_${c.id}',this.value)">${note}</textarea>${!editable?'<div class="lock-note">Read only · unlock editing to update this category.</div>':''}`;
+    div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px"><div style="font-size:14px;font-weight:600;color:#4a1a10">${c.label}</div><select style="width:auto;min-width:110px" ${editable?'':'disabled'} onchange="saveField('cat_${c.id}',this.value);renderOverview()"><option value="unrated" ${status==='unrated'?'selected':''}>Unrated</option><option value="green" ${status==='green'?'selected':''}>Green</option><option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option><option value="orange" ${status==='orange'?'selected':''}>Orange</option><option value="red" ${status==='red'?'selected':''}>Red</option></select></div>${t?`<div class="pill ${pillClass(t.s)}" style="margin-bottom:8px;display:inline-block;font-size:11px"><strong>${pillLabel(t.s)}</strong> · ${t.label}</div><div style="font-size:12px;color:#7a4030;margin-bottom:8px">Action: ${t.action}</div>`:''}<label>Notes</label><textarea placeholder="What's driving this rating?" ${editable?'':'disabled'} onchange="saveField('note_${c.id}',this.value)">${note}</textarea>${!editable?'<div class="lock-note">Read only · unlock editing to update this category.</div>':''}`;
     container.appendChild(div);
   });
   const gDiv=document.createElement('div');gDiv.className='card'+(editable?'':' cat-locked');gDiv.style.marginBottom='10px';const d2=getData();
@@ -1274,7 +1297,16 @@ function renderChecklist(){
 }
 
 // ── Quarterly review ──────────────────────────────────────────────────
-function prefillReviewFromCards(){const d=getData();CATS.forEach(c=>{const cur=d['cat_'+c.id];if(cur&&cur!=='unrated')saveField('rev_cat_'+c.id,cur);});renderReviewForm();generateSummary();}
+function prefillReviewFromCards(){
+  const q=ensureSelectedQuarter();
+  const saved=getSavedReviewForQuarter(q);
+  if(saved && editingReviewQuarter!==q){alert('This saved review is locked. Click Edit review before pulling current ratings.');return;}
+  const d=getData();
+  CATS.forEach(c=>{const cur=d['cat_'+c.id];if(cur&&cur!=='unrated')d['rev_cat_'+c.id]=cur;});
+  d.rev_quarter=q;
+  setData(d);
+  renderReviewForm();generateSummary();
+}
 
 function hexToRgba(hex,a){const h=hex.replace('#','');const full=h.length===3?h.split('').map(x=>x+x).join(''):h;const n=parseInt(full,16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
 
@@ -1406,13 +1438,42 @@ function toggleReviewBucket(id){document.getElementById('rbg-'+id).classList.tog
 
 function renderReviewForm(){
   renderQuarterDropdown();
+  const q=ensureSelectedQuarter();
+  const saved=getSavedReviewForQuarter(q);
+  if(saved && editingReviewQuarter!==q){
+    const d=getData();
+    applySavedReviewToDraft(d,saved);
+    _cache=Object.assign({},d);
+    localStorage.setItem('eu_dash',JSON.stringify(_cache));
+  }
   renderReviewDashboard();
-  const locked=!sessionUnlocked;
+  const locked = saved ? editingReviewQuarter!==q : !sessionUnlocked;
   document.getElementById('locked-view').style.display=locked?'':'none';
   document.getElementById('unlocked-view').style.display=locked?'none':'';
   const st=document.getElementById('lock-status-el');
-  st.className='lock-status '+(locked?'locked':'unlocked');
-  st.textContent=locked?'🔒 Locked':'🔓 Unlocked';
+  if(st){
+    st.className='lock-status '+(locked?'locked':'unlocked');
+    st.textContent=saved
+      ? (locked?'🔒 Saved review · Locked':'🔓 Editing saved review')
+      : (locked?'🔒 Locked':'🔓 New review unlocked');
+  }
+  const editRow=document.getElementById('review-edit-row');
+  if(editRow){
+    if(saved && locked){
+      editRow.innerHTML=`<button class="btn btn-blue" onclick="requestPin(()=>{editingReviewQuarter='${q}';renderReviewForm();generateSummary();})">Edit review</button>`;
+    } else if(saved && !locked){
+      editRow.innerHTML=`<button class="btn" onclick="editingReviewQuarter=null;renderReviewForm();generateSummary();">Cancel edit</button>`;
+    } else if(locked){
+      editRow.innerHTML=`<button class="btn btn-blue" onclick="requestPin(()=>renderReviewForm())">Unlock editing</button>`;
+    } else {
+      editRow.innerHTML=`<span class="lock-note">Editing new quarterly review.</span>`;
+    }
+  }
+  const saveBtn=document.getElementById('save-review-btn');
+  if(saveBtn){
+    saveBtn.disabled=locked;
+    saveBtn.textContent=saved?(locked?'Saved review locked':'Save updates'):'Save review';
+  }
   if(locked){renderReviewLockedStrip();}else{renderReviewAccordion();}
 }
 
@@ -1431,42 +1492,40 @@ function generateSummary(){
 }
 
 function saveReview(){
-  const d=getData();const reviews=d.saved_reviews||[];
-  const quarter=document.getElementById('review-quarter')?document.getElementById('review-quarter').value:d.rev_quarter;
-  if(!quarter){alert('No unsaved quarters are available.');return;}
-  if(reviews.some(r=>(r.quarter||r.period)===quarter)){alert('This quarter already has a saved review. It remains visible in the dashboard, but cannot be edited from this form.');return;}
-  const snap={quarter,period:quarter,label:quarterLabel(quarter),date:quarterLabel(quarter),saved:new Date().toISOString(),cats:{}};
+  const d=getData();
+  const quarter=ensureSelectedQuarter();
+  if(!quarter){alert('Select a quarter before saving.');return;}
+  const reviews=(d.saved_reviews||[]).slice();
+  const existingIndex=reviews.findIndex(r=>(r.quarter||r.period)===quarter);
+  const snap={quarter,period:quarter,label:quarterLabel(quarter),date:quarterLabel(quarter),saved:new Date().toISOString(),updated:new Date().toISOString(),cats:{}};
   CATS.forEach(c=>{snap.cats[c.id]={status:d['rev_cat_'+c.id]||'',note:d['rev_note_'+c.id]||''};});
   snap.win=d.rev_win||'';snap.concern=d.rev_concern||'';snap.change=d.rev_change||'';
-  const reviews = d.saved_reviews || [];
-const existingIndex = reviews.findIndex(r => r.period === snap.period);
 
-if (existingIndex >= 0) {
-  alert("This quarter has already been saved. Use Edit review to update it.");
-  return;
-  
-}
-  
-function hasReviewContent(snap) {
-  const hasCatRatings = Object.values(snap.cats || {}).some(c => c.status);
-  const hasCatNotes = Object.values(snap.cats || {}).some(c => c.note && c.note.trim());
-  const hasSummaryNotes = [snap.win, snap.concern, snap.change].some(v => v && v.trim());
+  if(!hasReviewContent(snap)){
+    alert('Add at least one rating or note before saving this review.');
+    return;
+  }
 
-  return hasCatRatings || hasCatNotes || hasSummaryNotes;
-  
-}
-  
-if (!hasReviewContent(snap)) {
-  alert("Add at least one rating or note before saving this review.");
-  return;
-}
+  if(existingIndex>=0 && editingReviewQuarter!==quarter){
+    alert('This quarter has already been saved. Click Edit review to update it.');
+    return;
+  }
 
-reviews.push(snap);
-d.saved_reviews = reviews;
-setData(d);
-  fetch('/api/append',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'review',data:snap})}).catch(err=>console.warn('Review append failed:',err.message));
-  renderReviewForm();generateSummary();
-  alert('Review saved. That quarter is now locked and removed from the form dropdown.');
+  if(existingIndex>=0){
+    snap.saved=reviews[existingIndex].saved||snap.saved;
+    reviews[existingIndex]=snap;
+  } else {
+    reviews.push(snap);
+  }
+
+  reviews.sort((a,b)=>REVIEW_QUARTERS.findIndex(q=>q.id===(a.quarter||a.period))-REVIEW_QUARTERS.findIndex(q=>q.id===(b.quarter||b.period)));
+  d.saved_reviews=reviews;
+  d.rev_quarter=quarter;
+  setData(d);
+  editingReviewQuarter=null;
+  renderReviewForm();
+  generateSummary();
+  alert(existingIndex>=0?'Review updates saved.':'Review saved. That quarter is now locked against duplicate entries.');
 }
 
 // ── Export ────────────────────────────────────────────────────────────
