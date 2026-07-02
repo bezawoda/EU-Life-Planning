@@ -513,7 +513,6 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
         <div class="quip-next-date" id="quip-next-date">Departure · Aug 8, 2026</div>
         <div class="quip-text" id="quip-text">The checklist will never be finished. Leave anyway.</div>
       </div>
-      <div id="verdict-container"><div class="verdict-card" style="border:1px solid rgba(16,185,129,0.3);margin-top:12px"><div class="verdict-top"><div><div class="verdict-label" style="color:#065f46">Current decision signal · Experiment Start</div><div class="verdict-name">Stay and continue</div></div><span class="signal-badge" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.25)">Strong · 3.7 / 4.0</span></div><div class="verdict-sub">No red flags. Trajectory is positive. Maintain plan and next milestone review.</div><div class="vdivider"></div><div class="flags-label" style="color:#065f46">Active orange and red flags</div><div class="flag-chips"><div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div></div></div></div>
     </div>
   </div>
 
@@ -1146,7 +1145,7 @@ function renderOverview(){
     div.innerHTML=`<span class="pill ${pillClass(status)}" style="margin-bottom:6px;display:inline-block">${pillLabel(status)}</span><div style="font-size:13px;font-weight:600;color:#4a1a10">${c.label}</div>${note?`<div style="font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4">${note.substring(0,120)}${note.length>120?'...':''}</div>`:''}`;
     grid.appendChild(div);
   });
-  renderGuardrails();renderTimeline();renderVerdict();
+  renderGuardrails();renderTimeline();
 }
 
 // ── Guardrails ────────────────────────────────────────────────────────
@@ -1226,25 +1225,6 @@ function renderTimeline(){
 }
 
 // ── Verdict ───────────────────────────────────────────────────────────
-function renderVerdict(){
-  const d=getData();const vc=document.getElementById('verdict-container');
-  const rated=CATS.filter(c=>d['cat_'+c.id]&&d['cat_'+c.id]!=='unrated');
-  const reds=CATS.filter(c=>d['cat_'+c.id]==='red');const oranges=CATS.filter(c=>d['cat_'+c.id]==='orange');
-  const avg=rated.length?rated.reduce((a,c)=>a+(SCORE_MAP[d['cat_'+c.id]]||0),0)/rated.length:null;
-  if(!avg){vc.innerHTML=`<div class="verdict-card" style="border:1px solid rgba(27,110,159,0.2);margin-top:12px"><div class="verdict-label" style="color:#1B6E9F">Decision signal</div><div class="verdict-name" style="font-size:15px;font-weight:700;color:#1a0e0a;margin-top:3px">No ratings yet</div><div style="font-size:12px;color:#555;margin-top:6px;line-height:1.5">Rate categories in Status Cards to generate your decision signal.</div></div>`;return;}
-  const band=avg>=3.5?'strong':avg>=2.5?'moderate':avg>=1.5?'caution':'critical';const activeIdx=getActiveIdx();
-  let verdict,vsub,cardBorder,badgeBg,badgeColor,badgeBorder,labelColor;
-  if(reds.length>=2||d['cat_financial']==='red'||d['cat_mental']==='red'){verdict='Exit or activate fallback';vsub='Multiple red flags or financial/mental health at red. Activate a controlled exit or fallback plan within 90 days.';cardBorder='rgba(239,68,68,0.3)';badgeBg='#fee2e2';badgeColor='#991b1b';badgeBorder='rgba(239,68,68,0.25)';labelColor='#991b1b';}
-  else if(reds.length===1||avg<2.5){verdict='Pivot the approach';vsub='One red flag or significant orange cluster. Adapt strategy and set a 60-day improvement target.';cardBorder='rgba(249,115,22,0.3)';badgeBg='#ffedd5';badgeColor='#9a3412';badgeBorder='rgba(249,115,22,0.25)';labelColor='#9a3412';}
-  else if(oranges.length>=3){verdict='Stay and intervene';vsub='No red flags, but multiple orange flags active. Set a 60-day improvement target before committing further.';cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';}
-  else if(avg>=3.0&&reds.length===0&&oranges.length<=2){verdict='Stay and continue';vsub='No red flags. Trajectory is positive. Maintain plan and next milestone review.';cardBorder='rgba(16,185,129,0.3)';badgeBg='#d1fae5';badgeColor='#065f46';badgeBorder='rgba(16,185,129,0.25)';labelColor='#065f46';}
-  else{verdict='Stay and intervene';vsub='Mixed signals present. Monitor closely and address orange flags before next milestone.';cardBorder='rgba(245,158,11,0.3)';badgeBg='#fef9c3';badgeColor='#854d0e';badgeBorder='rgba(245,158,11,0.25)';labelColor='#854d0e';}
-  if(activeIdx>=0){const dd=getData();dd['milestone_score_'+activeIdx]=avg.toFixed(1);dd['milestone_band_'+activeIdx]=band;dd['milestone_signal_'+activeIdx]=verdict;setData(dd);}
-  const activeFlags=[...reds,...oranges.filter(c=>!reds.includes(c))];
-  const flagsHTML=activeFlags.length?activeFlags.map(c=>`<div class="flag-chip" style="background:${SCORE_MAP[d['cat_'+c.id]]===1?'#fee2e2':'#ffedd5'};color:${SCORE_MAP[d['cat_'+c.id]]===1?'#991b1b':'#9a3412'};border:1px solid ${SCORE_MAP[d['cat_'+c.id]]===1?'rgba(239,68,68,0.2)':'rgba(249,115,22,0.2)'}">${c.label}</div>`).join(''):`<div class="flag-chip" style="background:#d1fae5;color:#065f46;border:1px solid rgba(16,185,129,0.2)">No active flags</div>`;
-  const activeName=activeIdx>=0?MILESTONES[activeIdx].fullName:'Pre-departure';const bandLabel=avg>=3.5?'Strong':avg>=2.5?'Moderate':avg>=1.5?'Caution':'Critical';
-  vc.innerHTML=`<div class="verdict-card" style="border:1px solid ${cardBorder};margin-top:12px"><div class="verdict-top"><div><div class="verdict-label" style="color:${labelColor}">Current decision signal · ${activeName}</div><div class="verdict-name">${verdict}</div></div><span class="signal-badge" style="background:${badgeBg};color:${badgeColor};border:1px solid ${badgeBorder}">${bandLabel} · ${avg.toFixed(1)} / 4.0</span></div><div class="verdict-sub">${vsub}</div><div class="vdivider"></div><div class="flags-label" style="color:${labelColor}">Active orange and red flags</div><div class="flag-chips">${flagsHTML}</div></div>`;
-}
 
 // ── Status cards ──────────────────────────────────────────────────────
 function renderCatCards(){
