@@ -161,16 +161,23 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .trend-down{color:#991b1b}
 .trend-flat{color:#9a7060}
 .qoq-card{padding:14px 16px}
-.analytics-puzzle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
-.analytics-tile{min-height:155px;margin-bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px}
-.analytics-tile h4{font-size:12px;font-weight:700;color:#1a0e0a;margin-bottom:8px}
-.analytics-tile .tile-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:8px}
-.analytics-tile .tile-main{font-size:28px;font-weight:700;color:#1a0e0a;line-height:1.1}
-.analytics-tile .tile-sub{font-size:12px;color:#9a7060;line-height:1.45;margin-top:6px;max-width:210px}
-.analytics-tile .mini-chart{width:100%;height:58px;margin-top:6px}
-.analytics-tile .bucket-bars{display:flex;gap:5px;align-items:flex-end;justify-content:center;height:34px;margin-top:10px}
-.analytics-tile .bucket-bar{width:10px;border-radius:3px;background:#c5d8e8;min-height:6px}
-@media(max-width:760px){.analytics-puzzle{grid-template-columns:1fr}.analytics-tile{min-height:auto}}
+.analytics-puzzle{display:grid;grid-template-columns:minmax(0,2fr) minmax(250px,1fr);gap:16px;align-items:start;margin-bottom:14px}
+.analytics-main-stack{display:flex;flex-direction:column;gap:12px;min-width:0}
+.analytics-score-row{display:grid;grid-template-columns:180px minmax(0,1fr);gap:16px}
+.analytics-context-stack{display:flex;flex-direction:column;gap:12px;min-width:0}
+.context-card{min-height:104px;margin-bottom:0;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px}
+.context-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.context-kicker{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9a5040;margin-bottom:4px}
+.context-title{font-size:13px;font-weight:700;color:#1a0e0a;margin-bottom:3px}
+.context-copy{font-size:13px;color:#5a3020;line-height:1.45}
+.bucket-row-compact{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.bucket-card-compact{background:rgba(255,255,255,0.6);border:1px solid rgba(226,114,91,0.14);border-radius:9px;padding:10px 11px;min-width:0}
+.bucket-card-compact .bucket-name{font-size:11px;font-weight:700;color:#5a3020;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bucket-card-compact .bucket-pct{font-size:22px;font-weight:700;color:#1a0e0a;line-height:1.1;margin-bottom:8px}
+.bucket-card-compact .bucket-line{height:5px;background:#eee3dc;border-radius:4px;overflow:hidden}
+.bucket-card-compact .bucket-fill{height:100%;border-radius:4px}
+@media(max-width:860px){.analytics-puzzle{grid-template-columns:1fr}.analytics-score-row{grid-template-columns:1fr}.bucket-row-compact{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.bucket-row-compact{grid-template-columns:1fr}}
 .qoq-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:10px}
 .analytics-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .analytics-sub{font-size:12px;color:#9a7060;margin-top:2px}
@@ -1390,7 +1397,7 @@ function renderReviewDashboard(){
   const puzzle=document.getElementById('analytics-puzzle');
   if(!puzzle)return;
   if(!scoredHistory.length){
-    puzzle.innerHTML=`<div class="card analytics-tile" style="grid-column:1 / -1"><div class="analytics-empty">No completed reviews yet for this view. Save a quarterly review and it will appear here.</div></div>`;
+    puzzle.innerHTML=`<div class="analytics-empty" style="grid-column:1 / -1">No completed reviews yet for this view. Save a quarterly review and it will appear here.</div>`;
     return;
   }
 
@@ -1404,47 +1411,47 @@ function renderReviewDashboard(){
   const dash=(overallPct/100)*circumference;
   const bars=history.map(h=>{
     const pct=overallAvgPct(h.ratings);
-    return `<button type="button" class="qoq-bar-col" onclick="saveField('analytics_range','${h.quarter}');renderReviewDashboard()" title="Open ${h.label}"><div class="qoq-q-val">${pct===null?'—':pct+'%'}</div><div class="qoq-bar" style="height:${pct===null?4:Math.max(4,pct)}%"></div><div class="qoq-q-label">${h.label}</div></button>`;
+    return `<button type="button" class="qoq-bar-col ${h.quarter===latest.quarter?'active-view':''}" onclick="saveField('analytics_range','${h.quarter}');renderReviewDashboard()" title="Open ${h.label}"><div class="qoq-q-val">${pct===null?'—':pct+'%'}</div><div class="qoq-bar ${h.quarter===latest.quarter?'current':''}" style="height:${pct===null?4:Math.max(4,pct)}%"></div><div class="qoq-q-label">${h.label}</div></button>`;
   }).join('');
-  const bucketPcts=BUCKETS.map(b=>bucketAvgPct(b.cats,latest.ratings));
-  const ratedBucketPcts=bucketPcts.filter(v=>v!==null);
-  const bucketAvg=ratedBucketPcts.length?Math.round(ratedBucketPcts.reduce((a,b)=>a+b,0)/ratedBucketPcts.length):null;
-  const bucketBars=bucketPcts.map((pct,i)=>`<div class="bucket-bar" title="${BUCKETS[i].label}: ${pct===null?'No data':pct+'%'}" style="height:${pct===null?6:Math.max(6,Math.round(pct/3))}px;background:${pct===null?'#e5e7eb':pct>=70?'#059669':pct>=50?'#f59e0b':'#dc2626'}"></div>`).join('');
+  const bucketCards=BUCKETS.map(b=>{
+    const pct=bucketAvgPct(b.cats,latest.ratings);
+    const color=pct===null?'#d7ccc6':pct>=70?'#059669':pct>=50?'#f59e0b':'#dc2626';
+    return `<div class="bucket-card-compact"><div class="bucket-name">${b.fullLabel}</div><div class="bucket-pct">${pct===null?'—':pct+'%'}</div><div class="bucket-line"><div class="bucket-fill" style="width:${pct===null?0:pct}%;background:${color}"></div></div></div>`;
+  }).join('');
   const note=currentNarrative();
   const placeholder='Not captured yet.';
+  const deltaText=delta!==null?`${delta>0?'▲':delta<0?'▼':'—'} ${delta>0?'+':''}${delta}% vs last quarter`:'No prior review yet';
 
   puzzle.innerHTML=`
-    <div class="card analytics-tile">
-      <h4>Overall Score</h4>
-      <div class="ring-wrap" style="width:112px;height:112px;margin-bottom:4px"><svg width="112" height="112" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#f0e5df" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="${ringColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(1)} ${circumference.toFixed(1)}" stroke-linecap="round"/></svg><div class="ring-pct"><div class="num">${overallPct}%</div><div class="lbl">Overall</div></div></div>
-      <div class="tile-sub ${delta>0?'trend-up':delta<0?'trend-down':'trend-flat'}">${delta!==null?`${delta>0?'▲':delta<0?'▼':'—'} ${delta>0?'+':''}${delta}% vs last quarter`:'No prior review yet'}</div>
+    <div class="analytics-main-stack">
+      <div class="analytics-score-row">
+        <div class="card ring-card" style="margin-bottom:0">
+          <div class="ring-wrap"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#f0e5df" stroke-width="10"></circle><circle cx="60" cy="60" r="52" fill="none" stroke="${ringColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(1)} ${circumference.toFixed(1)}" stroke-linecap="round"></circle></svg><div class="ring-pct"><div class="num">${overallPct}%</div><div class="lbl">Overall</div></div></div>
+          <div class="ring-trend ${delta>0?'trend-up':delta<0?'trend-down':'trend-flat'}">${deltaText}</div>
+        </div>
+        <div class="card qoq-card" style="margin-bottom:0">
+          <div class="qoq-title">Quarter over quarter · overall score</div>
+          <div class="qoq-chart">${bars}</div>
+        </div>
+      </div>
+      <div class="card qoq-card" style="margin-bottom:0">
+        <div class="qoq-title">Bucket scores</div>
+        <div class="bucket-row-compact">${bucketCards}</div>
+      </div>
     </div>
-    <div class="card analytics-tile">
-      <h4>QoQ Trend</h4>
-      <div class="tile-main ${delta>0?'trend-up':delta<0?'trend-down':'trend-flat'}">${delta!==null?`${delta>0?'▲':delta<0?'▼':'—'} ${delta>0?'+':''}${delta}%`:'—'}</div>
-      <div class="qoq-chart mini-chart">${bars}</div>
-      <div class="tile-sub">Completed reviews</div>
-    </div>
-    <div class="card analytics-tile">
-      <h4>Bucket Summary</h4>
-      <div class="tile-main">${bucketAvg===null?'—':bucketAvg+'%'}</div>
-      <div class="tile-sub">Average bucket score</div>
-      <div class="bucket-bars">${bucketBars}</div>
-    </div>
-    <div class="card analytics-tile" style="background:rgba(240,253,244,0.55)">
-      <div class="tile-icon" style="background:rgba(5,150,105,0.12);color:#059669">🏆</div>
-      <h4>Biggest Win</h4>
-      <div class="tile-sub">${escapeHtml(note.win||placeholder)}</div>
-    </div>
-    <div class="card analytics-tile" style="background:rgba(254,242,242,0.55)">
-      <div class="tile-icon" style="background:rgba(220,38,38,0.12);color:#dc2626">⚠️</div>
-      <h4>Biggest Concern</h4>
-      <div class="tile-sub">${escapeHtml(note.concern||placeholder)}</div>
-    </div>
-    <div class="card analytics-tile" style="background:rgba(239,246,255,0.55)">
-      <div class="tile-icon" style="background:rgba(27,110,159,0.12);color:#1B6E9F">🎯</div>
-      <h4>Next Experiment</h4>
-      <div class="tile-sub">${escapeHtml(note.change||placeholder)}</div>
+    <div class="analytics-context-stack">
+      <div class="card context-card" style="background:rgba(240,253,244,0.55)">
+        <div class="context-icon" style="background:rgba(5,150,105,0.12);color:#059669">🏆</div>
+        <div><div class="context-kicker">Biggest win</div><div class="context-copy">${escapeHtml(note.win||placeholder)}</div></div>
+      </div>
+      <div class="card context-card" style="background:rgba(254,242,242,0.55)">
+        <div class="context-icon" style="background:rgba(220,38,38,0.12);color:#dc2626">⚠️</div>
+        <div><div class="context-kicker">Biggest concern</div><div class="context-copy">${escapeHtml(note.concern||placeholder)}</div></div>
+      </div>
+      <div class="card context-card" style="background:rgba(239,246,255,0.55)">
+        <div class="context-icon" style="background:rgba(27,110,159,0.12);color:#1B6E9F">→</div>
+        <div><div class="context-kicker">Next action</div><div class="context-copy">${escapeHtml(note.change||placeholder)}</div></div>
+      </div>
     </div>`;
 }
 
