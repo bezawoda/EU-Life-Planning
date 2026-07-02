@@ -161,6 +161,16 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .trend-down{color:#991b1b}
 .trend-flat{color:#9a7060}
 .qoq-card{padding:14px 16px}
+.analytics-puzzle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.analytics-tile{min-height:155px;margin-bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px}
+.analytics-tile h4{font-size:12px;font-weight:700;color:#1a0e0a;margin-bottom:8px}
+.analytics-tile .tile-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:8px}
+.analytics-tile .tile-main{font-size:28px;font-weight:700;color:#1a0e0a;line-height:1.1}
+.analytics-tile .tile-sub{font-size:12px;color:#9a7060;line-height:1.45;margin-top:6px;max-width:210px}
+.analytics-tile .mini-chart{width:100%;height:58px;margin-top:6px}
+.analytics-tile .bucket-bars{display:flex;gap:5px;align-items:flex-end;justify-content:center;height:34px;margin-top:10px}
+.analytics-tile .bucket-bar{width:10px;border-radius:3px;background:#c5d8e8;min-height:6px}
+@media(max-width:760px){.analytics-puzzle{grid-template-columns:1fr}.analytics-tile{min-height:auto}}
 .qoq-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9a5040;margin-bottom:10px}
 .analytics-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .analytics-sub{font-size:12px;color:#9a7060;margin-top:2px}
@@ -596,37 +606,9 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
           </select>
         </div>
       </div>
-      <div class="dash-top">
-        <div class="card ring-card" id="ring-card" style="margin-bottom:0"><div class="ring-wrap"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#f0e5df" stroke-width="10"></circle><circle cx="60" cy="60" r="52" fill="none" stroke="#059669" stroke-width="10" stroke-dasharray="303.9 326.7" stroke-linecap="round"></circle></svg><div class="ring-pct"><div class="num">93%</div><div class="lbl">Overall</div></div></div><div class="ring-trend trend-flat">— 0% vs last quarter</div></div>
-        <div class="card qoq-card" id="qoq-card" style="margin-bottom:0"><div class="qoq-title">Quarter over quarter · overall score</div><div class="qoq-chart"><div class="qoq-bar-col"><div class="qoq-q-val">93%</div><div class="qoq-bar" style="height:93%"></div><div class="qoq-q-label">Before departure</div></div><div class="qoq-bar-col"><div class="qoq-q-val">93%</div><div class="qoq-bar" style="height:93%"></div><div class="qoq-q-label">Before departure</div></div><div class="qoq-bar-col"><div class="qoq-q-val">93%</div><div class="qoq-bar current" style="height:93%"></div><div class="qoq-q-label">Current</div></div></div></div>
+      <div class="analytics-puzzle" id="analytics-puzzle">
+        <div class="card analytics-tile"><div class="analytics-empty">Save a quarterly review and analytics will appear here.</div></div>
       </div>
-      <h3 style="margin-top:4px">Directional scoring by bucket</h3>
-      <div class="bucket-grid" id="bucket-dash"><div class="bucket-mini">
-      <div class="bucket-mini-top"><div class="bucket-mini-name"><span class="bucket-mini-icon ic-finances">💰</span><span class="label-text">Finances</span></div></div>
-      <div class="bucket-mini-pct">100%</div>
-      <svg class="spark" width="100%" height="24" viewBox="0 0 100 24" preserveAspectRatio="none"><path d="M0.0,0.0 L50.0,0.0 L100.0,0.0" fill="none" stroke="#1B6E9F" stroke-width="2"></path></svg>
-      <div class="bucket-mini-trend trend-flat">— 0%</div>
-    </div><div class="bucket-mini">
-      <div class="bucket-mini-top"><div class="bucket-mini-name"><span class="bucket-mini-icon ic-health">❤️</span><span class="label-text">Health</span></div></div>
-      <div class="bucket-mini-pct">92%</div>
-      <svg class="spark" width="100%" height="24" viewBox="0 0 100 24" preserveAspectRatio="none"><path d="M0.0,1.6 L50.0,1.6 L100.0,1.6" fill="none" stroke="#1B6E9F" stroke-width="2"></path></svg>
-      <div class="bucket-mini-trend trend-flat">— 0%</div>
-    </div><div class="bucket-mini">
-      <div class="bucket-mini-top"><div class="bucket-mini-name"><span class="bucket-mini-icon ic-legal">⚖️</span><span class="label-text">Legal</span></div></div>
-      <div class="bucket-mini-pct">88%</div>
-      <svg class="spark" width="100%" height="24" viewBox="0 0 100 24" preserveAspectRatio="none"><path d="M0.0,2.4 L50.0,2.4 L100.0,2.4" fill="none" stroke="#1B6E9F" stroke-width="2"></path></svg>
-      <div class="bucket-mini-trend trend-flat">— 0%</div>
-    </div><div class="bucket-mini">
-      <div class="bucket-mini-top"><div class="bucket-mini-name"><span class="bucket-mini-icon ic-lifestyle">🌍</span><span class="label-text">Lifestyle</span></div></div>
-      <div class="bucket-mini-pct">100%</div>
-      <svg class="spark" width="100%" height="24" viewBox="0 0 100 24" preserveAspectRatio="none"><path d="M0.0,0.0 L50.0,0.0 L100.0,0.0" fill="none" stroke="#1B6E9F" stroke-width="2"></path></svg>
-      <div class="bucket-mini-trend trend-flat">— 0%</div>
-    </div><div class="bucket-mini">
-      <div class="bucket-mini-top"><div class="bucket-mini-name"><span class="bucket-mini-icon ic-professional">💼</span><span class="label-text">Professional</span></div></div>
-      <div class="bucket-mini-pct">—</div>
-      <svg class="spark" width="100%" height="24" viewBox="0 0 100 24" preserveAspectRatio="none"><path d="M0.0,20.0 L50.0,20.0 L100.0,20.0" fill="none" stroke="#1B6E9F" stroke-width="2"></path></svg>
-      <div class="bucket-mini-trend" style="color:#9a7060">No data</div>
-    </div></div>
     </div>
 
     <div class="card">
@@ -662,10 +644,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     </div>
 
     <hr class="divider">
-    <h2>Auto-summary</h2>
-    <div id="review-summary"><div class="summary-box"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#9a7060;margin-bottom:4px">Overall verdict</div><div style="font-size:15px;font-weight:700;color:#1B6E9F">Pull ratings or select statuses above to see your summary.</div></div></div>
     <div class="btn-row">
-      <button class="btn btn-blue" onclick="generateSummary()">Generate summary</button>
       <button class="btn btn-primary" id="save-review-btn" onclick="saveReview()">Save review</button>
     </div>
   </div>
@@ -891,7 +870,7 @@ function handleQuarterChange(qid){
   else{clearReviewDraft(d);d.rev_quarter=selected;}
   setData(d);
   renderReviewForm();
-  generateSummary();
+  
 }
 function renderQuarterDropdown(){
   const sel=document.getElementById('review-quarter');if(!sel)return;
@@ -1326,7 +1305,7 @@ function prefillReviewFromCards(){
   CATS.forEach(c=>{const cur=d['cat_'+c.id];if(cur&&cur!=='unrated')d['rev_cat_'+c.id]=cur;});
   d.rev_quarter=q;
   setData(d);
-  renderReviewForm();generateSummary();
+  renderReviewForm();
 }
 
 function hexToRgba(hex,a){const h=hex.replace('#','');const full=h.length===3?h.split('').map(x=>x+x).join(''):h;const n=parseInt(full,16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;}
@@ -1385,6 +1364,18 @@ function filteredReviewHistory(){
   return history.filter(h=>h.year===range);
 }
 
+function escapeHtml(v){
+  return String(v||'').replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+}
+function currentNarrative(){
+  const d=getData();
+  const q=ensureSelectedQuarter();
+  const saved=getSavedReviewForQuarter(q);
+  if(saved && editingReviewQuarter!==q){
+    return {win:saved.win||'',concern:saved.concern||'',change:saved.change||'',label:saved.label||quarterLabel(q)};
+  }
+  return {win:d.rev_win||'',concern:d.rev_concern||'',change:d.rev_change||'',label:quarterLabel(q)};
+}
 function renderReviewDashboard(){
   const history=filteredReviewHistory();
   const scoredHistory=history.filter(h=>overallAvgPct(h.ratings)!==null);
@@ -1395,43 +1386,66 @@ function renderReviewDashboard(){
     const label=range==='all'?'All completed reviews':q?q.label:range;
     subtitle.textContent=`${label} · ${history.length} saved review${history.length===1?'':'s'}`;
   }
+
+  const puzzle=document.getElementById('analytics-puzzle');
+  if(!puzzle)return;
   if(!scoredHistory.length){
-    document.getElementById('ring-card').innerHTML=`<div class="analytics-empty">No completed reviews yet for this view. Save a quarterly review and it will appear here.</div>`;
-    document.getElementById('qoq-card').innerHTML=`<div class="qoq-title">Completed reviews only</div><div class="analytics-empty">This chart will show saved quarters only — no future empty quarters.</div>`;
-    document.getElementById('bucket-dash').innerHTML='';
+    puzzle.innerHTML=`<div class="card analytics-tile" style="grid-column:1 / -1"><div class="analytics-empty">No completed reviews yet for this view. Save a quarterly review and it will appear here.</div></div>`;
     return;
   }
+
   const latest=scoredHistory[scoredHistory.length-1];
   const prev=scoredHistory.length>1?scoredHistory[scoredHistory.length-2]:null;
-  const overallPct=overallAvgPct(latest.ratings);const prevPct=prev?overallAvgPct(prev.ratings):null;
+  const overallPct=overallAvgPct(latest.ratings);
+  const prevPct=prev?overallAvgPct(prev.ratings):null;
   const delta=(overallPct!==null&&prevPct!==null)?overallPct-prevPct:null;
-
-  const ring=document.getElementById('ring-card');
-  const circumference=2*Math.PI*52;const dash=overallPct!==null?(overallPct/100)*circumference:0;
-  const ringColor=overallPct===null?'#c5d8e8':overallPct>=70?'#059669':overallPct>=50?'#eab308':'#dc2626';
-  ring.innerHTML=`<div class="ring-wrap"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#f0e5df" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="${ringColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(1)} ${circumference.toFixed(1)}" stroke-linecap="round"/></svg><div class="ring-pct"><div class="num">${overallPct===null?'—':overallPct+'%'}</div><div class="lbl">Overall</div></div></div>${delta!==null?`<div class="ring-trend ${delta>0?'trend-up':delta<0?'trend-down':'trend-flat'}">${delta>0?'▲':delta<0?'▼':'—'} ${delta>0?'+':''}${delta}% vs last quarter</div>`:'<div class="ring-trend trend-flat">No prior review yet</div>'}`;
-
-  const qoq=document.getElementById('qoq-card');
+  const ringColor=overallPct>=70?'#059669':overallPct>=50?'#eab308':'#dc2626';
+  const circumference=2*Math.PI*52;
+  const dash=(overallPct/100)*circumference;
   const bars=history.map(h=>{
-    const pct=overallAvgPct(h.ratings);const barH=pct===null?4:Math.max(4,pct);
-    const active=(getData().analytics_range||'all')===h.quarter;
-    return `<button type="button" class="qoq-bar-col${active?' active-view':''}" onclick="saveField('analytics_range','${h.quarter}');renderReviewDashboard()" title="Open ${h.label}"><div class="qoq-q-val">${pct===null?'—':pct+'%'}</div><div class="qoq-bar${active?' current':''}" style="height:${barH}%"></div><div class="qoq-q-label">${h.label}</div></button>`;
+    const pct=overallAvgPct(h.ratings);
+    return `<button type="button" class="qoq-bar-col" onclick="saveField('analytics_range','${h.quarter}');renderReviewDashboard()" title="Open ${h.label}"><div class="qoq-q-val">${pct===null?'—':pct+'%'}</div><div class="qoq-bar" style="height:${pct===null?4:Math.max(4,pct)}%"></div><div class="qoq-q-label">${h.label}</div></button>`;
   }).join('');
-  qoq.innerHTML=`<div class="qoq-title">Completed reviews · overall score</div><div class="qoq-chart">${bars}</div>`;
+  const bucketPcts=BUCKETS.map(b=>bucketAvgPct(b.cats,latest.ratings));
+  const ratedBucketPcts=bucketPcts.filter(v=>v!==null);
+  const bucketAvg=ratedBucketPcts.length?Math.round(ratedBucketPcts.reduce((a,b)=>a+b,0)/ratedBucketPcts.length):null;
+  const bucketBars=bucketPcts.map((pct,i)=>`<div class="bucket-bar" title="${BUCKETS[i].label}: ${pct===null?'No data':pct+'%'}" style="height:${pct===null?6:Math.max(6,Math.round(pct/3))}px;background:${pct===null?'#e5e7eb':pct>=70?'#059669':pct>=50?'#f59e0b':'#dc2626'}"></div>`).join('');
+  const note=currentNarrative();
+  const placeholder='Not captured yet.';
 
-  const bd=document.getElementById('bucket-dash');
-  bd.innerHTML=BUCKETS.map(b=>{
-    const seriesVals=history.map(h=>{const p=bucketAvgPct(b.cats,h.ratings);return p===null?0:p;});
-    const pct=bucketAvgPct(b.cats,latest.ratings);const prevPctB=prev?bucketAvgPct(b.cats,prev.ratings):null;
-    const deltaB=(pct!==null&&prevPctB!==null)?pct-prevPctB:null;
-    const trendCls=deltaB>0?'trend-up':deltaB<0?'trend-down':'trend-flat';const arrow=deltaB>0?'▲':deltaB<0?'▼':'—';
-    return `<div class="bucket-mini">
-      <div class="bucket-mini-top"><div class="bucket-mini-name"><span class="bucket-mini-icon ${b.cls}">${b.icon}</span><span class="label-text">${b.label}</span></div></div>
-      <div class="bucket-mini-pct">${pct===null?'—':pct+'%'}</div>
-      <svg class="spark" width="100%" height="24" viewBox="0 0 100 24" preserveAspectRatio="none"><path d="${sparkPath(seriesVals,100,20)}" fill="none" stroke="#1B6E9F" stroke-width="2"/></svg>
-      ${deltaB!==null?`<div class="bucket-mini-trend ${trendCls}">${arrow} ${deltaB>0?'+':''}${deltaB}%</div>`:'<div class="bucket-mini-trend" style="color:#9a7060">No data</div>'}
+  puzzle.innerHTML=`
+    <div class="card analytics-tile">
+      <h4>Overall Score</h4>
+      <div class="ring-wrap" style="width:112px;height:112px;margin-bottom:4px"><svg width="112" height="112" viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#f0e5df" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="${ringColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(1)} ${circumference.toFixed(1)}" stroke-linecap="round"/></svg><div class="ring-pct"><div class="num">${overallPct}%</div><div class="lbl">Overall</div></div></div>
+      <div class="tile-sub ${delta>0?'trend-up':delta<0?'trend-down':'trend-flat'}">${delta!==null?`${delta>0?'▲':delta<0?'▼':'—'} ${delta>0?'+':''}${delta}% vs last quarter`:'No prior review yet'}</div>
+    </div>
+    <div class="card analytics-tile">
+      <h4>QoQ Trend</h4>
+      <div class="tile-main ${delta>0?'trend-up':delta<0?'trend-down':'trend-flat'}">${delta!==null?`${delta>0?'▲':delta<0?'▼':'—'} ${delta>0?'+':''}${delta}%`:'—'}</div>
+      <div class="qoq-chart mini-chart">${bars}</div>
+      <div class="tile-sub">Completed reviews</div>
+    </div>
+    <div class="card analytics-tile">
+      <h4>Bucket Summary</h4>
+      <div class="tile-main">${bucketAvg===null?'—':bucketAvg+'%'}</div>
+      <div class="tile-sub">Average bucket score</div>
+      <div class="bucket-bars">${bucketBars}</div>
+    </div>
+    <div class="card analytics-tile" style="background:rgba(240,253,244,0.55)">
+      <div class="tile-icon" style="background:rgba(5,150,105,0.12);color:#059669">🏆</div>
+      <h4>Biggest Win</h4>
+      <div class="tile-sub">${escapeHtml(note.win||placeholder)}</div>
+    </div>
+    <div class="card analytics-tile" style="background:rgba(254,242,242,0.55)">
+      <div class="tile-icon" style="background:rgba(220,38,38,0.12);color:#dc2626">⚠️</div>
+      <h4>Biggest Concern</h4>
+      <div class="tile-sub">${escapeHtml(note.concern||placeholder)}</div>
+    </div>
+    <div class="card analytics-tile" style="background:rgba(239,246,255,0.55)">
+      <div class="tile-icon" style="background:rgba(27,110,159,0.12);color:#1B6E9F">🎯</div>
+      <h4>Next Experiment</h4>
+      <div class="tile-sub">${escapeHtml(note.change||placeholder)}</div>
     </div>`;
-  }).join('');
 }
 
 function renderReviewLockedStrip(){
@@ -1447,11 +1461,11 @@ function renderReviewAccordion(){
   const groups=BUCKETS.map((b,i)=>{
     const rows=b.cats.map(id=>{
       const c=CATS.find(x=>x.id===id);const status=d['rev_cat_'+id]||'';const note=d['rev_note_'+id]||'';
-      return `<div class="cat-row"><div class="cat-row-head"><div class="lbl">${c.label}</div><div class="fld"><select onchange="saveField('rev_cat_${id}',this.value);generateSummary();renderReviewDashboard()"><option value="">Select status</option><option value="green" ${status==='green'?'selected':''}>Green</option><option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option><option value="orange" ${status==='orange'?'selected':''}>Orange</option><option value="red" ${status==='red'?'selected':''}>Red</option></select></div></div><div class="cat-row-obs"><label>Key observation</label><textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${id}',this.value)">${note}</textarea></div></div>`;
+      return `<div class="cat-row"><div class="cat-row-head"><div class="lbl">${c.label}</div><div class="fld"><select onchange="saveField('rev_cat_${id}',this.value);renderReviewDashboard()"><option value="">Select status</option><option value="green" ${status==='green'?'selected':''}>Green</option><option value="yellow" ${status==='yellow'?'selected':''}>Yellow</option><option value="orange" ${status==='orange'?'selected':''}>Orange</option><option value="red" ${status==='red'?'selected':''}>Red</option></select></div></div><div class="cat-row-obs"><label>Key observation</label><textarea rows="2" placeholder="What evidence is driving this rating?" onchange="saveField('rev_note_${id}',this.value);renderReviewDashboard()">${note}</textarea></div></div>`;
     }).join('');
     return `<div class="bucket-group${i===0?' open':''}" id="rbg-${b.id}"><div class="bucket-group-head" onclick="toggleReviewBucket('${b.id}')"><div class="bucket-group-left"><span class="bucket-group-icon ${b.cls}">${b.icon}</span><div><div class="bucket-group-title">${b.fullLabel}</div><div class="bucket-group-sub">${b.cats.length} categor${b.cats.length>1?'ies':'y'}</div></div></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div><div class="bucket-group-body"><div class="bucket-group-body-inner">${rows}</div></div></div>`;
   }).join('');
-  const extra=`<hr class="divider"><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value)">${d.rev_win||''}</textarea></div><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value)">${d.rev_concern||''}</textarea></div><div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value)">${d.rev_change||''}</textarea></div>`;
+  const extra=`<hr class="divider"><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest win this period</label><textarea style="margin-top:4px" placeholder="What went better than expected?" onchange="saveField('rev_win',this.value);renderReviewDashboard()">${d.rev_win||''}</textarea></div><div style="margin-bottom:12px"><label style="font-weight:600;color:#1a0e0a">Biggest concern this period</label><textarea style="margin-top:4px" placeholder="What's worrying you most?" onchange="saveField('rev_concern',this.value);renderReviewDashboard()">${d.rev_concern||''}</textarea></div><div><label style="font-weight:600;color:#1a0e0a">One thing to change next period</label><textarea style="margin-top:4px" placeholder="Concrete and actionable." onchange="saveField('rev_change',this.value);renderReviewDashboard()">${d.rev_change||''}</textarea></div>`;
   el.innerHTML=groups+extra;
 }
 
@@ -1481,9 +1495,9 @@ function renderReviewForm(){
   const editRow=document.getElementById('review-edit-row');
   if(editRow){
     if(saved && locked){
-      editRow.innerHTML=`<button class="btn btn-blue" onclick="requestPin(()=>{editingReviewQuarter='${q}';renderReviewForm();generateSummary();})">Edit review</button>`;
+      editRow.innerHTML=`<button class="btn btn-blue" onclick="requestPin(()=>{editingReviewQuarter='${q}';renderReviewForm();})">Edit review</button>`;
     } else if(saved && !locked){
-      editRow.innerHTML=`<button class="btn" onclick="editingReviewQuarter=null;renderReviewForm();generateSummary();">Cancel edit</button>`;
+      editRow.innerHTML=`<button class="btn" onclick="editingReviewQuarter=null;renderReviewForm();">Cancel edit</button>`;
     } else if(locked){
       editRow.innerHTML=`<button class="btn btn-blue" onclick="requestPin(()=>renderReviewForm())">Unlock editing</button>`;
     } else {
@@ -1545,7 +1559,7 @@ function saveReview(){
   setData(d);
   editingReviewQuarter=null;
   renderReviewForm();
-  generateSummary();
+  
   alert(existingIndex>=0?'Review updates saved.':'Review saved. That quarter is now locked against duplicate entries.');
 }
 
@@ -1601,7 +1615,7 @@ function showTab(id){
   if(id==='categories')renderCatCards();
   if(id==='thresholds')renderThresholds();
   if(id==='checklist')renderChecklist();
-  if(id==='review'){renderReviewForm();generateSummary();}
+  if(id==='review'){renderReviewForm();}
 }
 
 function updateNavState(id){
