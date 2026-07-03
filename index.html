@@ -140,14 +140,17 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .tl-wrap{position:relative;margin-bottom:4px}
 .tl-wrap svg{width:100%;display:block}
 @media(max-width:600px){
-  .tl-header{align-items:flex-start;margin-bottom:6px}
+  .tl-header{align-items:flex-start;margin-bottom:8px}
   .tl-title{font-size:12px}
   .legend{gap:6px}
   .legend > div:first-child{display:none}
   .leg-item{font-size:9px}
-  .tl-wrap{overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;padding-bottom:6px}
-  .tl-wrap svg{min-width:620px}
-  .quip-free{padding:8px 0 12px}
+  .tl-wrap{overflow-x:auto;overflow-y:visible;-webkit-overflow-scrolling:touch;padding-bottom:3px}
+  .tl-wrap svg{min-width:760px}
+  .quip-free{padding:6px 0 0}
+  .quip-next-label{font-size:9px;margin-bottom:2px}
+  .quip-next-date{font-size:13px;margin-bottom:4px}
+  .quip-text{font-size:13px;line-height:1.45}
 }
 .tl-tooltip{display:none;position:absolute;border-radius:10px;padding:12px 15px;font-size:12px;line-height:1.55;width:210px;pointer-events:none;z-index:10;border:1.5px solid transparent}
 .tl-tooltip.show{display:block}
@@ -163,6 +166,12 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .quip-next-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1B6E9F;margin-bottom:4px}
 .quip-next-date{font-size:14px;font-weight:700;color:#1a0e0a;margin-bottom:8px}
 .quip-text{font-size:14px;font-style:italic;color:#3a1a10;line-height:1.7}
+@media(max-width:600px){
+  .quip-free{padding:6px 0 0}
+  .quip-next-label{font-size:9px;margin-bottom:2px}
+  .quip-next-date{font-size:13px;margin-bottom:4px}
+  .quip-text{font-size:13px;line-height:1.45}
+}
 
 /* ── Verdict ── */
 .verdict-card{background:rgba(255,255,255,0.72);border-radius:10px;padding:12px 16px}
@@ -433,7 +442,76 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
 .section{grid-column:2 / 3;min-width:0}
 @media(max-width:820px){
   .app-main{display:block;max-width:none}
-  .nav-tree{position:static;width:100%;margin-bottom:1rem}
+
+  /* Mobile only: convert the desktop left navigation into compact tabs. */
+  .nav-tree{
+    position:static;
+    width:100%;
+    margin-bottom:1rem;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:6px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;
+    border-radius:10px;
+    padding:6px;
+    background:rgba(255,255,255,0.5);
+    box-shadow:none;
+  }
+  .nav-tree::-webkit-scrollbar{display:none}
+  .nav-tree{scrollbar-width:none}
+  .nav-group{display:contents}
+  .nav-children,
+  .nav-group.expanded .nav-children{
+    display:contents;
+    margin:0;
+    padding:0;
+    border-left:0;
+  }
+  .nav-caret{display:none}
+  .nav-parent,
+  .nav-child{
+    flex:0 0 auto;
+    width:auto;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:34px;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    line-height:1;
+    white-space:nowrap;
+    scroll-snap-align:start;
+    color:#7a4030;
+    background:rgba(255,255,255,0.64);
+    border:1px solid rgba(226,114,91,0.14);
+  }
+  .nav-parent:hover,
+  .nav-child:hover{
+    background:rgba(226,114,91,0.08);
+    color:#1a0e0a;
+  }
+  .nav-parent.active,
+  .nav-child.active{
+    background:#E2725B;
+    border-color:#E2725B;
+    color:#fff;
+  }
+  .nav-parent.group-active:not(.active){
+    background:rgba(226,114,91,0.1);
+    border-color:rgba(226,114,91,0.2);
+    color:#7a4030;
+  }
+  .nav-tree .nav-group[data-group="export"]{
+    margin-top:0;
+    padding-top:0;
+    border-top:0;
+  }
 }
 
 @media print{
@@ -1261,30 +1339,38 @@ function renderGuardrails(){
 // ── Timeline ──────────────────────────────────────────────────────────
 function renderTimeline(){
   const d=getData();const activeIdx=getActiveIdx();const nextIdx=activeIdx+1;
-  const N=MILESTONES.length,W=620,PAD=26,SGAP=0,CY=26;
+  const isMobile=window.matchMedia('(max-width:600px)').matches;
+  const N=MILESTONES.length,W=isMobile?760:620,PAD=isMobile?38:26,SGAP=0,CY=isMobile?34:26;
+  const H=isMobile?96:72;
   const CX=(W-PAD*2)/(N-1);const mX=i=>PAD+i*CX;
   const DONE='#4a8fad',NEXT_C='#1B6E9F',FUT='#c5d8e8';
+  const lineInset=isMobile?13:7,lineWidth=isMobile?3:2;
+  const doneR=isMobile?10:6,nextR=isMobile?15:9,futureR=isMobile?10:6;
+  const nextHaloR=isMobile?22:14,nextHaloW=isMobile?2:1;
+  const activeFs=isMobile?15:10,baseFs=isMobile?13:9,lineStep=isMobile?15:11;
   let h='';
-  MILESTONES.forEach((_,i)=>{if(i>=N-1)return;h+=`<line x1="${mX(i)+7}" y1="${CY}" x2="${mX(i+1)-7}" y2="${CY}" stroke="${i<activeIdx?DONE:FUT}" stroke-width="2"/>`;});
+  const svgEl=document.getElementById('timeline');
+  svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  MILESTONES.forEach((_,i)=>{if(i>=N-1)return;h+=`<line x1="${mX(i)+lineInset}" y1="${CY}" x2="${mX(i+1)-lineInset}" y2="${CY}" stroke="${i<activeIdx?DONE:FUT}" stroke-width="${lineWidth}" stroke-linecap="round"/>`;});
   MILESTONES.forEach((m,i)=>{
     const x=mX(i);const done=i<=activeIdx,next=i===nextIdx;
-    const r=next?9:6;const fill=done?DONE:'#fff';const stroke=done?DONE:next?NEXT_C:FUT;
-    const sw=next?2.5:1.5;const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
-    const fw=next?'700':'400';const fs=next?10:9;const ly=CY+r+(next?15:13);
+    const r=next?nextR:(done?doneR:futureR);const fill=done?DONE:'#fff';const stroke=done?DONE:next?NEXT_C:FUT;
+    const sw=next?(isMobile?3:2.5):(isMobile?2:1.5);const lc=done?'#2d6a88':next?'#1B6E9F':'#b8d0de';
+    const fw=next?'700':'500';const fs=next?activeFs:baseFs;const ly=CY+r+(next?(isMobile?20:15):(isMobile?18:13));
     h+=`<circle class="tl-dot" data-idx="${i}" cx="${x}" cy="${CY}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" style="cursor:${done?'pointer':'default'}"/>`;
-    if(next)h+=`<circle cx="${x}" cy="${CY}" r="14" fill="none" stroke="${NEXT_C}" stroke-width="1" stroke-dasharray="3 2" opacity=".4" style="pointer-events:none"/>`;
+    if(next)h+=`<circle cx="${x}" cy="${CY}" r="${nextHaloR}" fill="none" stroke="${NEXT_C}" stroke-width="${nextHaloW}" stroke-dasharray="4 3" opacity=".45" style="pointer-events:none"/>`;
     const words=m.name.split(' ');
     if(words.length===1){h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${m.name}</text>`;}
-    else{h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words[0]}</text>`;h+=`<text x="${x}" y="${ly+11}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words.slice(1).join(' ')}</text>`;}
+    else{h+=`<text x="${x}" y="${ly}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words[0]}</text>`;h+=`<text x="${x}" y="${ly+lineStep}" text-anchor="middle" font-size="${fs}" fill="${lc}" font-weight="${fw}" style="pointer-events:none">${words.slice(1).join(' ')}</text>`;}
   });
-  document.getElementById('timeline').innerHTML=h;
+  svgEl.innerHTML=h;
 
   const quipSrc=activeIdx<0?MILESTONES[0]:MILESTONES[Math.min(activeIdx,MILESTONES.length-1)];
   const nextM=nextIdx<N?MILESTONES[nextIdx]:MILESTONES[N-1];
   document.getElementById('quip-next-date').textContent=nextM.fullName+' · '+new Date(nextM.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
   document.getElementById('quip-text').textContent=quipSrc.quips[Math.floor(Math.random()*quipSrc.quips.length)];
 
-  const svg=document.getElementById('timeline');const tt=document.getElementById('tl-tooltip');const twrap=document.querySelector('.tl-wrap');
+  const svg=svgEl;const tt=document.getElementById('tl-tooltip');const twrap=document.querySelector('.tl-wrap');
   svg.querySelectorAll('.tl-dot').forEach(dot=>{
     const idx=parseInt(dot.getAttribute('data-idx'));const m=MILESTONES[idx];
     // Click: open milestone card for completed milestones
