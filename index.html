@@ -64,15 +64,20 @@ html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Aria
 .overview-tile-note{font-size:11px;color:#9a7060;margin-top:4px;line-height:1.4}
 @media(max-width:600px){
   #overview-grid.grid4{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:.85rem}
-  .overview-tile{min-height:62px;padding:8px 7px;border-radius:10px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;margin-bottom:0}
-  .overview-tile .pill{margin-bottom:0;font-size:8.5px;padding:1px 5px;border-radius:4px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .overview-tile-title{font-size:10.5px;font-weight:700;line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .overview-tile{min-height:60px;padding:9px 7px;border-radius:10px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:0;margin-bottom:0;border-width:1.5px}
+  .overview-tile .pill{display:none}
+  .overview-tile-title{font-size:12px;font-weight:700;line-height:1.12;white-space:normal;overflow-wrap:break-word;word-break:normal;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:#2f160f}
   .overview-tile-note{display:none}
+  .overview-status-green{background:#d1fae5;border-color:#86efac}
+  .overview-status-yellow{background:#fef9c3;border-color:#fde047}
+  .overview-status-orange{background:#ffedd5;border-color:#fdba74}
+  .overview-status-red{background:#fee2e2;border-color:#fca5a5}
+  .overview-status-unrated{background:#f3f4f6;border-color:#d1d5db}
 }
 @media(max-width:380px){
   #overview-grid.grid4{gap:6px}
-  .overview-tile{padding:7px 6px}
-  .overview-tile-title{font-size:10px}
+  .overview-tile{padding:8px 6px;min-height:58px}
+  .overview-tile-title{font-size:11.5px}
 }
 .gr-carousel{display:flex;gap:10px;margin-bottom:1rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px}
 .gr-carousel::-webkit-scrollbar{height:4px}
@@ -479,10 +484,10 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    min-height:34px;
-    padding:8px 12px;
+    min-height:32px;
+    padding:7px 10px;
     border-radius:999px;
-    font-size:12px;
+    font-size:10.5px;
     font-weight:700;
     line-height:1;
     white-space:nowrap;
@@ -525,6 +530,19 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
   .comment-panel.open{width:100%;border-left:none;border-top:1px solid rgba(226,114,91,0.15);border-radius:0 0 12px 12px}
 }
 
+
+
+/* ── Mobile-only guardrail compaction ── */
+@media(max-width:820px){
+  .gr-carousel{gap:8px;margin-bottom:.75rem;padding-bottom:2px}
+  .gr-carousel .gr-card{min-width:142px;flex-basis:calc(50% - 4px)}
+  .gr-card{border-radius:9px;min-height:48px}
+  .gr-icon-col{flex-basis:28%}
+  .gr-icon-badge{width:24px;height:24px;border-radius:6px;font-size:12px}
+  .gr-text-col{padding:8px 9px}
+  .gr-label{font-size:8.5px;margin-bottom:4px;line-height:1.15}
+  .gr-value{font-size:9px;line-height:1.2}
+}
 
 /* ── Mobile-only quip + page-bottom spacing cleanup ── */
 @media(max-width:820px){
@@ -1350,7 +1368,7 @@ function renderOverview(){
   CATS.forEach(c=>{
     const status=d['cat_'+c.id]||'unrated';const note=d['note_'+c.id]||'';
     const div=document.createElement('div');
-    div.className='card overview-tile';
+    div.className='card overview-tile overview-status-'+status;
     div.onclick=()=>showTab('categories');
     div.innerHTML=`<span class="pill ${pillClass(status)}">${pillLabel(status)}</span><div class="overview-tile-title">${c.label}</div>${note?`<div class="overview-tile-note">${note.substring(0,120)}${note.length>120?'...':''}</div>`:''}`;
     grid.appendChild(div);
@@ -1383,7 +1401,7 @@ function renderTimeline(){
   const lineInset=isMobile?13:7,lineWidth=isMobile?3:2;
   const doneR=isMobile?10:6,nextR=isMobile?15:9,futureR=isMobile?10:6;
   const nextHaloR=isMobile?22:14,nextHaloW=isMobile?2:1;
-  const activeFs=isMobile?15:10,baseFs=isMobile?13:9,lineStep=isMobile?15:11;
+  const activeFs=isMobile?12:10,baseFs=isMobile?12:9,lineStep=isMobile?14:11;
   let h='';
   const svgEl=document.getElementById('timeline');
   svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
